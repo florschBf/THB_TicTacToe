@@ -9,7 +9,7 @@ just clone the url as
 git clone https://github.com/florschBf/THB_TicTacToe.git
 in your IDE terminal
 
-
+----------------------16.10.2021 iris------------------- 
 
 CONFIGURATION
 File -> Settings -> System Settings -> 
@@ -27,4 +27,4 @@ AVD Manager (Virtual Devices Emulator)
 -> Select a system image:
 	Marshmallow -> Download
 ->  Marshmallow -> Next -> Nexus 5X API 26
-						-> Galaxy Nexus API 23 // weniger PC Leistung
+						-> Galaxy Nexus API 23 
