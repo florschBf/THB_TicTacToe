@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="width_menu_btn">250dp</dimen>
+    <dimen name="textSize_menu_btn">15sp</dimen>
+    <dimen name="alertTextSize">15sp</dimen>
+
+    <dimen name="size_cross_zero_image">100dp</dimen>
+    <dimen name="size_play_board">280dp</dimen>
+
+</resources>
