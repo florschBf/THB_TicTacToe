@@ -96,11 +96,9 @@ public class GameActivity extends AppCompatActivity {
                 case 1: selectedImage = (ImageView) findViewById(R.id.row1_col1); break;
                 case 2: selectedImage = (ImageView) findViewById(R.id.row1_col2); break;
                 case 3: selectedImage = (ImageView) findViewById(R.id.row1_col3); break;
-
                 case 4: selectedImage = (ImageView) findViewById(R.id.row2_col1); break;
                 case 5: selectedImage = (ImageView) findViewById(R.id.row2_col2); break;
                 case 6: selectedImage = (ImageView) findViewById(R.id.row2_col3); break;
-
                 case 7: selectedImage = (ImageView) findViewById(R.id.row3_col1); break;
                 case 8: selectedImage = (ImageView) findViewById(R.id.row3_col2); break;
                 case 9: selectedImage = (ImageView) findViewById(R.id.row3_col3); break;
@@ -145,11 +143,9 @@ public class GameActivity extends AppCompatActivity {
         row = (ImageView) findViewById(R.id.row1_col1); row.setImageResource(0); row.setEnabled(true);
         row = (ImageView) findViewById(R.id.row1_col2); row.setImageResource(0); row.setEnabled(true);
         row = (ImageView) findViewById(R.id.row1_col3); row.setImageResource(0); row.setEnabled(true);
-
         row = (ImageView) findViewById(R.id.row2_col1); row.setImageResource(0); row.setEnabled(true);
         row = (ImageView) findViewById(R.id.row2_col2); row.setImageResource(0); row.setEnabled(true);
         row = (ImageView) findViewById(R.id.row2_col3); row.setImageResource(0); row.setEnabled(true);
-
         row = (ImageView) findViewById(R.id.row3_col1); row.setImageResource(0); row.setEnabled(true);
         row = (ImageView) findViewById(R.id.row3_col2); row.setImageResource(0); row.setEnabled(true);
         row = (ImageView) findViewById(R.id.row3_col3); row.setImageResource(0); row.setEnabled(true);
@@ -161,11 +157,9 @@ public class GameActivity extends AppCompatActivity {
         if(player1.contains(1) && player1.contains(2) && player1.contains(3)) { winner = 1; }
         if(player1.contains(4) && player1.contains(5) && player1.contains(6)) { winner = 1; }
         if(player1.contains(7) && player1.contains(8) && player1.contains(9)) { winner = 1; }
-
         if(player1.contains(1) && player1.contains(4) && player1.contains(7)) { winner = 1; }
         if(player1.contains(2) && player1.contains(5) && player1.contains(8)) { winner = 1; }
         if(player1.contains(3) && player1.contains(6) && player1.contains(9)) { winner = 1; }
-
         if(player1.contains(1) && player1.contains(5) && player1.contains(9)) { winner = 1; }
         if(player1.contains(3) && player1.contains(5) && player1.contains(7)) { winner = 1; }
 
@@ -173,25 +167,45 @@ public class GameActivity extends AppCompatActivity {
         if(player2.contains(1) && player2.contains(2) && player2.contains(3)) { winner = 2; }
         if(player2.contains(4) && player2.contains(5) && player2.contains(6)) { winner = 2; }
         if(player2.contains(7) && player2.contains(8) && player2.contains(9)) { winner = 2; }
-
         if(player2.contains(1) && player2.contains(4) && player2.contains(7)) { winner = 2; }
         if(player2.contains(2) && player2.contains(5) && player2.contains(8)) { winner = 2; }
         if(player2.contains(3) && player2.contains(6) && player2.contains(9)) { winner = 2; }
-
         if(player2.contains(1) && player2.contains(5) && player2.contains(9)) { winner = 2; }
         if(player2.contains(3) && player2.contains(5) && player2.contains(7)) { winner = 2; }
 
-         if(winner != 0 && gameState ==1) {
-             if(winner == 1) {
-                 openWinDialog();
-             } else if(winner == 2) {
-                 openWinDialog();
-             }
-
-             gameState = 2; // GameOver
-         }
+        if(winner != 0 && gameState ==1) {
+            if(winner == 1) {
+                openWinDialog();
+            } else if(winner == 2) {
+                openLoseDialog();
+            }
+            gameState = 2; // GameOver
+        }
 
     }
 
+    private void openLoseDialog() {
+        dialog.setContentView(R.layout.layout_dialog_lost);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
+        ImageView imageViewClose = dialog.findViewById(R.id.imageViewClose);
+        Button btnOk2 = dialog.findViewById(R.id.btn_ok);
+
+        imageViewClose.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ResetGame();
+                dialog.dismiss();
+            }
+        });
+        btnOk2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ResetGame();
+                dialog.dismiss();
+            }
+        });
+        dialog.show();
+    }
 
 }
