@@ -1,0 +1,30 @@
+<resources>
+    <string name="app_name">TicTacToe</string>
+    <string name="start">Go!</string>
+    <string name="single_player">Mit PC spielen</string>
+    <string name="online_player">Online spielen</string>
+    <string name="rules">Spielregel</string>
+    <string name="about">Über uns</string>
+    <string name="back">Zurück</string>
+    <string name="exit">App verlassen</string>
+    <string name="alert_game_result_pos">Du bist gewonnen!</string>
+    <string name="alert_game_result_lose">Du bist verloren!</string>
+    <string name="alert_ask">Nochmal spielen?</string>
+    <string name="you_win">You Win!</string>
+    <string name="you_lose">You Lose!</string>
+    <string name="du_hast_gewonnen">Herzlichen Glückwunsch, du hast gewonnen!</string>
+    <string name="du_hast_verloren">Schade :( \n Du hast verloren!</string>
+
+
+    <string name="project_description">
+        Lorem pixel dolor sirt amet
+    </string>
+
+    <string name="rules_description">
+        Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.
+        \nAt vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
+        \nLorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.
+        \nAt vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
+    </string>
+
+</resources>

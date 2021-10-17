@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DesignSurface">
+    <option name="filePathToZoomLevelMap">
+      <map>
+        <entry key="..\:/1TH/Semester_6/Patterns and Frameworks/THB_TicTacToe/app/src/main/res/drawable-v24/btn_lose.xml" value="0.556923076923077" />
+        <entry key="..\:/1TH/Semester_6/Patterns and Frameworks/THB_TicTacToe/app/src/main/res/drawable-v24/btn_win.xml" value="0.556923076923077" />
+        <entry key="..\:/1TH/Semester_6/Patterns and Frameworks/THB_TicTacToe/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.34375" />
+        <entry key="..\:/1TH/Semester_6/Patterns and Frameworks/THB_TicTacToe/app/src/main/res/drawable-v24/style_btn_stroke_black95_press_white.xml" value="0.34375" />
+        <entry key="..\:/1TH/Semester_6/Patterns and Frameworks/THB_TicTacToe/app/src/main/res/drawable/btn_win.xml" value="0.556923076923077" />
+        <entry key="..\:/1TH/Semester_6/Patterns and Frameworks/THB_TicTacToe/app/src/main/res/drawable/ic_launcher_background.xml" value="0.34375" />
+        <entry key="..\:/1TH/Semester_6/Patterns and Frameworks/THB_TicTacToe/app/src/main/res/layout/layout_dialog_lost.xml" value="0.2672239108409321" />
+      </map>
+    </option>
+  </component>
+  <component name="ExternalStorageConfigurationManager" enabled="true" />
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="11" project-jdk-type="JavaSDK">
+    <output url="file://$PROJECT_DIR$/out" />
+  </component>
+</project>
