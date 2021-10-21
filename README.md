@@ -4,10 +4,23 @@ Patterns &amp; Frameworks Winter 21
 ## Students 
 Peggy, Iris, Florian, Daniel
 
-## How to get this files?
+## How to get these files?
+
 just clone the url as
 git clone https://github.com/florschBf/THB_TicTacToe.git
 in your IDE terminal
+
+## Setup of the Development Environment
+
+### AndroidStudio Project
+
+Create the project from the VCS (`File`, `New`, `Project from Version Control`) and build it.
+
+### Emulator
+
+* Ensure Virtualization is enabled in your BIOS settings (can be well-hidden).
+* For Windows 10, ensure Hyper-V and WHPX are disabled.
+* For AMD CPUs, ensure that in `Tools`, `SDK Manager`, `SDK Tools`, the Android Emulator Hypervisor Driver for AMD Processors is downloaded and installed properly.
 
 ----------------------16.10.2021 iris------------------- 
 
