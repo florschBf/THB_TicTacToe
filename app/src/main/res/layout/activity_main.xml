@@ -25,6 +25,19 @@
         android:layout_marginBottom="200dp"
         android:src="@drawable/main_img_startpage" />
 
+    <TextView
+        android:id="@+id/gameTitle1"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="420dp"
+        android:layout_marginBottom="80dp"
+        android:gravity="center"
+        android:text="Tic Tac Toe"
+        android:textAllCaps="false"
+        android:textColor="@color/blue"
+        android:textSize="50dp" />
+
     <LinearLayout
         android:id="@+id/startLayout"
         android:layout_width="wrap_content"
@@ -46,7 +59,7 @@
             android:layout_marginBottom="16dp"
             android:text="@string/start"
             android:fontFamily="@font/facon"
-            android:textColor="@color/teal_200"
+            android:textColor="@color/main"
             android:textSize="24sp" />
     </LinearLayout>
 </RelativeLayout>
