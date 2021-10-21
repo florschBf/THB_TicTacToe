@@ -174,14 +174,14 @@ public class GameActivity extends AppCompatActivity {
         if(player2.contains(1) && player2.contains(5) && player2.contains(9)) { winner = 2; }
         if(player2.contains(3) && player2.contains(5) && player2.contains(7)) { winner = 2; }
 
-         if(winner != 0 && gameState ==1) {
-             if(winner == 1) {
-                 openWinDialog();
-             } else if(winner == 2) {
-                 openLoseDialog();
-             }
-             gameState = 2; // GameOver
-         }
+        if(winner != 0 && gameState ==1) {
+            if(winner == 1) {
+                openWinDialog();
+            } else if(winner == 2) {
+                openLoseDialog();
+            }
+            gameState = 2; // GameOver
+        }
 
     }
 
