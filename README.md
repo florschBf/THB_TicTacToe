@@ -36,7 +36,7 @@ File -> Settings -> System Settings ->
 		Intel x86 Emulator Accelerator (HAXM installer)
 		
 		
-AVD Manager (Virtual Devices Emulator) 
+AVD Manager (Virtual Devices Emulator - https://developer.android.com/studio/run/managing-avds) 
 -> Select a system image:
 	Marshmallow -> Download
 ->  Marshmallow -> Next -> Nexus 5X API 26
