@@ -14,6 +14,8 @@
     <string name="you_lose">You Lose!</string>
     <string name="du_hast_gewonnen">Herzlichen Glückwunsch, du hast gewonnen!</string>
     <string name="du_hast_verloren">Schade :( \n Du hast verloren!</string>
+    <string name="login">Einloggen</string>
+    <string name="login_status0">Nicht eingeloggt, jetzt anmelden</string>
 
 
     <string name="project_description">
