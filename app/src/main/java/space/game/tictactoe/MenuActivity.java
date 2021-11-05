@@ -2,10 +2,11 @@ package space.game.tictactoe;
 
 import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
@@ -13,59 +14,37 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.firebase.ui.auth.AuthUI;
 import com.firebase.ui.auth.FirebaseAuthUIActivityResultContract;
-import com.firebase.ui.auth.IdpResponse;
 import com.firebase.ui.auth.data.model.FirebaseAuthUIAuthenticationResult;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-
-import java.util.Arrays;
-import java.util.List;
 
 public class MenuActivity extends AppCompatActivity {
-    //FirebaseAuthentication Class
-    private FirebaseAuth mAuth;
-    private boolean loggedIn;
-    public boolean isLoggedIn() {
-        return loggedIn;
-    }
 
+    //handle login status
+    private FirebaseLoginHandler fbLogin = new FirebaseLoginHandler();
 
-
-    //Method to update UI according to login status
-    private void updateUI(FirebaseUser user){
-        if (user == null){
-            //Not logged in
-            System.out.println("Well, no User");
-            loggedIn = false;
-        }
-        else {
-            //There's a user authenticated via Firebase
-            System.out.println("Seems to be a User: " + user);
-            loggedIn = true;
-            String name = user.getDisplayName();
-            final TextView login_status = findViewById(R.id.login_status);
-            login_status.setText("Du bist eingeloggt als " + name);
-            final Button loginBtn = findViewById(R.id.button_login);
-            loginBtn.setText("Ausloggen");
-
-        }
-    }
+    // See: https://developer.android.com/training/basics/intents/result
+    // launches new view when login is started
+    private final ActivityResultLauncher<Intent> signInLauncher = registerForActivityResult(
+            new FirebaseAuthUIActivityResultContract(),
+            new ActivityResultCallback<FirebaseAuthUIAuthenticationResult>() {
+                @Override
+                public void onActivityResult(FirebaseAuthUIAuthenticationResult result) {
+                    fbLogin.onSignInResult(result);
+                }
+            }
+    );
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu);
 
-        //init Firebase
-        mAuth = FirebaseAuth.getInstance();
-
         // Spiel im Vollbild ausführen
         Window w = getWindow();
         w.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
+        //check for login onCreate
+        updateUI();
 
         // Button 1 btn_singleGame -> Weiterleitung zum Spiel mit PC GameActivity
         Button btn_singleGame = (Button)findViewById(R.id.btn_singleGame);
@@ -115,39 +94,22 @@ public class MenuActivity extends AppCompatActivity {
         button_login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (isLoggedIn()){ //logged in -> logging out
+                if (fbLogin.isLoggedIn()){ //logged in -> logging out
                     try{
-                        AuthUI.getInstance()
-                                .signOut(MenuActivity.this)
-                                .addOnCompleteListener(new OnCompleteListener<Void>() {
-                                    public void onComplete(@NonNull Task<Void> task) {
-                                        // ...
-                                        Intent intent = new Intent(MenuActivity.this, MenuActivity.class);
-                                        startActivity(intent);
-                                    }
-                                });
+                        System.out.println("triggering logout");
+                        final Context c = v.getContext();
+                        fbLogin.logout(c);
                     } catch (Exception e){
                         System.out.println("whoops, couldn't log out?: " + e);
                     }
+                    Intent intent = new Intent(MenuActivity.this, MenuActivity.class);
+                    startActivity(intent);
                 }
                 else{
                     try {
-                        // Choose authentication providers, not logged in yet
-                        List<AuthUI.IdpConfig> providers = Arrays.asList(
-                                new AuthUI.IdpConfig.EmailBuilder().build() // E-Mail will do for now
-                /*new AuthUI.IdpConfig.PhoneBuilder().build(),
-                new AuthUI.IdpConfig.GoogleBuilder().build(),
-                new AuthUI.IdpConfig.FacebookBuilder().build(),
-                new AuthUI.IdpConfig.TwitterBuilder().build()*/);
-
-// Create and launch sign-in intent
-                        Intent signInIntent = AuthUI.getInstance()
-                                .createSignInIntentBuilder()
-                                .setAvailableProviders(providers)
-                                .build();
-                        signInLauncher.launch(signInIntent);
-                    } catch(Exception e) {
-                        System.out.println("whoops, couldn't log in?: " + e);
+                        signInLauncher.launch(fbLogin.login());
+                    } catch (Exception e){
+                        System.out.println("Meh, login didn't start?: " + e);
                     }
                 }
 
@@ -156,39 +118,38 @@ public class MenuActivity extends AppCompatActivity {
 
     }
 
-    //check if we're logged in
-    public void onStart() {
-        super.onStart();
-        FirebaseUser currentUser = mAuth.getCurrentUser();
-        updateUI(currentUser);
-    }
+    //Method to update UI according to login status
+    public void updateUI(){
+        boolean loggedIn = this.fbLogin.isLoggedIn();
+        if (!loggedIn){
+            System.out.println("Well, no User\n");
+            //Need to find original text again in order to change text after logout
 
-    // See: https://developer.android.com/training/basics/intents/result
-    private final ActivityResultLauncher<Intent> signInLauncher = registerForActivityResult(
-            new FirebaseAuthUIActivityResultContract(),
-            new ActivityResultCallback<FirebaseAuthUIAuthenticationResult>() {
-                @Override
-                public void onActivityResult(FirebaseAuthUIAuthenticationResult result) {
-                    onSignInResult(result);
-                }
-            }
-    );
+            String oldLogin = getString(R.string.login);
+            String oldLoginStatus = getString(R.string.login_status0);
 
-    private void onSignInResult(FirebaseAuthUIAuthenticationResult result) {
-        IdpResponse response = result.getIdpResponse();
-        if (result.getResultCode() == RESULT_OK) {
-            // Successfully signed in
-            FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-            System.out.println(user);
-            // ...
-        } else {
-            // Sign in failed. If response is null the user canceled the
-            // sign-in flow using the back button. Otherwise check
-            // response.getError().getErrorCode() and handle the error.
-            // ...
-            System.out.println("no user after all");
+            final TextView login_status = findViewById(R.id.login_status);
+            login_status.setText(oldLoginStatus);
+            final Button loginBtn = findViewById(R.id.button_login);
+            loginBtn.setText(oldLogin);
+        }
+        else {
+            //There's a user authenticated via Firebase
+            String name = fbLogin.getUserName();
+            System.out.println("Seems to be a User: " + name);
+
+            // Changing login status and button
+            final TextView login_status = findViewById(R.id.login_status);
+            login_status.setText("Du bist eingeloggt als " + name);
+            final Button loginBtn = findViewById(R.id.button_login);
+            loginBtn.setText("Ausloggen");
+
         }
     }
 
-
+    //Use onResume to always check for login when we come back and updateUI accordingly
+    protected void onResume(){
+        super.onResume();
+        updateUI();
+    }
 }
