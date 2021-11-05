@@ -11,6 +11,7 @@ import com.firebase.ui.auth.IdpResponse;
 import com.firebase.ui.auth.data.model.FirebaseAuthUIAuthenticationResult;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -89,6 +90,24 @@ public class FirebaseLoginHandler extends AppCompatActivity {
                 .createSignInIntentBuilder()
                 .setAvailableProviders(providers)
                 .build();
+    }
+
+    public boolean signInAnon(){
+        System.out.println("Trying anon sign-in");
+        final boolean[] anonSignIn = new boolean[1];
+        mAuth.signInAnonymously()
+                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+                            //Logged in as Anon
+                            setLoggedIn(true);
+                            anonSignIn[0] = true;
+                            System.out.println("logged in as anon: " + anonSignIn[0] + mAuth.getCurrentUser());
+                        }
+                    }
+                });
+        return anonSignIn[0];
     }
 
     //method to get user name

@@ -124,14 +124,19 @@ public class MenuActivity extends AppCompatActivity {
         if (!loggedIn){
             System.out.println("Well, no User\n");
             //Need to find original text again in order to change text after logout
+            if(fbLogin.signInAnon()){
+                System.out.println("finally anon");
+                updateUI();
+            }
+            else {
+                String oldLogin = getString(R.string.login);
+                String oldLoginStatus = getString(R.string.login_status0);
 
-            String oldLogin = getString(R.string.login);
-            String oldLoginStatus = getString(R.string.login_status0);
-
-            final TextView login_status = findViewById(R.id.login_status);
-            login_status.setText(oldLoginStatus);
-            final Button loginBtn = findViewById(R.id.button_login);
-            loginBtn.setText(oldLogin);
+                final TextView login_status = findViewById(R.id.login_status);
+                login_status.setText(oldLoginStatus);
+                final Button loginBtn = findViewById(R.id.button_login);
+                loginBtn.setText(oldLogin);
+            }
         }
         else {
             //There's a user authenticated via Firebase
