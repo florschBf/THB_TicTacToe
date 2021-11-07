@@ -10,12 +10,17 @@
     <string name="alert_game_result_pos">Du bist gewonnen!</string>
     <string name="alert_game_result_lose">Du bist verloren!</string>
     <string name="alert_ask">Nochmal spielen?</string>
+    <string name="nochmal_spielen">Spielen</string>
+    <string name="zum_menu">Menu</string>
     <string name="you_win">You Win!</string>
     <string name="you_lose">You Lose!</string>
+    <string name="you_draw">You Draw!</string>
     <string name="du_hast_gewonnen">Herzlichen Glückwunsch, du hast gewonnen!</string>
+    <string name="description_you_draw">Spiel unentschieden</string>
     <string name="du_hast_verloren">Schade :( \n Du hast verloren!</string>
     <string name="login">Einloggen</string>
     <string name="login_status0">Nicht eingeloggt, jetzt anmelden</string>
+
 
 
     <string name="project_description">

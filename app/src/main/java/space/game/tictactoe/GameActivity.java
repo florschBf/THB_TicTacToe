@@ -85,7 +85,8 @@ public class GameActivity extends AppCompatActivity {
         if(emptyBlocks.size() == 0) {
             CheckWinner();
             if(gameState == 1) {
-                openWinDialog();
+                DrawDialog drawDialog = new DrawDialog(GameActivity.this, GameActivity.this);
+                drawDialog.show();
             }
             gameState = 3; // Draw
         } else {
@@ -108,30 +109,30 @@ public class GameActivity extends AppCompatActivity {
         }
     }
 
-    private void openWinDialog() {
-        dialog.setContentView(R.layout.layout_dialog_win);
-        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-
-        ImageView imageViewClose = dialog.findViewById(R.id.imageViewClose);
-        Button btnOk = dialog.findViewById(R.id.btn_ok);
-
-        imageViewClose.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ResetGame();
-                dialog.dismiss();
-            }
-        });
-        btnOk.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ResetGame();
-                dialog.dismiss();
-            }
-        });
-
-        dialog.show();
-    }
+//    private void openWinDialog() {
+//        dialog.setContentView(R.layout.layout_dialog_win);
+//        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+//
+//        ImageView imageViewClose = dialog.findViewById(R.id.imageViewClose);
+//        Button btnOk = dialog.findViewById(R.id.btn_play);
+//
+//        imageViewClose.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                ResetGame();
+//                dialog.dismiss();
+//            }
+//        });
+//        btnOk.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                ResetGame();
+//                dialog.dismiss();
+//            }
+//        });
+//
+//        dialog.show();
+//    }
 
 
     void ResetGame() {
@@ -155,58 +156,62 @@ public class GameActivity extends AppCompatActivity {
     private void CheckWinner() {
         int winner = 0;
         /* prüfen Player 1 gewonnen  */
-        if(player1.contains(1) && player1.contains(2) && player1.contains(3)) { winner = 1; }
-        if(player1.contains(4) && player1.contains(5) && player1.contains(6)) { winner = 1; }
-        if(player1.contains(7) && player1.contains(8) && player1.contains(9)) { winner = 1; }
-        if(player1.contains(1) && player1.contains(4) && player1.contains(7)) { winner = 1; }
-        if(player1.contains(2) && player1.contains(5) && player1.contains(8)) { winner = 1; }
-        if(player1.contains(3) && player1.contains(6) && player1.contains(9)) { winner = 1; }
-        if(player1.contains(1) && player1.contains(5) && player1.contains(9)) { winner = 1; }
-        if(player1.contains(3) && player1.contains(5) && player1.contains(7)) { winner = 1; }
+        if((player1.contains(1) && player1.contains(2) && player1.contains(3)) |
+                (player1.contains(4) && player1.contains(5) && player1.contains(6)) |
+                (player1.contains(7) && player1.contains(8) && player1.contains(9)) |
+                (player1.contains(1) && player1.contains(4) && player1.contains(7)) |
+                (player1.contains(2) && player1.contains(5) && player1.contains(8)) |
+                (player1.contains(3) && player1.contains(6) && player1.contains(9)) |
+                (player1.contains(1) && player1.contains(5) && player1.contains(9)) |
+                (player1.contains(3) && player1.contains(5) && player1.contains(7))) { winner = 1; }
 
         /* prüfen Player 2 gewonnen  */
-        if(player2.contains(1) && player2.contains(2) && player2.contains(3)) { winner = 2; }
-        if(player2.contains(4) && player2.contains(5) && player2.contains(6)) { winner = 2; }
-        if(player2.contains(7) && player2.contains(8) && player2.contains(9)) { winner = 2; }
-        if(player2.contains(1) && player2.contains(4) && player2.contains(7)) { winner = 2; }
-        if(player2.contains(2) && player2.contains(5) && player2.contains(8)) { winner = 2; }
-        if(player2.contains(3) && player2.contains(6) && player2.contains(9)) { winner = 2; }
-        if(player2.contains(1) && player2.contains(5) && player2.contains(9)) { winner = 2; }
-        if(player2.contains(3) && player2.contains(5) && player2.contains(7)) { winner = 2; }
+        if((winner != 1 && player2.contains(1) && player2.contains(2) && player2.contains(3)) |
+                (winner != 1 && player2.contains(4) && player2.contains(5) && player2.contains(6)) |
+                (winner != 1 && player2.contains(7) && player2.contains(8) && player2.contains(9)) |
+                (winner != 1 && player2.contains(1) && player2.contains(4) && player2.contains(7)) |
+                (winner != 1 && player2.contains(2) && player2.contains(5) && player2.contains(8)) |
+                (winner != 1 && player2.contains(3) && player2.contains(6) && player2.contains(9)) |
+                (winner != 1 && player2.contains(1) && player2.contains(5) && player2.contains(9)) |
+                (winner != 1 && player2.contains(3) && player2.contains(5) && player2.contains(7))) { winner = 2; }
 
         if(winner != 0 && gameState ==1) {
             if(winner == 1) {
-                openWinDialog();
+//                openWinDialog();
+                WinDialog winDialog = new WinDialog(GameActivity.this, GameActivity.this);
+                winDialog.show();
             } else if(winner == 2) {
-                openLoseDialog();
+//                openLoseDialog();
+                LoseDialog loseDialog = new LoseDialog(GameActivity.this, GameActivity.this);
+                loseDialog.show();
             }
             gameState = 2; // GameOver
         }
 
     }
 
-    private void openLoseDialog() {
-        dialog.setContentView(R.layout.layout_dialog_lost);
-        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-
-        ImageView imageViewClose = dialog.findViewById(R.id.imageViewClose);
-        Button btnOk2 = dialog.findViewById(R.id.btn_ok);
-
-        imageViewClose.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ResetGame();
-                dialog.dismiss();
-            }
-        });
-        btnOk2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ResetGame();
-                dialog.dismiss();
-            }
-        });
-        dialog.show();
-    }
+//    private void openLoseDialog() {
+//        dialog.setContentView(R.layout.layout_dialog_lost);
+//        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+//
+//        ImageView imageViewClose = dialog.findViewById(R.id.imageViewClose);
+//        Button btnOk2 = dialog.findViewById(R.id.btn_play);
+//
+//        imageViewClose.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                ResetGame();
+//                dialog.dismiss();
+//            }
+//        });
+//        btnOk2.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                ResetGame();
+//                dialog.dismiss();
+//            }
+//        });
+//        dialog.show();
+//    }
 
 }

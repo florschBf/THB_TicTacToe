@@ -13,10 +13,12 @@
 
     <color name="main">#041042</color>
     <color name="secondary">#3C4A85</color>
+    <color name="secondary_transparent">#CC3C4A85</color>
     <color name="gold">#ED8547</color>
     <color name="red">#B83F1C</color>
     <color name="yellow">#F5C536</color>
     <color name="blue">#0CAEEB</color>
+    <color name="win">#FD5D43</color>
 
 
 </resources>
