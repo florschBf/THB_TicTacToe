@@ -2,16 +2,15 @@ package space.game.tictactoe;
 
 import android.content.Context;
 import android.content.Intent;
+import android.widget.Button;
+import android.widget.TextView;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.firebase.ui.auth.AuthUI;
 import com.firebase.ui.auth.IdpResponse;
 import com.firebase.ui.auth.data.model.FirebaseAuthUIAuthenticationResult;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.AuthResult; //Might still use, leaving for now
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -29,17 +28,22 @@ public class FirebaseLoginHandler extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private FirebaseUser currentUser;
     private boolean loggedIn;
+    private boolean anonSignIn;
+    final private Context menuContext;
 
     protected void setLoggedIn(boolean loggedIn) {
         this.loggedIn = loggedIn;
     }
+    protected void setAnonSignIn(boolean anonSignIn) { this.anonSignIn = anonSignIn; }
 
     public boolean isLoggedIn() {
         return loggedIn;
     }
+    public boolean isAnonSignIn() { return anonSignIn; }
 
     //CONSTRUCTOR METHOD
-    public FirebaseLoginHandler(){
+    public FirebaseLoginHandler(Context menuContext){
+        this.menuContext = menuContext; // Context benötigt für UI Änderungen je nach Login -> potentiell in eigene Klasse bei Gelegenheit
         //init Firebase
         mAuth = FirebaseAuth.getInstance();
 
@@ -47,6 +51,10 @@ public class FirebaseLoginHandler extends AppCompatActivity {
         currentUser = mAuth.getCurrentUser();
     }
 
+    /**
+     * Methode zum Verarbeiten des Signins
+     * @param result Firebase Auth answer
+     */
     protected void onSignInResult(FirebaseAuthUIAuthenticationResult result) {
         IdpResponse response = result.getIdpResponse();
         if (result.getResultCode() == RESULT_OK) {
@@ -54,6 +62,7 @@ public class FirebaseLoginHandler extends AppCompatActivity {
             FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
             System.out.println(user);
             setLoggedIn(true);
+            setAnonSignIn(false);
         } else {
             // Sign in failed. If response is null the user canceled the
             // sign-in flow using the back button. Otherwise check
@@ -65,24 +74,27 @@ public class FirebaseLoginHandler extends AppCompatActivity {
     }
 
     //methods to kick off logout or login process
+
+    /**
+     * Methode zum Ausloggen aus Firebase
+     * -> nicht eingeloggt => triggert anonymous login in MenuActivity
+     */
     public void logout(Context c){
         AuthUI.getInstance()
                 .signOut(c)
-                .addOnCompleteListener(new OnCompleteListener<Void>() {
-                    public void onComplete(@NonNull Task<Void> task) {
-                        // ...
-                        setLoggedIn(false);
-                    }
-                });
+                .addOnCompleteListener(task -> setLoggedIn(false));
     }
 
+    /**
+     * Methode zum Start des Firebase Signin Intent
+     */
     public Intent login(){
         // Choose authentication providers
         List<AuthUI.IdpConfig> providers = Arrays.asList(
                 new AuthUI.IdpConfig.EmailBuilder().build() // E-Mail will do for now
-                /*new AuthUI.IdpConfig.PhoneBuilder().build(),
-                new AuthUI.IdpConfig.GoogleBuilder().build(),
-                new AuthUI.IdpConfig.FacebookBuilder().build(),
+                //new AuthUI.IdpConfig.PhoneBuilder().build(),
+                //new AuthUI.IdpConfig.GoogleBuilder().build()
+                /*new AuthUI.IdpConfig.FacebookBuilder().build(),
                 new AuthUI.IdpConfig.TwitterBuilder().build()*/);
 
         // Create and launch sign-in intent
@@ -92,25 +104,68 @@ public class FirebaseLoginHandler extends AppCompatActivity {
                 .build();
     }
 
-    public boolean signInAnon(){
+    /**
+     * Methode für anonymous login Firebase
+     */
+    public void signInAnon(TextView login_status, Button login_button){
         System.out.println("Trying anon sign-in");
-        final boolean[] anonSignIn = new boolean[1];
         mAuth.signInAnonymously()
-                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()) {
-                            //Logged in as Anon
-                            setLoggedIn(true);
-                            anonSignIn[0] = true;
-                            System.out.println("logged in as anon: " + anonSignIn[0] + mAuth.getCurrentUser());
-                        }
+                .addOnCompleteListener(this, task -> {
+                    if (task.isSuccessful()) {
+                        //Logged in as Anon
+                        setLoggedIn(true);
+                        setAnonSignIn(true);
+                        System.out.println("finally anon");
+                        //There's an anon user authenticated via Firebase
+                        changeTextAnonUser(login_status, login_button);
+
+                    }
+                    else { //should never happen..
+                        setAnonSignIn(false);
+                        changeDefaultText(login_status, login_button);
                     }
                 });
-        return anonSignIn[0];
     }
 
-    //method to get user name
+    // Methoden um UI Texte anzupassen (sollte in eine eigene Klasse..)
+
+    /**
+     * Methode für Textanpassung an anonymous login
+     * @param status Login Status aus MenuActivity erhalten
+     * @param button Login Button aus MenuActivity erhalten
+     */
+    public void changeTextAnonUser(TextView status, Button button){
+        // Changing login status and button for anonymous user
+        System.out.println("changing text to anon...");
+        //Setting new strings from strings.xml
+        String loginTxt = menuContext.getString(R.string.login);
+        String anonLoginStatus = menuContext.getString(R.string.login_status_anon);
+        status.setText(anonLoginStatus);
+        button.setText(loginTxt);
+    }
+
+    /**
+     * Methode für Textanpassung an gar kein login -> Fehler, darf nicht sein
+     * @param status Login Status aus MenuActivity erhalten
+     * @param button Login Button aus MenuActivity erhalten
+     */
+    public void changeDefaultText(TextView status, Button button){
+        //Changing login status and button for no user -> should not happen
+        System.out.println("changing text to default...");
+        System.out.println("anon login not working for whatevs");
+        //Setting new strings from strings.xml
+        String defaultLoginBtn = menuContext.getString(R.string.login);
+        String defaultLoginStatus = menuContext.getString(R.string.login_status0);
+        status.setText(defaultLoginStatus);
+        button.setText(defaultLoginBtn);
+    }
+
+    //methods to get user data (eigene Klasse..)
+
+    /**
+     * Methode um Nutzernamen auszulesen -> anon login = leer
+     * @return Current user name if logged in
+     */
     public String getUserName(){
         return this.currentUser.getDisplayName();
     }
