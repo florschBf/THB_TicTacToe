@@ -6,7 +6,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.res.Resources;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
@@ -20,7 +19,7 @@ import com.firebase.ui.auth.data.model.FirebaseAuthUIAuthenticationResult;
 public class MenuActivity extends AppCompatActivity {
 
     //handle login status
-    private FirebaseLoginHandler fbLogin = new FirebaseLoginHandler();
+    private FirebaseLoginHandler fbLogin = new FirebaseLoginHandler(this);
 
     // See: https://developer.android.com/training/basics/intents/result
     // launches new view when login is started
@@ -42,9 +41,6 @@ public class MenuActivity extends AppCompatActivity {
         // Spiel im Vollbild ausführen
         Window w = getWindow();
         w.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
-
-        //check for login onCreate
-        updateUI();
 
         // Button 1 btn_singleGame -> Weiterleitung zum Spiel mit PC GameActivity
         Button btn_singleGame = (Button)findViewById(R.id.btn_singleGame);
@@ -94,7 +90,7 @@ public class MenuActivity extends AppCompatActivity {
         button_login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (fbLogin.isLoggedIn()){ //logged in -> logging out
+                if (fbLogin.isLoggedIn() && !fbLogin.isAnonSignIn()){ //logged in & not anon -> logging out
                     try{
                         System.out.println("triggering logout");
                         final Context c = v.getContext();
@@ -116,40 +112,47 @@ public class MenuActivity extends AppCompatActivity {
             }
         });
 
+        //check for login onCreate
+        //updateUserAndUI();
     }
+
+
 
     //Method to update UI according to login status
-    public void updateUI(){
+    public void updateUserAndUI(){
         boolean loggedIn = this.fbLogin.isLoggedIn();
+        boolean anonSignIn = this.fbLogin.isAnonSignIn();
+
         if (!loggedIn){
             System.out.println("Well, no User\n");
-            //Need to find original text again in order to change text after logout
-
-            String oldLogin = getString(R.string.login);
-            String oldLoginStatus = getString(R.string.login_status0);
-
-            final TextView login_status = findViewById(R.id.login_status);
-            login_status.setText(oldLoginStatus);
-            final Button loginBtn = findViewById(R.id.button_login);
-            loginBtn.setText(oldLogin);
+            fbLogin.signInAnon(findViewById(R.id.login_status), findViewById(R.id.button_login)); //Starte Anonymous user login
         }
         else {
-            //There's a user authenticated via Firebase
-            String name = fbLogin.getUserName();
-            System.out.println("Seems to be a User: " + name);
+            if(anonSignIn){
+                //login is anon, nothing to do
+                System.out.println("leaving things as is");
+            }
+            else { //login but not anon
+                //There's a user authenticated via Firebase
+                String name = fbLogin.getUserName();
+                System.out.println("Seems to be a User: " + name);
 
-            // Changing login status and button
-            final TextView login_status = findViewById(R.id.login_status);
-            login_status.setText("Du bist eingeloggt als " + name);
-            final Button loginBtn = findViewById(R.id.button_login);
-            loginBtn.setText("Ausloggen");
-
+                // Changing login status and button, doing it right here, should use extra method somewhere
+                // other methods like this found in FirebaseLoginHandler
+                final TextView login_status = findViewById(R.id.login_status);
+                login_status.setText("Du bist eingeloggt als " + name);
+                final Button loginBtn = findViewById(R.id.button_login);
+                loginBtn.setText("Ausloggen");
+            }
         }
     }
 
-    //Use onResume to always check for login when we come back and updateUI accordingly
+    //Use onResume to always check for login when we come back and updateUserAndUI accordingly
     protected void onResume(){
         super.onResume();
-        updateUI();
+        updateUserAndUI();
     }
+
+
+
 }
