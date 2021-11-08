@@ -22,7 +22,6 @@
     <string name="login_status0">Nicht eingeloggt, jetzt anmelden</string>
 
 
-
     <string name="project_description">
         Lorem pixel dolor sirt amet
     </string>
@@ -33,5 +32,17 @@
         \nLorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.
         \nAt vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
     </string>
+    <string name="icon_waehlen">Icon</string>
+    <string name="statistiken">Statistiken</string>
+    <string name="playerchosen">Play</string>
+    <string name="title_activity_login">LoginActivity</string>
+    <!-- Strings used for fragments for navigation -->
+
+    <string name="next">Next</string>
+    <string name="previous">Previous</string>
+    <string name="image_dialog_onlineanfrage">Ein Spieler aus dem Online Pool möchte mit Dir spielen!</string>
+    <string name="button_annehmen_onlineanfrage">Annehmen</string>
+    <string name="button_ablehnen_onlineanfrage">Ablehnen</string>
+
 
 </resources>

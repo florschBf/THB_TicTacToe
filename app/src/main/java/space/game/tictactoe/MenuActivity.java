@@ -34,6 +34,7 @@ public class MenuActivity extends AppCompatActivity {
             }
     );
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,6 +54,45 @@ public class MenuActivity extends AppCompatActivity {
             public void onClick(View v) {
                 try {
                     Intent intent = new Intent(MenuActivity.this, GameActivity.class);
+                    startActivity(intent);
+                } catch(Exception e) {
+
+                }
+            }
+        });
+        //Button 5 -> Weiterleitung zum Spiel Multiplayer Matchmaking
+        Button button_onlineGame = (Button)findViewById(R.id.button_onlineGame);
+        button_onlineGame.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                try {
+                    Intent intent = new Intent(MenuActivity.this, Matchmaking.class);
+                    startActivity(intent);
+                } catch(Exception e) {
+
+                }
+            }
+        });
+        //Button 6 -> Weiterleitung zur Icon Auswahl
+        Button button_icon_waehlen = (Button)findViewById(R.id.button_icon_waehlen);
+        button_icon_waehlen.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                try {
+                    Intent intent = new Intent(MenuActivity.this, IconwahlActivity.class);
+                    startActivity(intent);
+                } catch(Exception e) {
+
+                }
+            }
+        });
+        //Button 7 -> Weiterleitung zu den Statistiken
+        Button button_statistiken = (Button)findViewById(R.id.button_statistiken);
+        button_statistiken.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                try {
+                    Intent intent = new Intent(MenuActivity.this, IconwahlActivity.class);
                     startActivity(intent);
                 } catch(Exception e) {
 
@@ -89,8 +129,22 @@ public class MenuActivity extends AppCompatActivity {
             }
         });
 
-        // Button 6 button_login -> Einloggen oder Ausloggen aus Firebase
+        // Button 8 button_showAbout -> Weiterleitung zum LogIn
         Button button_login = (Button)findViewById(R.id.button_login);
+        button_login.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                try {
+                    Intent intent = new Intent(MenuActivity.this, LoginActivity.class);
+                    startActivity(intent);
+                } catch(Exception e) {
+
+                }
+            }
+        });
+
+        // Button 5 button_login -> Einloggen oder Ausloggen aus Firebase
+        /*Button button_login = (Button)findViewById(R.id.button_login);
         button_login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -114,7 +168,7 @@ public class MenuActivity extends AppCompatActivity {
                 }
 
             }
-        });
+        });*/
 
     }
 
