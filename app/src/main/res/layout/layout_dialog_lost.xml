@@ -10,6 +10,7 @@
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        app:cardBackgroundColor="@color/secondary_transparent"
         app:cardCornerRadius="20dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -46,8 +47,8 @@
 
             <ImageView
                 android:id="@+id/imageWin"
-                android:layout_width="350dp"
-                android:layout_height="wrap_content"
+                android:layout_width="300dp"
+                android:layout_height="200dp"
                 android:layout_marginTop="16dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -70,16 +71,30 @@
                 app:layout_constraintTop_toBottomOf="@+id/imageWin" />
 
             <Button
-                android:id="@+id/btn_ok"
-                android:layout_width="200dp"
+                android:id="@+id/btn_play"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:layout_marginBottom="16dp"
+                android:layout_margin="20dp"
                 android:background="@drawable/btn_lose"
-                android:text="Ok"
                 android:fontFamily="@font/facon"
+                android:text="@string/nochmal_spielen"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_weight="1"
+                app:layout_constraintStart_toEndOf="@id/btn_menu"
+                app:layout_constraintTop_toBottomOf="@+id/textCongratulation" />
+
+            <Button
+                android:id="@+id/btn_menu"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="20dp"
+                android:background="@drawable/btn_lose"
+                android:fontFamily="@font/facon"
+                android:text="@string/zum_menu"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/btn_play"
+                app:layout_constraintHorizontal_weight="1"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textCongratulation" />
 

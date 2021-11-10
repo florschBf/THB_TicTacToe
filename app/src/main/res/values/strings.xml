@@ -10,9 +10,13 @@
     <string name="alert_game_result_pos">Du bist gewonnen!</string>
     <string name="alert_game_result_lose">Du bist verloren!</string>
     <string name="alert_ask">Nochmal spielen?</string>
+    <string name="nochmal_spielen">Spielen</string>
+    <string name="zum_menu">Menu</string>
     <string name="you_win">You Win!</string>
     <string name="you_lose">You Lose!</string>
+    <string name="you_draw">You Draw!</string>
     <string name="du_hast_gewonnen">Herzlichen Glückwunsch, du hast gewonnen!</string>
+    <string name="description_you_draw">Spiel unentschieden</string>
     <string name="du_hast_verloren">Schade :( \n Du hast verloren!</string>
     <string name="login">Einloggen</string>
     <string name="login_status0">Du bist gar nicht eingeloggt, jetzt anmelden.</string>
@@ -29,5 +33,17 @@
         \nLorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.
         \nAt vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
     </string>
+    <string name="icon_waehlen">Icon</string>
+    <string name="statistiken">Statistiken</string>
+    <string name="playerchosen">Play</string>
+    <string name="title_activity_login">LoginActivity</string>
+    <!-- Strings used for fragments for navigation -->
+
+    <string name="next">Next</string>
+    <string name="previous">Previous</string>
+    <string name="image_dialog_onlineanfrage">Ein Spieler aus dem Online Pool möchte mit Dir spielen!</string>
+    <string name="button_annehmen_onlineanfrage">Annehmen</string>
+    <string name="button_ablehnen_onlineanfrage">Ablehnen</string>
+
 
 </resources>

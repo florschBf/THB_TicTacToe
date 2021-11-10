@@ -4,7 +4,6 @@
     <dimen name="textSize_menu_btn">15sp</dimen>
     <dimen name="textSize_description">30sp</dimen>
 
-    <dimen name="size_player_sign_image">100dp</dimen>
     <dimen name="size_play_board">320dp</dimen>
 
 </resources>
