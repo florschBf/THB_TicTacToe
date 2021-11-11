@@ -13,10 +13,28 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.NoActionBar">
         <activity
-            android:name="space.game.tictactoe.RulesActivity"
+            android:name=".InvitationOnlineGameDialog"
+            android:exported="false" />
+        <activity
+            android:name=".LoginActivity"
+            android:exported="false" />
+        <activity
+            android:name=".OnlinespielActivity"
+            android:exported="false" />
+        <activity
+            android:name=".RulesActivity"
             android:exported="true" />
         <activity
-            android:name="space.game.tictactoe.AboutActivity"
+            android:name=".AboutActivity"
+            android:exported="true" />
+        <activity
+            android:name=".IconwahlActivity"
+            android:exported="true" />
+        <activity
+            android:name=".Matchmaking"
+            android:exported="true" />
+        <activity
+            android:name=".StatistikenActivity"
             android:exported="true" /> <!-- <activity -->
         <!-- android:name=".GameActivity" -->
         <!-- android:exported="true" /> -->
@@ -24,7 +42,7 @@
         <!-- android:name=".MenuActivity" -->
         <!-- android:exported="true" /> &lt;!&ndash; android:theme="@style/Theme.QuizApp"> &ndash;&gt; -->
         <activity
-            android:name="space.game.tictactoe.MainActivity"
+            android:name=".MainActivity"
             android:configChanges="orientation|keyboardHidden"
             android:exported="true"
             android:screenOrientation="portrait"
@@ -36,7 +54,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="space.game.tictactoe.MenuActivity"
+            android:name=".MenuActivity"
             android:configChanges="orientation|keyboardHidden"
             android:exported="true"
             android:screenOrientation="portrait"
@@ -46,7 +64,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="space.game.tictactoe.GameActivity"
+            android:name=".GameActivity"
             android:configChanges="orientation|keyboardHidden"
             android:exported="true"
             android:screenOrientation="portrait"
