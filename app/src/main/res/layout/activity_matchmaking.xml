@@ -10,8 +10,8 @@
 
     <TableLayout
         android:id="@+id/matchmaker_tabelle"
-        android:layout_width="320dp"
-        android:layout_height="463dp"
+        android:layout_width="380dp"
+        android:layout_height="382dp"
         android:background="#115D79"
         android:textAlignment="center"
         android:textColor="@color/white"
@@ -31,20 +31,20 @@
                 android:layout_height="65dp"
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="10dp"
-                android:textColor="@color/white"
+                android:text="Player X:"
 
 
-                android:text="Player X:" />
+                android:textColor="@color/white" />
 
             <TextView
                 android:id="@+id/matchmaker_textdummy"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
                 android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
                 android:text="Matchmakerdummy"
-                android:textColor="@color/white"
                 android:textAlignment="inherit"
+                android:textColor="@color/white"
                 android:textSize="18sp"
                 android:textStyle="bold" />
 
@@ -67,11 +67,6 @@
 
     <Button
         android:id="@+id/button_playerchosen"
-        android:text="Play"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/matchmaker_tabelle"
         android:layout_width="183dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="10dp"
@@ -81,7 +76,24 @@
         android:paddingTop="10dp"
         android:paddingRight="10dp"
         android:paddingBottom="10dp"
+        android:text="Play"
         android:textAllCaps="true"
         android:textColor="@color/teal_200"
-        android:textSize="@dimen/textSize_menu_btn"/>
+        android:textSize="@dimen/textSize_menu_btn"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/matchmaker_tabelle"
+        app:layout_constraintVertical_bias="0.739" />
+
+    <ImageView
+        android:id="@+id/icontransport_matchmaker"
+        android:layout_width="107dp"
+        android:layout_height="115dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.773"
+        app:srcCompat="?android:attr/actionModeWebSearchDrawable" />
 </androidx.constraintlayout.widget.ConstraintLayout>

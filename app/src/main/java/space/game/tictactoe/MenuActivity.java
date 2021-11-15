@@ -88,7 +88,7 @@ public class MenuActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 try {
-                    Intent intent = new Intent(MenuActivity.this, IconwahlActivity.class);
+                    Intent intent = new Intent(MenuActivity.this, StatistikenActivity.class);
                     startActivity(intent);
                 } catch(Exception e) {
 

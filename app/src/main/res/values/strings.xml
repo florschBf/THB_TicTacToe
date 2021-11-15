@@ -44,6 +44,12 @@
     <string name="image_dialog_onlineanfrage">Ein Spieler aus dem Online Pool möchte mit Dir spielen!</string>
     <string name="button_annehmen_onlineanfrage">Annehmen</string>
     <string name="button_ablehnen_onlineanfrage">Ablehnen</string>
+    <string name="radiobutton_icon"></string>
+    <string name="Icons_text_beschreibung">Du kannst Dir ein Icon zum Spielen aussuchen, und dann online oder mit dem PC spielen. Dein gewähltes Icon: </string>
+    <string name="button_icons_pcspiel">Mit PC spielen</string>
+    <string name="button_icon_onlinespiel">Online spielen</string>
+    <string name="icontransport">Your Icon</string>
+    <string name="icontransport_matchmaker">muh</string>
 
 
 </resources>
