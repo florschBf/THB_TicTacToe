@@ -31,6 +31,7 @@ android {
 }
 // *** FIREBASE INTEGRATION ***
 apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
 apply plugin: 'com.google.gms.google-services'
 // *** FIREBASE END ***
 
@@ -61,4 +62,12 @@ dependencies {
     // https://firebase.google.com/docs/android/setup#available-libraries
     // Vorerst keine weiteren Dependencies -> upcoming Cloudrun/Firestore etc.
 
+    //Importing Neumorphism implementation from https://github.com/fornewid/neumorphism
+    //implementation 'com.github.fornewid:neumorphism:{latest_version}'
+    implementation "androidx.core:core-ktx:+"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+
+}
+repositories {
+    mavenCentral()
 }
