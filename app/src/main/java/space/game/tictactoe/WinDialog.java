@@ -19,6 +19,7 @@ public class WinDialog extends Dialog {
     public WinDialog(@NonNull Context context, GameActivity gameActivity) {
         super(context);
         this.gameActivity = gameActivity;
+
     }
 
     @Override
@@ -33,12 +34,12 @@ public class WinDialog extends Dialog {
         final Button btnMenu = findViewById(R.id.btn_menu);
 
         imageViewClose.setOnClickListener(v -> {
-//            gameActivity.ResetGame();
+//          gameActivity.startNewGame();
             dismiss();
         });
 
         btnPlay.setOnClickListener(v -> {
-            gameActivity.ResetGame();
+            gameActivity.startNewGame();
             dismiss();
 
         });
