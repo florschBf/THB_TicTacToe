@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.firebase.ui.auth.FirebaseAuthUIActivityResultContract;
@@ -69,7 +70,7 @@ public class MenuActivity extends AppCompatActivity {
                 }
             }
         });
-        //Button 6 -> Weiterleitung zur Icon Auswahl
+        /*//Button 6 -> Weiterleitung zur Icon Auswahl -UMGEZOGEN NACH OPTIONEN
         Button button_icon_waehlen = (Button)findViewById(R.id.button_icon_waehlen);
         button_icon_waehlen.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -81,8 +82,8 @@ public class MenuActivity extends AppCompatActivity {
 
                 }
             }
-        });
-        //Button 7 -> Weiterleitung zu den Statistiken
+        });*/
+        /*//Button 7 -> Weiterleitung zu den Statistiken-> UMGEZOGEN NACH OPTIONEN
         Button button_statistiken = (Button)findViewById(R.id.button_statistiken);
         button_statistiken.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -94,7 +95,7 @@ public class MenuActivity extends AppCompatActivity {
 
                 }
             }
-        });
+        });*/
 
 
         // Button3 button_rules -> Weiterleitung zur Spielbeschreibung, Spielregel
@@ -118,6 +119,19 @@ public class MenuActivity extends AppCompatActivity {
             public void onClick(View v) {
                 try {
                     Intent intent = new Intent(MenuActivity.this, AboutActivity.class);
+                    startActivity(intent);
+                } catch(Exception e) {
+
+                }
+            }
+        });
+        // Imageview Zahnrad als Button anclickbar-> Optionen im Menü -> Weiterleitung zu Optionen
+        ImageView zahnrad= findViewById(R.id.zahnrad);
+        zahnrad.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                try {
+                    Intent intent = new Intent(MenuActivity.this, OptionenActivity.class);
                     startActivity(intent);
                 } catch(Exception e) {
 

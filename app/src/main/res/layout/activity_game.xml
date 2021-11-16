@@ -107,5 +107,18 @@
         </TableRow>
     </TableLayout>
 
+    <ImageView
+        android:id="@+id/zahnrad_pcgame"
+        android:layout_width="100dp"
+        android:layout_height="75dp"
+        android:layout_gravity="center"
+        android:clickable="true"
+        android:paddingTop="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tableLayout"
+        app:srcCompat="@drawable/zahnrad1" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -3,6 +3,7 @@ package space.game.tictactoe;
 
 import androidx.appcompat.app.AppCompatActivity;
 import android.app.Dialog;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.media.Image;
@@ -16,6 +17,7 @@ import java.util.Random;
 
 public class GameActivity extends AppCompatActivity {
 
+
     int gameState;
     Dialog dialog;
 
@@ -23,6 +25,23 @@ public class GameActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
+
+
+        // Imageview Zahnrad als Button anclickbar-> Optionen im Menü -> Weiterleitung zu Optionen->Icons->Statistiken
+        ImageView zahnrad= findViewById(R.id.zahnrad_pcgame);
+        zahnrad.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                try {
+                    Intent intent = new Intent(GameActivity.this, OptionenActivity.class);
+                    startActivity(intent);
+                } catch(Exception e) {
+
+                }
+            }
+        });
+
+
 
         dialog = new Dialog(this);
 
@@ -189,6 +208,7 @@ public class GameActivity extends AppCompatActivity {
         }
 
     }
+
 
 //    private void openLoseDialog() {
 //        dialog.setContentView(R.layout.layout_dialog_lost);
