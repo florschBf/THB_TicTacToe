@@ -157,23 +157,29 @@
         android:textColor="@color/teal_200"
         android:textSize="@dimen/textSize_menu_btn" />
 
-    <soup.neumorphism.NeumorphCardView
-        style="@style/Widget.Neumorph.CardView"
-        android:layout_width="match_parent"
-        android:layout_height="80dp"
-        tools:ignore="MissingConstraints">
+    <soup.neumorphism.NeumorphButton
+        style="@style/Widget.Neumorph.Button"
+        android:layout_width="200dp"
+        android:layout_height="70dp"
+        android:layout_gravity="center"
+        android:layout_margin="15dp"
+        app:neumorph_shadowElevation="4dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:text="@string/login"
+        app:neumorph_lightSource="leftTop"
+        app:neumorph_shadowColorDark="@color/black95"
+        app:neumorph_shadowColorLight="@color/colorPrimaryLeight"
+        app:neumorph_shapeType="basin"
+        tools:ignore="MissingConstraints"
+        android:textAllCaps="true"
+        android:textColor="@color/teal_200"
+        android:textSize="@dimen/textSize_menu_btn"
+        android:fontFamily="@font/facon">
 
-        <soup.neumorphism.NeumorphTextView
-            android:id="@+id/textview"
-            style="@style/Widget.Neumorph.TextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:text="Neumorphism"
-            android:textColor="@color/white"
-            android:textSize="30sp"
-            android:textStyle="bold" />
 
-    </soup.neumorphism.NeumorphCardView>
+    </soup.neumorphism.NeumorphButton>
+
+
 
 </LinearLayout>

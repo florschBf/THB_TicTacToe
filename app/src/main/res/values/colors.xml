@@ -16,5 +16,13 @@
     <color name="yellow">#E6D115</color>
     <color name="niceteal">#115D79</color>
 
+    <!--    testing neumorphism-->
+    <color name="grey">#706f6f</color>
+    <color name="colorPrimary">#041042</color>
+    <color name="colorPrimaryDark">#041042</color>
+    <color name="colorPrimaryLeight">#1d2f7d</color>
+    <color name="colorAccent">#041042</color>
+
+
 
 </resources>
