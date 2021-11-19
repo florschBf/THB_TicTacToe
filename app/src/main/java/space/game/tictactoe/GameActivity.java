@@ -3,7 +3,14 @@ package space.game.tictactoe;
 import android.app.AlertDialog;
 
 import android.app.Dialog;
+
+import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
+import android.media.Image;
+
 import android.content.DialogInterface;
+
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.Gravity;
@@ -17,6 +24,7 @@ import java.util.Random;
 
 
 public class GameActivity extends AppCompatActivity {
+
 
     // Schwierigkeitsgrad
     private int diffLevel; // 0 -easy, 1 -medium, 2-hard
@@ -39,7 +47,25 @@ public class GameActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
+
+/* ZAHNRAD
+        // Imageview Zahnrad als Button anclickbar-> Optionen im Menü -> Weiterleitung zu Optionen->Icons->Statistiken
+        ImageView zahnrad= findViewById(R.id.zahnrad_pcgame);
+        zahnrad.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                try {
+                    Intent intent = new Intent(GameActivity.this, OptionenActivity.class);
+                    startActivity(intent);
+                } catch(Exception e) {
+
+                }
+            }
+        });
+*/
+
         // Dialogfenster für Spielstatus: gewonnen, verloren, unentschieden
+
         dialog = new Dialog(this);
 
         mBoardImageView = new ImageView [9];
@@ -236,6 +262,7 @@ public class GameActivity extends AppCompatActivity {
             DrawDialog drawDialog = new DrawDialog(GameActivity.this, GameActivity.this);
             drawDialog.show();
         }
+
 
         private void showWinDialog() {
             WinDialog winDialog = new WinDialog(GameActivity.this, GameActivity.this);

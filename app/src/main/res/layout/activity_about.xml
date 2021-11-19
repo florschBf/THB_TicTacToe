@@ -7,27 +7,51 @@
     android:background="@drawable/main_background"
     tools:context=".AboutActivity">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:fontFamily="@font/facon"
-        android:text="@string/project_description"
-        android:textAlignment="center"
-        android:textSize="20sp"
+    <LinearLayout
+        android:layout_width="296dp"
+        android:layout_height="548dp"
+        android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent">
 
-    <Button
-        android:id="@+id/button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/back"
-        android:layout_marginTop="5dp"
-        android:layout_marginLeft="5dp"
-        tools:layout_editor_absoluteX="64dp"
-        tools:layout_editor_absoluteY="621dp"
-        android:onClick="backToMenuActivity"/>
+        <ImageView
+            android:id="@+id/about_lebkuchenherz"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            app:srcCompat="@drawable/lebkuchenherz_3d_90" />
+
+        <TextView
+            android:id="@+id/text_aboutUs"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif"
+            android:paddingTop="20dp"
+            android:paddingBottom="30dp"
+            android:text="@string/text_aboutUs"
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            android:textSize="20sp" />
+
+        <Button
+            android:id="@+id/button_aboutus_zurück"
+            android:layout_width="@dimen/width_menu_btn"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:background="@drawable/btn_press_white"
+            android:fontFamily="@font/facon"
+            android:onClick="backToMenuActivity"
+            android:paddingLeft="10dp"
+            android:paddingTop="20dp"
+            android:paddingRight="10dp"
+            android:paddingBottom="10dp"
+            android:text="@string/button_aboutus_zurück"
+            android:textAllCaps="true"
+            android:textColor="@color/teal_200"
+            android:textSize="@dimen/textSize_menu_btn" />
+
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

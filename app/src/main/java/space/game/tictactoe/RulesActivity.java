@@ -14,7 +14,7 @@ public class RulesActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_rules);
 
-        Button button_back = (Button) findViewById(R.id.btn_back);
+        Button button_back = (Button) findViewById(R.id.button_back_rules);
 
         button_back.setOnClickListener(new View.OnClickListener() {
             @Override

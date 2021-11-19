@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 
 public class Matchmaking extends AppCompatActivity {
 
@@ -22,6 +23,19 @@ public class Matchmaking extends AppCompatActivity {
             public void onClick(View v) {
                 try {
                     Intent intent = new Intent(Matchmaking.this, OnlinespielActivity.class);
+                    startActivity(intent);
+                } catch(Exception e) {
+
+                }
+            }
+        });
+        // Imageview Zahnrad als Button anclickbar-> Optionen im Menü -> Weiterleitung zu Optionen->Icons->Statistiken
+        ImageView zahnrad= findViewById(R.id.zahnrad_matchmaker);
+        zahnrad.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                try {
+                    Intent intent = new Intent(Matchmaking.this, OptionenActivity.class);
                     startActivity(intent);
                 } catch(Exception e) {
 
