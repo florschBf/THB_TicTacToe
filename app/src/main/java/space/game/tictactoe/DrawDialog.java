@@ -13,11 +13,11 @@ import android.widget.ImageView;
 import androidx.annotation.NonNull;
 
 public class DrawDialog extends Dialog {
-    private final GameActivity gameactivity;
+    private final GameActivity gameActivity;
 
     public DrawDialog(@NonNull Context context, GameActivity gameActivity) {
         super(context);
-        this.gameactivity = gameActivity;
+        this.gameActivity = gameActivity;
     }
 
     @Override
@@ -32,18 +32,18 @@ public class DrawDialog extends Dialog {
         final Button btnMenu = findViewById(R.id.btn_menu);
 
         imageViewClose.setOnClickListener(v -> {
-//            gameactivity.ResetGame();
+//            gameActivity.startNewGame();
             dismiss();
         });
 
         btnPlay.setOnClickListener(v -> {
-            gameactivity.ResetGame();
+            gameActivity.startNewGame();
             dismiss();
         });
 
         btnMenu.setOnClickListener(v -> {
-            Intent intent = new Intent(this.gameactivity, MenuActivity.class);
-            gameactivity.startActivity(intent);
+            Intent intent = new Intent(this.gameActivity, MenuActivity.class);
+            gameActivity.startActivity(intent);
             dismiss();
         });
 
