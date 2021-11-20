@@ -10,6 +10,40 @@
     android:gravity="center_horizontal|center_vertical"
     tools:context=".GameActivity">
 
+    <RadioGroup
+        android:id="@+id/difficultyLevel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@+id/tableLayout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toTopOf="parent" >
+
+        <RadioButton
+            android:id="@+id/easy"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+
+            android:text="@string/easy" />
+
+        <RadioButton
+            android:id="@+id/medium"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:text="@string/medium" />
+
+        <RadioButton
+            android:id="@+id/hard"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:text="@string/hard" />
+    </RadioGroup>
+
+
     <TableLayout
         android:layout_width="@dimen/size_play_board"
         android:layout_height="@dimen/size_play_board"
@@ -26,57 +60,59 @@
 
         <TableRow
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_margin="3dp"
-            >
+            android:layout_height="match_parent" >
 
             <ImageView
-                android:id="@+id/row1_col1"
-                android:layout_margin="3dp"
+                android:id="@+id/block0"
                 android:layout_width="@dimen/size_cross_zero_image"
                 android:layout_height="@dimen/size_cross_zero_image"
-                android:onClick="GameBoardClick"/>
+
+                />
 
             <ImageView
-                android:id="@+id/row1_col2"
-                android:layout_margin="3dp"
+                android:id="@+id/block1"
                 android:layout_width="@dimen/size_cross_zero_image"
                 android:layout_height="@dimen/size_cross_zero_image"
-                android:onClick="GameBoardClick"/>
+                android:layout_marginLeft="10dp"
+
+                />
 
             <ImageView
-                android:id="@+id/row1_col3"
-                android:layout_margin="3dp"
+                android:id="@+id/block2"
                 android:layout_width="@dimen/size_cross_zero_image"
                 android:layout_height="@dimen/size_cross_zero_image"
-                android:onClick="GameBoardClick"/>
+                android:layout_marginLeft="10dp"
+
+                />
         </TableRow>
 
         <TableRow
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_margin="3dp" >
+            android:layout_height="match_parent" >
 
             <ImageView
-                android:id="@+id/row2_col1"
-                android:layout_margin="3dp"
+                android:id="@+id/block3"
                 android:layout_width="@dimen/size_cross_zero_image"
                 android:layout_height="@dimen/size_cross_zero_image"
-                android:onClick="GameBoardClick"/>
+                android:layout_marginTop="5dp"
+
+                />
 
             <ImageView
-                android:id="@+id/row2_col2"
-                android:layout_margin="3dp"
+                android:id="@+id/block4"
                 android:layout_width="@dimen/size_cross_zero_image"
                 android:layout_height="@dimen/size_cross_zero_image"
-                android:onClick="GameBoardClick"/>
+                android:layout_marginLeft="10dp"
+
+                />
 
             <ImageView
-                android:id="@+id/row2_col3"
-                android:layout_margin="3dp"
+                android:id="@+id/block5"
                 android:layout_width="@dimen/size_cross_zero_image"
                 android:layout_height="@dimen/size_cross_zero_image"
-                android:onClick="GameBoardClick"/>
+                android:layout_marginLeft="10dp"
+
+                />
         </TableRow>
 
         <TableRow
@@ -85,27 +121,44 @@
             android:layout_margin="3dp">
 
             <ImageView
-                android:id="@+id/row3_col1"
-                android:layout_margin="3dp"
+                android:id="@+id/block6"
                 android:layout_width="@dimen/size_cross_zero_image"
                 android:layout_height="@dimen/size_cross_zero_image"
-                android:onClick="GameBoardClick"/>
+
+                />
 
             <ImageView
-                android:id="@+id/row3_col2"
+                android:id="@+id/block7"
                 android:layout_margin="3dp"
                 android:layout_width="@dimen/size_cross_zero_image"
                 android:layout_height="@dimen/size_cross_zero_image"
-                android:onClick="GameBoardClick"/>
+
+                />
 
             <ImageView
-                android:id="@+id/row3_col3"
-                android:layout_margin="3dp"
+                android:id="@+id/block8"
                 android:layout_width="@dimen/size_cross_zero_image"
                 android:layout_height="@dimen/size_cross_zero_image"
-                android:onClick="GameBoardClick"/>
+
+                />
         </TableRow>
     </TableLayout>
+
+
+    <Button
+        android:id="@+id/restartGame"
+        android:layout_width="140dp"
+        android:layout_height="140dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:background="@drawable/restart_btn"
+        android:onClick="restartGame"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tableLayout"
+        app:layout_constraintVertical_bias="0.55"        />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -33,13 +33,13 @@ public class LoseDialog extends Dialog {
 
         imageViewClose.setOnClickListener(v -> {
             //Dialogfenster schliessen, Felder inkl Zuege bleiben sichtbar
-//            gameActivity.ResetGame();
+//            gameActivity.startNewGame();
             dismiss();
         });
 
         btnPlay.setOnClickListener(v -> {
             // Dialogfenstar schliessen, Spielfelder zurücksetzen
-            gameActivity.ResetGame();
+            gameActivity.startNewGame();
             dismiss();
         });
 
