@@ -146,6 +146,7 @@ public class GameActivity extends AppCompatActivity {
                 @Override
                 public void run() {
                     mBoardImageView[x].setImageResource(R.drawable.zero);
+                    unblockAllFields();
                 }
             }, 450);
         }
@@ -172,11 +173,24 @@ public class GameActivity extends AppCompatActivity {
             mBoardImageView[i].setOnClickListener(new ButtonClickListener(i));
         }
     }
+    private void unblockAllFields() {
+        // alle Spielfelder für Mensch blockieren
+        for (int i = 0; i < 9; i++) {
+            mBoardImageView[i].setClickable(true);
+        }
+    }
 
     private class ButtonClickListener implements View.OnClickListener {
         int x;
         public ButtonClickListener(int i) {
             this.x = i;
+        }
+
+        private void blockAllFields() {
+            // alle Spielfelder für Mensch blockieren
+            for (int i = 0; i < 9; i++) {
+                mBoardImageView[i].setClickable(false);
+            }
         }
 
         // verwendet den Schwierigkeitsgrad, um zu bestimmen, welchen Algorithmus der Computer verwenden soll
@@ -185,6 +199,7 @@ public class GameActivity extends AppCompatActivity {
             // easy level, Spiel aktiv, Felder frei
             if (diffLevel == 0 && gameActiv && mBoardImageView[x].isEnabled()) {
                 setMove(x, HUMAN); // Mensch macht einen Schritt KREUZ
+                blockAllFields();
                 int winner = minimax.checkGameStatus();
                 if (winner == minimax.PLAYING) { // immer noch spielen
                     int[] result = minimax.easyMove();
@@ -196,8 +211,8 @@ public class GameActivity extends AppCompatActivity {
             // medium
             if (diffLevel == 1 && gameActiv && mBoardImageView[x].isEnabled()) {
                 setMove(x, HUMAN); // Mensch macht einen Schritt KREUZ
+                blockAllFields(); // Spielfeld blockieren
                 int winner = minimax.checkGameStatus();
-
                 if (winner == minimax.PLAYING) { // immer noch spielen
                     int[] result = minimax.mediumMove();
                     setMove(result[0], COMPUTER);
@@ -208,8 +223,8 @@ public class GameActivity extends AppCompatActivity {
             // hard
             if (diffLevel == 2 && gameActiv && mBoardImageView[x].isEnabled()) {
                 setMove(x, HUMAN); // Mensch macht einen Schritt KREUZ
+                blockAllFields();
                 int winner = minimax.checkGameStatus();
-
                 if (winner == minimax.PLAYING) { // immer noch spielen
                     int[] result = minimax.hardMove();
                     setMove(result[0], COMPUTER);
