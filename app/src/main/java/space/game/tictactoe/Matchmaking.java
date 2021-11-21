@@ -1,5 +1,6 @@
 package space.game.tictactoe;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -14,14 +15,20 @@ import java.util.List;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 import space.game.tictactoe.gameObjects.Player;
+import space.game.tictactoe.services.HttpService;
 import space.game.tictactoe.services.JsonPlaceholderApi;
+import space.game.tictactoe.services.PlayerService;
 
 public class Matchmaking extends AppCompatActivity {
 
     private TextView textViewPlayerlistResponse;
+    private HttpService httpService;
+
+//    public Matchmaking(@Inject HttpService httpService) {
+//        this.httpService = httpService;
+//        //this.textViewPlayerlistResponse = textViewPlayerlistResponse;
+//    }
 
 
     @Override
@@ -32,19 +39,19 @@ public class Matchmaking extends AppCompatActivity {
 
         TextView textViewPlayerlistResponse = findViewById(R.id.playerlist_response);
 
-        // substitute baseUrl by url +"/playerList" of server
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("http://192.168.0.100:8080")
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
+        // substitute baseUrl by url of server
+//        Retrofit retrofit = new Retrofit.Builder()
+//                .baseUrl("http://192.168.0.100:8080")
+//                .addConverterFactory(GsonConverterFactory.create())
+//                .build();
 
-        JsonPlaceholderApi jsonPlaceholderApi = retrofit.create(JsonPlaceholderApi.class);
+//        JsonPlaceholderApi jsonPlaceholderApi = HttpService.retrofit.create(JsonPlaceholderApi.class);
+//
+//        Call<List<Player>> call = jsonPlaceholderApi.getPlayerList();
 
-        Call<List<Player>> call = jsonPlaceholderApi.getPlayerList();
-
-        call.enqueue(new Callback<List<Player>>() {
+        PlayerService.call.enqueue(new Callback<List<Player>>() {
             @Override
-            public void onResponse(Call<List<Player>> call, Response<List<Player>> response) {
+            public void onResponse(@NonNull Call<List<Player>> call, @NonNull Response<List<Player>> response) {
                 if (!response.isSuccessful()) {
                     textViewPlayerlistResponse.setText("No succes: " + response.code());
                     return;
@@ -52,6 +59,7 @@ public class Matchmaking extends AppCompatActivity {
 
                 List<Player> playerList = response.body();
 
+                assert playerList != null;
                 for (Player player : playerList) {
                     String content = "";
                     content += "firebaseId: " + player.getFirebaseId() + "\n";
@@ -62,12 +70,12 @@ public class Matchmaking extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(Call<List<Player>> call, Throwable t) {
+            public void onFailure(@NonNull Call<List<Player>> call, @NonNull Throwable t) {
                 textViewPlayerlistResponse.setText("Failure: " + t.getMessage());
             }
         });
 
-        //@TODO fetch Player (as List) from our Server by Request
+
         //@TODO offer playerList
         //@TODO be able to select an ListItem (Player) and pass it where needed - e.g. OnlinespielActivity
 

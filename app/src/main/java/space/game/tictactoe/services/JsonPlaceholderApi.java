@@ -6,7 +6,7 @@ import retrofit2.http.GET;
 import space.game.tictactoe.gameObjects.Player;
 
 public interface JsonPlaceholderApi {
-    //relative Url - if not working try "/playerList/"
+    //relative Url
     @GET("/playerList/")
     Call<List<Player>> getPlayerList();
 }
