@@ -7,9 +7,12 @@ import retrofit2.http.GET;
 import space.game.tictactoe.gameObjects.Player;
 
 
-public interface PlayerService {
+public interface PlayersServiceApi {
 
     //relative Url
     @GET("/playerList/")
     Call<List<Player>> getPlayerList();
+
+
+
 }

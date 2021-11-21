@@ -20,7 +20,7 @@ public class HttpService {
     private static Context cntxt;
 
     // @TODO implement more Services in buildRetrofit-method later
-    private PlayerService playerService;
+    private PlayersServiceApi playersServiceApi;
 
 
     // Constructor-Method
@@ -58,11 +58,11 @@ public class HttpService {
                 .baseUrl(BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
-        this.playerService = retrofit.create(PlayerService.class);
+        this.playersServiceApi = retrofit.create(PlayersServiceApi.class);
     }
 
-    public PlayerService getPlayerService() {
-        return this.playerService;
+    public PlayersServiceApi getPlayerService() {
+        return this.playersServiceApi;
     }
 //    public void addToRequestQueue(Retrofit req) {
 //        getRetrofitRequestQueue().add ..

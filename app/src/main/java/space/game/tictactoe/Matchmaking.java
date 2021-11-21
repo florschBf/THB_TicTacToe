@@ -1,6 +1,5 @@
 package space.game.tictactoe;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -9,16 +8,12 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.List;
 
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 import space.game.tictactoe.gameObjects.Player;
 import space.game.tictactoe.services.HttpService;
-import space.game.tictactoe.services.PlayerService;
+import space.game.tictactoe.services.PlayersService;
 
 public class Matchmaking extends AppCompatActivity {
 
@@ -49,54 +44,55 @@ public class Matchmaking extends AppCompatActivity {
 //                .baseUrl("http://192.168.0.100:8080")
 //                .addConverterFactory(GsonConverterFactory.create())
 //                .build();
-
+        PlayersService playersService = new PlayersService(this);
+        List<Player> playerList = playersService.getPlayerList();
 
         // Instantiate Request in Context this
-        PlayerService playerService = HttpService.getInstance(this).getPlayerService();
+       // PlayerServiceApi playerServiceApi = HttpService.getInstance(this).getPlayerService();
         //JsonPlaceholderApi jsonPlaceholderApi = HttpServce.retrofit.create(JsonPlaceholderApi.class);
 
-        // call a PlayerList as Response
-        Call<List<Player>> request = playerService.getPlayerList();
-
-        // all Requests are treated one by another, so a new Request has to enque to previous Requests
-        // when Request proceeded, execute this Callback-Function
-        request.enqueue(new Callback<List<Player>>() {
-            @Override
-            public void onResponse(@NonNull Call<List<Player>> call, @NonNull Response<List<Player>> response) {
-                // the Request was executed (onResponse)
-                try {
-                    if (!response.isSuccessful()) {
-                        // No successfull Response on Request-Call
-                        // textViewPlayerlistResponse.setText("No succes: " + response.code());
-                    } else if (response.body() != null) {
-                        // Successfull Response on Request-Call and Response-Body not empty
-
-                        List<Player> playerList = response.body();
-                        for (Player player : playerList) {
-                            String content = "";
-                            content += "firebaseId: " + player.getFirebaseId() + "\n";
-                            content += "name: " + player.getName() + "\n";
-
-                            Toast.makeText(Matchmaking.this, content, Toast.LENGTH_SHORT).show();
-                            //  textViewPlayerlistResponse.setText(content);
-                        }
-                    } else {
-                        Toast.makeText(Matchmaking.this, "No Online-Players found", Toast.LENGTH_SHORT).show();
-                    }
-                }catch (Exception e) {
-                    e.printStackTrace();
-                }
-
-
-            }
-
-            // Something after executed Request went wrong
-            @Override
-            public void onFailure(@NonNull Call<List<Player>> call, @NonNull Throwable t) {
-                Toast.makeText(Matchmaking.this, "Error occured: \" + t.getMessage()", Toast.LENGTH_SHORT).show();
-//                textViewPlayerlistResponse.setText("Failure: " + t.getMessage());
-            }
-        });
+//        // call a PlayerList as Response
+//        Call<List<Player>> request = playerServiceApi.getPlayerList();
+//
+//        // all Requests are treated one by another, so a new Request has to enque to previous Requests
+//        // when Request proceeded, execute this Callback-Function
+//        request.enqueue(new Callback<List<Player>>() {
+//            @Override
+//            public void onResponse(@NonNull Call<List<Player>> request, @NonNull Response<List<Player>> response) {
+//                // the Request was executed (onResponse)
+//                try {
+//                    if (!response.isSuccessful()) {
+//                        // No successfull Response on Request-Call
+//                        // textViewPlayerlistResponse.setText("No succes: " + response.code());
+//                    } else if (response.body() != null) {
+//                        // Successfull Response on Request-Call and Response-Body not empty
+//
+//                        List<Player> playerList = response.body();
+//                        for (Player player : playerList) {
+//                            String content = "";
+//                            content += "firebaseId: " + player.getFirebaseId() + "\n";
+//                            content += "name: " + player.getName() + "\n";
+//
+//                            Toast.makeText(Matchmaking.this, content, Toast.LENGTH_SHORT).show();
+//                            //  textViewPlayerlistResponse.setText(content);
+//                        }
+//                    } else {
+//                        Toast.makeText(Matchmaking.this, "No Online-Players found", Toast.LENGTH_SHORT).show();
+//                    }
+//                }catch (Exception e) {
+//                    e.printStackTrace();
+//                }
+//
+//
+//            }
+//
+//            // Something after executed Request went wrong
+//            @Override
+//            public void onFailure(@NonNull Call<List<Player>> call, @NonNull Throwable t) {
+//                Toast.makeText(Matchmaking.this, "Error occured: \" + t.getMessage()", Toast.LENGTH_SHORT).show();
+////                textViewPlayerlistResponse.setText("Failure: " + t.getMessage());
+//            }
+//        });
 
 
         //@TODO offer playerList
