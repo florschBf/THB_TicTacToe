@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.List;
 
@@ -39,61 +40,32 @@ public class Matchmaking extends AppCompatActivity {
 
         //TextView textViewPlayerlistResponse = findViewById(R.id.playerlist_response);
 
-        // substitute baseUrl by url of server
-//        Retrofit retrofit = new Retrofit.Builder()
-//                .baseUrl("http://192.168.0.100:8080")
-//                .addConverterFactory(GsonConverterFactory.create())
-//                .build();
+
         PlayersService playersService = new PlayersService(this);
-        List<Player> playerList = playersService.getPlayerList();
 
-        // Instantiate Request in Context this
-       // PlayerServiceApi playerServiceApi = HttpService.getInstance(this).getPlayerService();
-        //JsonPlaceholderApi jsonPlaceholderApi = HttpServce.retrofit.create(JsonPlaceholderApi.class);
+        /**
+         * Async Callback
+         * */
+        playersService.getPlayerList(new PlayersService.RetrofitResponseListener() {
+            @Override
+            public void onError(String message) {
+                Toast.makeText(getApplicationContext(), "Something went wrong", Toast.LENGTH_SHORT).show();
+            }
 
-//        // call a PlayerList as Response
-//        Call<List<Player>> request = playerServiceApi.getPlayerList();
-//
-//        // all Requests are treated one by another, so a new Request has to enque to previous Requests
-//        // when Request proceeded, execute this Callback-Function
-//        request.enqueue(new Callback<List<Player>>() {
-//            @Override
-//            public void onResponse(@NonNull Call<List<Player>> request, @NonNull Response<List<Player>> response) {
-//                // the Request was executed (onResponse)
-//                try {
-//                    if (!response.isSuccessful()) {
-//                        // No successfull Response on Request-Call
-//                        // textViewPlayerlistResponse.setText("No succes: " + response.code());
-//                    } else if (response.body() != null) {
-//                        // Successfull Response on Request-Call and Response-Body not empty
-//
-//                        List<Player> playerList = response.body();
-//                        for (Player player : playerList) {
-//                            String content = "";
-//                            content += "firebaseId: " + player.getFirebaseId() + "\n";
-//                            content += "name: " + player.getName() + "\n";
-//
-//                            Toast.makeText(Matchmaking.this, content, Toast.LENGTH_SHORT).show();
-//                            //  textViewPlayerlistResponse.setText(content);
-//                        }
-//                    } else {
-//                        Toast.makeText(Matchmaking.this, "No Online-Players found", Toast.LENGTH_SHORT).show();
-//                    }
-//                }catch (Exception e) {
-//                    e.printStackTrace();
-//                }
-//
-//
-//            }
-//
-//            // Something after executed Request went wrong
-//            @Override
-//            public void onFailure(@NonNull Call<List<Player>> call, @NonNull Throwable t) {
-//                Toast.makeText(Matchmaking.this, "Error occured: \" + t.getMessage()", Toast.LENGTH_SHORT).show();
-////                textViewPlayerlistResponse.setText("Failure: " + t.getMessage());
-//            }
-//        });
+            @Override
+            public void onResponse(List<Player> playerListResponse) {
+                for (Player player : playerListResponse) {
+                    String content = "";
+                    content += "firebaseId: " + player.getFirebaseId() + "\n";
+                    content += "name: " + player.getName() + "\n";
 
+                    Toast.makeText(getApplicationContext(), content, Toast.LENGTH_SHORT).show();
+                    //  textViewPlayerlistResponse.setText(content);
+                }
+            }
+        });
+
+//
 
         //@TODO offer playerList
         //@TODO be able to select an ListItem (Player) and pass it where needed - e.g. OnlinespielActivity

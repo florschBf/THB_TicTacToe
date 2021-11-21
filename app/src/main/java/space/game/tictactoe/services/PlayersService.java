@@ -22,9 +22,16 @@ public class PlayersService {
         this.context = context;
     }
 
+    public interface RetrofitResponseListener {
+        void onError(String message);
+
+        void onResponse(List<Player> playerListResponse);
+    }
+
+
     // private PlayerServiceApi playerServiceApi;
     // call a PlayerList as Response
-    public List<Player> getPlayerList() {
+    public void getPlayerList(RetrofitResponseListener retrofitResponseListener) {
 
         PlayersServiceApi playersServiceApi = HttpService.getInstance(context).getPlayerService();
         Call<List<Player>> request = playersServiceApi.getPlayerList();
@@ -39,10 +46,14 @@ public class PlayersService {
                     if (!response.isSuccessful()) {
                         // No successfull Response on Request-Call
                         // textViewPlayerlistResponse.setText("No succes: " + response.code());
+                        retrofitResponseListener.onError("Something went wrong");
                     } else if (response.body() != null) {
                         // Successfull Response on Request-Call and Response-Body not empty
 
                         playerList = response.body();
+
+                        retrofitResponseListener.onResponse(playerList);
+
                         for (Player player : playerList) {
                             String content = "";
                             content += "firebaseId: " + player.getFirebaseId() + "\n";
@@ -64,11 +75,13 @@ public class PlayersService {
             // Something after executed Request went wrong
             @Override
             public void onFailure(@NonNull Call<List<Player>> call, @NonNull Throwable t) {
+                retrofitResponseListener.onError("Something went wrong");
                 Toast.makeText(context, "Error occured: \" + t.getMessage()", Toast.LENGTH_SHORT).show();
 //                textViewPlayerlistResponse.setText("Failure: " + t.getMessage());
             }
         });
 
-        return playerList;
+        //return playerList;
+        //return null;
     }
 }
