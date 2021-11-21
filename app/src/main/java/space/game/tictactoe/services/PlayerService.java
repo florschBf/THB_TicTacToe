@@ -3,13 +3,13 @@ package space.game.tictactoe.services;
 import java.util.List;
 
 import retrofit2.Call;
+import retrofit2.http.GET;
 import space.game.tictactoe.gameObjects.Player;
 import space.game.tictactoe.services.JsonPlaceholderApi;
 
-public class PlayerService {
 
-    public static JsonPlaceholderApi jsonPlaceholderApi = HttpService.retrofit.create(JsonPlaceholderApi.class);
-
-    public static Call<List<Player>> call = jsonPlaceholderApi.getPlayerList();
-
+public interface PlayerService {
+    //relative Url
+    @GET("/playerList/")
+    Call<List<Player>> getPlayerList();
 }

@@ -3,12 +3,19 @@ package space.game.tictactoe;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.DownloadManager;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.google.gson.JsonArray;
+
+import org.json.JSONObject;
 
 import java.util.List;
 
@@ -25,6 +32,8 @@ public class Matchmaking extends AppCompatActivity {
     private TextView textViewPlayerlistResponse;
     private HttpService httpService;
 
+    private ListView lv_playerList;
+
 //    public Matchmaking(@Inject HttpService httpService) {
 //        this.httpService = httpService;
 //        //this.textViewPlayerlistResponse = textViewPlayerlistResponse;
@@ -37,7 +46,10 @@ public class Matchmaking extends AppCompatActivity {
 
         setContentView(R.layout.activity_matchmaking);
 
-        TextView textViewPlayerlistResponse = findViewById(R.id.playerlist_response);
+        // assign List of Players
+        // lv_playerList = findViewById(R.id.playerList_ListView);
+
+        //TextView textViewPlayerlistResponse = findViewById(R.id.playerlist_response);
 
         // substitute baseUrl by url of server
 //        Retrofit retrofit = new Retrofit.Builder()
@@ -45,33 +57,51 @@ public class Matchmaking extends AppCompatActivity {
 //                .addConverterFactory(GsonConverterFactory.create())
 //                .build();
 
-//        JsonPlaceholderApi jsonPlaceholderApi = HttpService.retrofit.create(JsonPlaceholderApi.class);
-//
-//        Call<List<Player>> call = jsonPlaceholderApi.getPlayerList();
 
-        PlayerService.call.enqueue(new Callback<List<Player>>() {
+        // Instantiate Request
+        PlayerService playerService = HttpService.getInstance(this).getPlayerService();
+        //JsonPlaceholderApi jsonPlaceholderApi = HttpServce.retrofit.create(JsonPlaceholderApi.class);
+
+        // call a PlayerList as Response
+        Call<List<Player>> call = playerService.getPlayerList();
+
+        // all Requests are treated one by another, so a new Request has to enque to previous Requests
+        // when Request proceeded, execute this Callback-Function
+        call.enqueue(new Callback<List<Player>>() {
             @Override
             public void onResponse(@NonNull Call<List<Player>> call, @NonNull Response<List<Player>> response) {
-                if (!response.isSuccessful()) {
-                    textViewPlayerlistResponse.setText("No succes: " + response.code());
-                    return;
+                // the Request was executed (onResponse)
+                try {
+                    if (!response.isSuccessful()) {
+                        // No successfull Response on Request-Call
+                        //                    textViewPlayerlistResponse.setText("No succes: " + response.code());
+                    } else if (response.body() != null) {
+                        // Successfull Response on Request-Call and Response-Body not empty
+
+                        List<Player> playerList = response.body();
+                        for (Player player : playerList) {
+                            String content = "";
+                            content += "firebaseId: " + player.getFirebaseId() + "\n";
+                            content += "name: " + player.getName() + "\n";
+
+                            Toast.makeText(Matchmaking.this, content, Toast.LENGTH_SHORT).show();
+                            //  textViewPlayerlistResponse.setText(content);
+                        }
+                    } else {
+                        Toast.makeText(Matchmaking.this, "No Online-Players found", Toast.LENGTH_SHORT).show();
+                    }
+                }catch (Exception e) {
+                    e.printStackTrace();
                 }
 
-                List<Player> playerList = response.body();
 
-                assert playerList != null;
-                for (Player player : playerList) {
-                    String content = "";
-                    content += "firebaseId: " + player.getFirebaseId() + "\n";
-                    content += "name: " + player.getName() + "\n";
-
-                    textViewPlayerlistResponse.setText(content);
-                }
             }
 
+            // Something after executed Request went wrong
             @Override
             public void onFailure(@NonNull Call<List<Player>> call, @NonNull Throwable t) {
-                textViewPlayerlistResponse.setText("Failure: " + t.getMessage());
+                Toast.makeText(Matchmaking.this, "Error occured: \" + t.getMessage()", Toast.LENGTH_SHORT).show();
+//                textViewPlayerlistResponse.setText("Failure: " + t.getMessage());
             }
         });
 
@@ -79,16 +109,16 @@ public class Matchmaking extends AppCompatActivity {
         //@TODO offer playerList
         //@TODO be able to select an ListItem (Player) and pass it where needed - e.g. OnlinespielActivity
 
-        RadioButton playerRadioButton = (RadioButton)findViewById(R.id.matchmaker_radiodummy);
+        //RadioButton playerRadioButton = (RadioButton)findViewById(R.id.matchmaker_radiodummy);
 
         //@TODO implement a ListView or something alike to build dynamically a List with fetched Players at activity_matchmaking.xml
-        playerRadioButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // test - show a message, if button works
-                textViewPlayerlistResponse.setText("Player selected");
-            }
-        });
+//        playerRadioButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                // test - show a message, if button works
+//                textViewPlayerlistResponse.setText("Player selected");
+//            }
+//        });
 
 
 
