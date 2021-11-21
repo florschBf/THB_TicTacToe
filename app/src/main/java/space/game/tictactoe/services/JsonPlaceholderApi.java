@@ -7,6 +7,6 @@ import space.game.tictactoe.gameObjects.Player;
 
 public interface JsonPlaceholderApi {
     //relative Url - if not working try "/playerList/"
-    @GET("playerList")
+    @GET("/playerList/")
     Call<List<Player>> getPlayerList();
 }

@@ -34,7 +34,7 @@ public class Matchmaking extends AppCompatActivity {
 
         // substitute baseUrl by url +"/playerList" of server
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("http://192.168.0.100:8080/playerList/")
+                .baseUrl("http://192.168.0.100:8080")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
@@ -46,7 +46,7 @@ public class Matchmaking extends AppCompatActivity {
             @Override
             public void onResponse(Call<List<Player>> call, Response<List<Player>> response) {
                 if (!response.isSuccessful()) {
-                    textViewPlayerlistResponse.setText("No succes:" + response.code());
+                    textViewPlayerlistResponse.setText("No succes: " + response.code());
                     return;
                 }
 
@@ -57,7 +57,7 @@ public class Matchmaking extends AppCompatActivity {
                     content += "firebaseId: " + player.getFirebaseId() + "\n";
                     content += "name: " + player.getName() + "\n";
 
-                    textViewPlayerlistResponse.append(content);
+                    textViewPlayerlistResponse.setText(content);
                 }
             }
 
