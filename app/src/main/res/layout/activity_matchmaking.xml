@@ -9,17 +9,6 @@
     tools:context=".Matchmaking">
 
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/playerList_ListView"
-        android:layout_width="409dp"
-        android:layout_height="504dp"
-        app:layout_constraintBottom_toTopOf="@+id/zahnrad_matchmaker"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-
-
     <!--    <TableLayout-->
     <!--        android:id="@+id/matchmaker_tabelle"-->
     <!--        android:layout_width="380dp"-->
@@ -88,18 +77,18 @@
     <!--        </TableRow>-->
     <!--    </TableLayout>-->
 
-    <ImageView
-        android:id="@+id/zahnrad_matchmaker"
-        android:layout_width="100dp"
-        android:layout_height="75dp"
-        android:layout_gravity="center"
-        android:clickable="true"
-        android:contentDescription="@string/zahnrad"
-        android:paddingTop="20dp"
-        app:layout_constraintBottom_toTopOf="@+id/button_playerchosen"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:srcCompat="@drawable/zahnrad1" />
+<!--    <ImageView-->
+<!--        android:id="@+id/zahnrad_matchmaker"-->
+<!--        android:layout_width="100dp"-->
+<!--        android:layout_height="75dp"-->
+<!--        android:layout_gravity="center"-->
+<!--        android:clickable="true"-->
+<!--        android:contentDescription="@string/zahnrad"-->
+<!--        android:paddingTop="20dp"-->
+<!--        app:layout_constraintBottom_toTopOf="@+id/button_playerchosen"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:srcCompat="@drawable/zahnrad1" />-->
 
     <Button
         android:id="@+id/button_playerchosen"
@@ -118,9 +107,16 @@
         android:textSize="@dimen/textSize_menu_btn"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <ListView
+        android:id="@+id/playerList_ListView"
+        android:layout_width="409dp"
+        android:layout_height="672dp"
+        app:layout_constraintBottom_toTopOf="@+id/button_playerchosen"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/playerList_ListView"
-        app:layout_constraintVertical_bias="0.739" />
+        app:layout_constraintTop_toTopOf="parent" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -40,11 +40,10 @@ public class Matchmaking extends AppCompatActivity {
         setContentView(R.layout.activity_matchmaking);
 
         ListView listView_players = (ListView) findViewById(R.id.playerList_ListView);
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, items);
-        listView_players.setAdapter(adapter);
-        // assign List of Players
-        // somehow crashes
-        // lv_playerList = findViewById(R.id.playerList_ListView);
+
+        //        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, items);
+//        listView_players.setAdapter(adapter);
+
 
         //TextView textViewPlayerlistResponse = findViewById(R.id.playerlist_response);
 
@@ -65,17 +64,20 @@ public class Matchmaking extends AppCompatActivity {
             public void onResponse(List<Player> playerListResponse) {
                 // put entire List into the lisview control
 
-                ArrayAdapter arrayAdapter = new ArrayAdapter(getApplicationContext(), android.R.layout.simple_list_item_1, playerListResponse);
-                // lv_playerList.setAdapter(arrayAdapter);
+                Toast.makeText(getApplicationContext(), "Playerlist:" + playerListResponse, Toast.LENGTH_SHORT).show();
 
-                for (Player player : playerListResponse) {
-                    String content = "";
-                    content += "firebaseId: " + player.getFirebaseId() + "\n";
-                    content += "name: " + player.getName() + "\n";
+                ArrayAdapter<Player> arrayAdapter = new ArrayAdapter<Player>(getApplicationContext(), android.R.layout.simple_list_item_1, playerListResponse);
 
-                    Toast.makeText(getApplicationContext(), content, Toast.LENGTH_SHORT).show();
-                    //  textViewPlayerlistResponse.setText(content);
-                }
+                listView_players.setAdapter(arrayAdapter);
+
+//                for (Player player : playerListResponse) {
+//                    String content = "";
+//                    content += "firebaseId: " + player.getFirebaseId() + "\n";
+//                    content += "name: " + player.getName() + "\n";
+//
+//                    Toast.makeText(getApplicationContext(), content, Toast.LENGTH_SHORT).show();
+//                    //  textViewPlayerlistResponse.setText(content);
+//                }
             }
         });
 
@@ -124,17 +126,17 @@ public class Matchmaking extends AppCompatActivity {
 
 
         // Imageview Zahnrad als Button anclickbar-> Optionen im Menü -> Weiterleitung zu Optionen->Icons->Statistiken
-        ImageView zahnrad= findViewById(R.id.zahnrad_matchmaker);
-        zahnrad.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                try {
-                    Intent intent = new Intent(Matchmaking.this, OptionenActivity.class);
-                    startActivity(intent);
-                } catch(Exception e) {
-
-                }
-            }
-        });
+//        ImageView zahnrad= findViewById(R.id.zahnrad_matchmaker);
+//        zahnrad.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                try {
+//                    Intent intent = new Intent(Matchmaking.this, OptionenActivity.class);
+//                    startActivity(intent);
+//                } catch(Exception e) {
+//
+//                }
+//            }
+//        });
     }
 }
