@@ -9,7 +9,7 @@ import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
-import space.game.tictactoe.gameObjects.Player;
+import space.game.tictactoe.models.Player;
 import retrofit2.Response;
 
 public class PlayersService {

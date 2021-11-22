@@ -8,6 +8,18 @@
     android:background="#041042"
     tools:context=".Matchmaking">
 
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/playerList_ListView"
+        android:layout_width="409dp"
+        android:layout_height="504dp"
+        app:layout_constraintBottom_toTopOf="@+id/zahnrad_matchmaker"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+
     <!--    <TableLayout-->
     <!--        android:id="@+id/matchmaker_tabelle"-->
     <!--        android:layout_width="380dp"-->
@@ -110,13 +122,5 @@
         app:layout_constraintTop_toBottomOf="@+id/playerList_ListView"
         app:layout_constraintVertical_bias="0.739" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/playerList_ListView"
-        android:layout_width="409dp"
-        android:layout_height="504dp"
-        app:layout_constraintBottom_toTopOf="@+id/zahnrad_matchmaker"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

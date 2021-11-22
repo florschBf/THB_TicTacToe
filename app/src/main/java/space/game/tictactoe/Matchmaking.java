@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -12,7 +13,7 @@ import android.widget.Toast;
 
 import java.util.List;
 
-import space.game.tictactoe.gameObjects.Player;
+import space.game.tictactoe.models.Player;
 import space.game.tictactoe.services.HttpService;
 import space.game.tictactoe.services.PlayersService;
 
@@ -20,13 +21,16 @@ public class Matchmaking extends AppCompatActivity {
 
     private TextView textViewPlayerlistResponse;
     private HttpService httpService;
+//    private ListView listView_players;
 
-    private ListView lv_playerList;
+
 
 //    public Matchmaking(@Inject HttpService httpService) {
 //        this.httpService = httpService;
 //        //this.textViewPlayerlistResponse = textViewPlayerlistResponse;
 //    }
+
+    String[] items = new String [] {"Apple", "Orange", "Grapes", "Pinapple"};
 
 
     @Override
@@ -35,7 +39,11 @@ public class Matchmaking extends AppCompatActivity {
 
         setContentView(R.layout.activity_matchmaking);
 
+        ListView listView_players = (ListView) findViewById(R.id.playerList_ListView);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, items);
+        listView_players.setAdapter(adapter);
         // assign List of Players
+        // somehow crashes
         // lv_playerList = findViewById(R.id.playerList_ListView);
 
         //TextView textViewPlayerlistResponse = findViewById(R.id.playerlist_response);
@@ -44,7 +52,8 @@ public class Matchmaking extends AppCompatActivity {
         PlayersService playersService = new PlayersService(this);
 
         /**
-         * Async Callback
+         * Async Callback - call this Method, when there are Results!
+         * otherwise playerlist would be null, because of async Response by Server
          * */
         playersService.getPlayerList(new PlayersService.RetrofitResponseListener() {
             @Override
@@ -54,6 +63,11 @@ public class Matchmaking extends AppCompatActivity {
 
             @Override
             public void onResponse(List<Player> playerListResponse) {
+                // put entire List into the lisview control
+
+                ArrayAdapter arrayAdapter = new ArrayAdapter(getApplicationContext(), android.R.layout.simple_list_item_1, playerListResponse);
+                // lv_playerList.setAdapter(arrayAdapter);
+
                 for (Player player : playerListResponse) {
                     String content = "";
                     content += "firebaseId: " + player.getFirebaseId() + "\n";
