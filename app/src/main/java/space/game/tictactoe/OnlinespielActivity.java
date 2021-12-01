@@ -17,12 +17,19 @@ public class OnlinespielActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_onlinespiel);
+
+
         /*Intent intent = getIntent();
             int icontrans1 = intent.getExtras().getInt("Gewähltes Icon");
             ImageView image = (ImageView) findViewById(R.id.icontransport_matchmaker);
             image.setImageResource(icontrans1); - TODO*/
 
 
+        //@TODO get selected Player
+        // Intent intent = getIntent();
+
+        //@TODO use selected Player
+        // use some values from selected Player
     }
 
 
