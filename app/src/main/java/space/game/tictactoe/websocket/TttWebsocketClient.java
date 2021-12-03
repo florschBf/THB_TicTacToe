@@ -1,6 +1,9 @@
 package space.game.tictactoe.websocket;
 
+import android.app.Activity;
 import android.content.Context;
+import android.view.View;
+import android.widget.ListView;
 
 import com.google.gson.JsonObject;
 
@@ -8,6 +11,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.nio.ByteBuffer;
 import java.text.ParseException;
+import java.util.List;
 
 import org.java_websocket.client.WebSocketClient;
 import org.java_websocket.drafts.Draft;
@@ -15,10 +19,12 @@ import org.java_websocket.drafts.Draft_6455;
 import org.java_websocket.handshake.ServerHandshake;
 import org.json.JSONException;
 
+import space.game.tictactoe.R;
+
 public class TttWebsocketClient extends WebSocketClient{
     private Context context;
-    private TttMessageHandler msgHandler = new TttMessageHandler();
-    private PlayerListHandler listHandler = new PlayerListHandler();
+    private final TttMessageHandler msgHandler = new TttMessageHandler();
+    private PlayerListHandler listHandler;
 
     public TttWebsocketClient(URI serverUri, Draft draft) {
         super(serverUri, draft);
@@ -27,6 +33,7 @@ public class TttWebsocketClient extends WebSocketClient{
     public TttWebsocketClient(URI serverURI, Context context) {
         super(serverURI);
         this.context = context;
+        this.listHandler = new PlayerListHandler(context);
     }
 
     @Override
@@ -56,7 +63,7 @@ public class TttWebsocketClient extends WebSocketClient{
         }
         switch (handledMessage){
             case ("playerList"):
-                this.listHandler.renderList(message, context);
+                this.listHandler.renderList(message);
         }
     }
 

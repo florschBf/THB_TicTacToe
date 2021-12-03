@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent" >
+    android:layout_height="fill_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -148,21 +147,61 @@
         app:layout_constraintVertical_bias="0.55"        />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/overlay"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:background="#99000000"
         android:clickable="true"
-        android:visibility="gone">
+        android:visibility="visible">
 
-        <EditText
-            android:id="@+id/edittext"
-            android:layout_width="wrap_content"
+        <TextView
+            android:id="@+id/selectOpponentMessage"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="50dp"
-            android:text="Select an opponent"
-            android:textAlignment="center"/>
-    </LinearLayout>
+            android:layout_marginBottom="10dp"
+            android:background="@color/cardview_dark_background"
+            android:fontFamily="@font/facon"
+            android:padding="5pt"
+            android:rotationX="0"
+            android:text="Select an Opponent"
+            android:textAlignment="center"
+            android:textColor="@color/teal_200"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            />
+
+        <Button
+            android:id="@+id/closeList"
+            android:layout_width="@dimen/width_menu_btn"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/btn_press_white"
+            android:fontFamily="@font/facon"
+            android:paddingLeft="10dp"
+            android:paddingTop="10dp"
+            android:paddingRight="10dp"
+            android:paddingBottom="10dp"
+            android:text="Liste schließen"
+            android:textAllCaps="true"
+            android:textColor="@color/teal_200"
+            android:textSize="@dimen/textSize_menu_btn"
+            app:layout_constraintTop_toBottomOf="@+id/selectOpponentMessage"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            />
+
+        <ListView
+            android:id="@+id/playerList"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/closeList" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </RelativeLayout>
