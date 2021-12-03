@@ -63,7 +63,7 @@ public class MenuActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 try {
-                    Intent intent = new Intent(MenuActivity.this, Matchmaking.class);
+                    Intent intent = new Intent(MenuActivity.this, OnlinespielActivity.class);
                     startActivity(intent);
                 } catch(Exception e) {
 
@@ -100,15 +100,12 @@ public class MenuActivity extends AppCompatActivity {
 
         // Button3 button_rules -> Weiterleitung zur Spielbeschreibung, Spielregel
         Button button_rules = (Button)findViewById(R.id.button_rules);
-        button_rules.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                try {
-                    Intent intent = new Intent(MenuActivity.this, RulesActivity.class);
-                    startActivity(intent);
-                } catch(Exception e) {
+        button_rules.setOnClickListener(v -> {
+            try {
+                Intent intent = new Intent(MenuActivity.this, RulesActivity.class);
+                startActivity(intent);
+            } catch(Exception e) {
 
-                }
             }
         });
 
