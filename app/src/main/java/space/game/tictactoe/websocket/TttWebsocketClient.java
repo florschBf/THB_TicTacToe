@@ -1,29 +1,29 @@
 package space.game.tictactoe.websocket;
 
 import android.app.Activity;
+import android.app.Application;
 import android.content.Context;
-import android.view.View;
-import android.widget.ListView;
+import android.os.Handler;
+import android.widget.ImageView;
 
-import com.google.gson.JsonObject;
 
 import java.net.URI;
-import java.net.URISyntaxException;
 import java.nio.ByteBuffer;
 import java.text.ParseException;
-import java.util.List;
 
 import org.java_websocket.client.WebSocketClient;
 import org.java_websocket.drafts.Draft;
-import org.java_websocket.drafts.Draft_6455;
 import org.java_websocket.handshake.ServerHandshake;
 import org.json.JSONException;
 
+import space.game.tictactoe.OnlinespielActivity;
 import space.game.tictactoe.R;
+
 
 public class TttWebsocketClient extends WebSocketClient{
     private Context context;
     private final TttMessageHandler msgHandler = new TttMessageHandler();
+    private final TttCommandHandler cmdHandler = new TttCommandHandler();
     private PlayerListHandler listHandler;
 
     public TttWebsocketClient(URI serverUri, Draft draft) {
@@ -64,6 +64,9 @@ public class TttWebsocketClient extends WebSocketClient{
         switch (handledMessage){
             case ("playerList"):
                 this.listHandler.renderList(message);
+            case ("1"):
+                Integer x = Integer.valueOf(handledMessage);
+                renderMove(x);
         }
     }
 
@@ -76,4 +79,29 @@ public class TttWebsocketClient extends WebSocketClient{
     public void onError(Exception ex) {
         System.err.println("an error occurred:" + ex);
     }
+
+    public String startGame(Object selectedPlayer) {
+        return cmdHandler.startGame(selectedPlayer);
+    }
+
+    public boolean setMove(Integer feld){
+        //TODO implement server validation
+        boolean moveValid = true;
+        String command = cmdHandler.sendMove(feld.toString());
+        send(command);
+        return moveValid;
+    }
+
+    /**
+     * Method to render received opponent moves
+     * @param feld Feld auf dem Spielfeld, 0-8, oben links bis unten rechts
+     */
+    public void renderMove(Integer feld){
+        //find board in context and mark it
+        String idFeld = "block" + feld;
+        ImageView fieldToMark = ((Activity) context).findViewById(((Activity) context).getResources().getIdentifier(idFeld, "id", ((Activity) context).getPackageName()));
+        fieldToMark.setImageResource(R.drawable.zero);
+    }
+
+
 }

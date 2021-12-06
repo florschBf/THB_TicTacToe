@@ -1,9 +1,13 @@
 package space.game.tictactoe.websocket.commandHandlers;
 
+import android.app.LauncherActivity;
+
 import com.google.gson.JsonObject;
 
 import java.util.Objects;
 
+//TODO REFACTOR CmdHandlers TO MsgHandlers TO PREVENT CONFUSION WITH ACTUAL!! TttCommandHandler who does the commands
+//These handle messages from the server
 public class SignUpCmdHandler implements CmdHandler{
 
     @Override

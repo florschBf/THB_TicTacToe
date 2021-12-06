@@ -73,6 +73,7 @@ public class GameActivity extends AppCompatActivity {
             mBoardImageView[i] = (ImageView) findViewById(getResources().getIdentifier("block" + i, "id", this.getPackageName()));
         }
 
+
         final AlertDialog.Builder alertDialog = new AlertDialog.Builder(this, AlertDialog.THEME_HOLO_DARK);
         // false -> Dialog kann nicht mit der BACK-Taste abgebrochen werden.
         alertDialog.setCancelable(false);
