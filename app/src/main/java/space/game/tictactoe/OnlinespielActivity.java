@@ -1,5 +1,8 @@
 package space.game.tictactoe;
 
+import static space.game.tictactoe.R.id.icontransport;
+
+
 import androidx.appcompat.app.AppCompatActivity;
 
 
@@ -23,7 +26,10 @@ import java.net.URISyntaxException;
 import space.game.tictactoe.websocket.TttWebsocketClient;
 
 public class OnlinespielActivity extends AppCompatActivity {
-    private TttWebsocketClient client = new TttWebsocketClient(new URI("ws://192.168.178.52:8088"), this);
+
+    private static final String TAG = "OnlineSpiel";
+    private int icon;
+    private TttWebsocketClient client = new TttWebsocketClient(new URI("ws://192.168.178.249:8088"), this);
     private ImageView mBoardImageView[];
 
     public OnlinespielActivity() throws URISyntaxException {
@@ -83,6 +89,27 @@ public class OnlinespielActivity extends AppCompatActivity {
                 client.send(client.startGame(playerList.getItemAtPosition(position)));
             }
         });
+        // Imageview Zahnrad als Button anclickbar-> Optionen im Menü -> Weiterleitung zu Optionen->Icons->Statistiken
+        ImageView zahnrad = findViewById(R.id.zahnrad_matchmaker);
+        zahnrad.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                try {
+                    Intent intent = new Intent(OnlinespielActivity.this, OptionenActivity.class);
+                    startActivity(intent);
+                } catch (Exception e) {
+
+                }
+            }
+        });
+        //Datatransfair from IconwahlActivity -> chosen Icon kommt in die OnlinespielActivity
+        final Intent intent = getIntent();
+        int playerIcon = intent.getIntExtra("playerIcon", R.drawable.chosenicon_dummy_90);
+        Log.d(TAG, "player icon" + playerIcon);
+        //overwrite default Icon in the ImageView of the onlinespielactivity with the chosen one from the IconWahlActivity, that was transfered above
+        icon= playerIcon;
+        ImageView image = (ImageView) findViewById(icontransport);
+        image.setImageResource(icon);
 
 
         //TAKEN FROM GAMEACTIVITY TO CONTROL THE BOARD
