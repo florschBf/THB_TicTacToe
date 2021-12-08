@@ -157,14 +157,6 @@
         android:textColor="@color/teal_200"
         android:textSize="@dimen/textSize_menu_btn" />
 
-    <ImageView
-        android:id="@+id/zahnrad"
-        android:layout_width="100dp"
-        android:layout_height="75dp"
-        android:layout_gravity="center"
-        android:paddingTop="20dp"
-        android:clickable="true"
-        android:contentDescription="@string/zahnrad"
-        app:srcCompat="@drawable/zahnrad1" />
+
 
 </LinearLayout>

@@ -73,8 +73,10 @@ Wenn nach 9 Zügen keiner eine Reihe legen konnte, endet das Spiel unentschieden
     <string name="zahnrad">Optionen Button Zahnrad</string>
     <string name="button_aboutus_zurück">Zurück</string>
     <string name="text_aboutUs">Wir sind eine Gruppe von Studierenden der Technischen Hochschule Brandenburg. Diese Tic Tac Toe App, wurde im Rahmen des Moduls \"Patterns und Frameworks\" von uns als gemeinsames Studienprojekt realisiert.</string>
+    <string name="closeList">Liste schließen</string>
+    <string name="spielmitmir">Du bist herzlich eingeladen mit mir zu spielen! Bitte klicke auf spielen.</string>
+    <string name="btn_on_backTomenu">Menü</string>
     <string name="instruction">Wähle einen Spieler aus!</string>
     <string name="invite_to_play">Invite to Play</string>
-
 
 </resources>
