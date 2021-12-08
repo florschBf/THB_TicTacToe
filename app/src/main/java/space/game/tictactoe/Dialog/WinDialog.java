@@ -1,4 +1,4 @@
-package space.game.tictactoe;
+package space.game.tictactoe.Dialog;
 
 import static android.graphics.Color.TRANSPARENT;
 
@@ -11,6 +11,10 @@ import android.widget.Button;
 import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
+
+import space.game.tictactoe.GameActivity;
+import space.game.tictactoe.MenuActivity;
+import space.game.tictactoe.R;
 
 public class WinDialog extends Dialog {
 
