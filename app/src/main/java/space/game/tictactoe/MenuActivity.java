@@ -122,6 +122,27 @@ public class MenuActivity extends AppCompatActivity {
                 }
             }
         });
+
+        Button button_optionen_general = (Button)findViewById(R.id.button_optionen_general);
+        button_optionen_general.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                try {
+                    Intent intent = new Intent(MenuActivity.this, OptionenActivity.class);
+                    startActivity(intent);
+                } catch(Exception e) {
+
+                }
+            }
+        });
+
+
+
+
+
+
+
+
         /*// Imageview Zahnrad als Button anclickbar-> Optionen im Menü -> Weiterleitung zu Optionen
         ImageView zahnrad= findViewById(R.id.zahnrad);
         zahnrad.setOnClickListener(new View.OnClickListener() {
