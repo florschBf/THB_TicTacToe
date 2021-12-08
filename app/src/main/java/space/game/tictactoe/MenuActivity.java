@@ -122,7 +122,7 @@ public class MenuActivity extends AppCompatActivity {
                 }
             }
         });
-        // Imageview Zahnrad als Button anclickbar-> Optionen im Menü -> Weiterleitung zu Optionen
+        /*// Imageview Zahnrad als Button anclickbar-> Optionen im Menü -> Weiterleitung zu Optionen
         ImageView zahnrad= findViewById(R.id.zahnrad);
         zahnrad.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -134,7 +134,7 @@ public class MenuActivity extends AppCompatActivity {
 
                 }
             }
-        });
+        });*/
 
         // Button 8 button_login -> Weiterleitung zum LogIn
         // Vorerst weiter drin als Login zu Testzwecken
