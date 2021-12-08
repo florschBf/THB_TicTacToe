@@ -16,7 +16,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import space.game.tictactoe.R;
-import space.game.tictactoe.gameObjects.Player;
 
 
 public class PlayerListHandler {

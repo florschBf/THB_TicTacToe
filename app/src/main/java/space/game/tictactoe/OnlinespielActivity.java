@@ -1,5 +1,8 @@
 package space.game.tictactoe;
 
+import static space.game.tictactoe.R.id.icontransport;
+
+
 import androidx.appcompat.app.AppCompatActivity;
 
 
@@ -21,9 +24,30 @@ import java.net.URI;
 import java.net.URISyntaxException;
 
 import space.game.tictactoe.websocket.TttWebsocketClient;
+/* Liste der zu lösenden Schwierigkeiten im Online Spiel (neben den Spielzügen):
 
+1. Die Playerlist geht immer im oncreate auf, egal woher man kommt → sollte nur stattfinden,
+ wenn man vom Hauptmenü kommt → kann man das irgendwie per Fallunterscheidungen lösen in Android?
+2. Die Playerliste darf nicht verfügbar sein, wenn eine Anfrage zu einem Opponent gesendet wurde → blockieren?
+3. Wie lange wartet ein Spieler auf die Annahme der Anfrage?
+4. Bekommt er dann einen Toast mit → Spieler hat angenommen?
+ → kann man ein Icon Match complete einblenden? →
+ erst DANN müssen beide Spieler Play drücken, damit wir wissen, dass einvernehmlich ein Spiel stattfindet.
+3. Ein Spielzug darf erst möglich sein, wenn ein match von beiden Seiten (Anfrage und Opponent) angenommen ist,
+ und der Play Button von BEIDEN gedrückt wurde.
+4. Wenn der Playbutton gedrückt wurde, startet das Spiel.
+5. Wenn ein Spiel gestartet wurde, dürfen keine Optionen mehr anclickbar sein,
+und auch keine Playerliste etc. → Möglichkeit Imageviews auszublenden oder auszugrauen? (Android prüfen)
+6. Wenn zu lange kein Zug vorgenommen wurde kann ein diconnect vorliegen,
+ oder einer der Player hat sein Handy weggelegt….was dann? → Timeout einbauen? → Spieler wieder ins Matching schicken? → Fehlernachricht? Toast?
+7. Ist ein Spiel beendet, durch win, lose, draw, dann kann man die Buttons alle wieder nutzen.
+Wir müssen verhindern, dass zu jedem Zeitpunkt, dauernd die Spielerliste neu geclickt werden kann,
+ oder Icons während des Spiels getauscht werden, oder im Spiel zurück ins Menü gesprungen wird etc. */
 public class OnlinespielActivity extends AppCompatActivity {
-    private TttWebsocketClient client = new TttWebsocketClient(new URI("ws://192.168.178.52:8088"), this);
+
+    private static final String TAG = "OnlineSpiel";
+    private int icon;
+    private TttWebsocketClient client = new TttWebsocketClient(new URI("ws://192.168.178.249:8088"), this);
     private ImageView mBoardImageView[];
 
     public OnlinespielActivity() throws URISyntaxException {
@@ -44,7 +68,7 @@ public class OnlinespielActivity extends AppCompatActivity {
             System.out.println(e);
         }
 
-        //Click listener to open Playerlist-View
+        //Click listener to open Playerlist-View -> Fallunerscheidungen möglich? Je nachdem aus welcher Activity man kommt? TODO
         TextView playerListToggle = (TextView) findViewById(R.id.listStatus);
         playerListToggle.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -78,11 +102,45 @@ public class OnlinespielActivity extends AppCompatActivity {
                 //intent
                 System.out.println("clicked item" + parent + view + id);
                 String opponentName = playerList.getItemAtPosition(position).toString();
-                Toast selectedOpponent = Toast.makeText(getApplicationContext(), "Du startest ein Spiel gegen " + opponentName, Toast.LENGTH_SHORT);
+                Toast selectedOpponent = Toast.makeText(getApplicationContext(), "Du kannst die Liste schließen.Du fragst ein Spiel an. Bitte warte auf Bestätigung von:  " + opponentName, Toast.LENGTH_SHORT);
                 selectedOpponent.show();
                 client.send(client.startGame(playerList.getItemAtPosition(position)));
             }
         });
+        // Imageview Zahnrad als Button anclickbar-> Optionen im Menü -> Weiterleitung zu Optionen->Icons->Statistiken
+        ImageView zahnrad = findViewById(R.id.zahnrad_matchmaker);
+        zahnrad.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                try {
+                    Intent intent = new Intent(OnlinespielActivity.this, OptionenActivity.class);
+                    startActivity(intent);
+                } catch (Exception e) {
+
+                }
+            }
+        });
+        // Imageview "Menu" in Online Activity-> anclickbar-> Weiterleitung ins Hauptmenü
+        ImageView online_backtomenu = findViewById(R.id.online_backtomenu);
+        online_backtomenu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                try {
+                    Intent intent = new Intent(OnlinespielActivity.this, MenuActivity.class);
+                    startActivity(intent);
+                } catch (Exception e) {
+
+                }
+            }
+        });
+        //Datatransfair from IconwahlActivity -> chosen Icon kommt in die OnlinespielActivity
+        final Intent intent = getIntent();
+        int playerIcon = intent.getIntExtra("playerIcon", R.drawable.chosenicon_dummy_90);
+        Log.d(TAG, "player icon" + playerIcon);
+        //overwrite default Icon in the ImageView of the onlinespielactivity with the chosen one from the IconWahlActivity, that was transfered above
+        icon= playerIcon;
+        ImageView image = (ImageView) findViewById(icontransport);
+        image.setImageResource(icon);
 
 
         //TAKEN FROM GAMEACTIVITY TO CONTROL THE BOARD
@@ -125,7 +183,6 @@ public class OnlinespielActivity extends AppCompatActivity {
             System.out.println("reconnecting...");
             this.client.reconnect();
         }
-
     }
 
     //Overriding all System methods that disable the activity to also disconnect the websocket

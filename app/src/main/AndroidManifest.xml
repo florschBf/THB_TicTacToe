@@ -34,9 +34,6 @@
             android:name=".IconwahlActivity"
             android:exported="true" />
         <activity
-            android:name=".Matchmaking"
-            android:exported="true" />
-        <activity
             android:name=".StatistikenActivity"
             android:exported="true" /> <!-- <activity -->
         <!-- android:name=".GameActivity" -->
