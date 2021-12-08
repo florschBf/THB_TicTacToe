@@ -8,87 +8,43 @@
     android:background="#041042"
     tools:context=".Matchmaking">
 
-    <TableLayout
-        android:id="@+id/matchmaker_tabelle"
-        android:layout_width="380dp"
-        android:layout_height="382dp"
-        android:background="#115D79"
-        android:textAlignment="center"
+
+    <!--    <ImageView-->
+<!--        android:id="@+id/zahnrad_matchmaker"-->
+<!--        android:layout_width="100dp"-->
+<!--        android:layout_height="75dp"-->
+<!--        android:layout_gravity="center"-->
+<!--        android:clickable="true"-->
+<!--        android:contentDescription="@string/zahnrad"-->
+<!--        android:paddingTop="20dp"-->
+<!--        app:layout_constraintBottom_toTopOf="@+id/button_playerchosen"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:srcCompat="@drawable/zahnrad1" />-->
+
+
+    <TextView
+        android:id="@+id/instruction"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/instruction"
         android:textColor="@color/white"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.208">
+        app:layout_constraintBottom_toTopOf="@+id/playerList_ListView"
+        tools:layout_editor_absoluteY="-8dp" />
 
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="63dp">
-
-            <RadioButton
-                android:id="@+id/matchmaker_radiodummy"
-                android:layout_width="wrap_content"
-                android:layout_height="65dp"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="10dp"
-                android:text="Player X:"
-
-
-                android:textColor="@color/white" />
-
-            <TextView
-                android:id="@+id/matchmaker_textdummy"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="10dp"
-                android:text="Matchmakerdummy"
-                android:textAlignment="inherit"
-                android:textColor="@color/white"
-                android:textSize="18sp"
-                android:textStyle="bold" />
-
-            <ImageView
-                android:id="@+id/icontransport_matchmaker"
-                android:layout_width="77dp"
-                android:layout_height="63dp"
-                app:srcCompat="?android:attr/actionModeWebSearchDrawable" />
-
-        </TableRow>
-
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-        </TableRow>
-    </TableLayout>
-
-    <ImageView
-        android:id="@+id/zahnrad_matchmaker"
-        android:layout_width="100dp"
-        android:layout_height="75dp"
-        android:layout_gravity="center"
-        android:clickable="true"
-        android:contentDescription="@string/zahnrad"
-        android:paddingTop="20dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+    <ListView
+        android:id="@+id/playerList_ListView"
+        android:layout_width="409dp"
+        android:layout_height="672dp"
+        app:layout_constraintBottom_toTopOf="@+id/invite_selected_player_and_start_game"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.77"
-        app:srcCompat="@drawable/zahnrad1" />
+        app:layout_constraintTop_toBottomOf="@+id/instruction" />
 
     <Button
-        android:id="@+id/button_playerchosen"
+        android:id="@+id/invite_selected_player_and_start_game"
         android:layout_width="183dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="10dp"
@@ -98,14 +54,15 @@
         android:paddingTop="10dp"
         android:paddingRight="10dp"
         android:paddingBottom="10dp"
-        android:text="Play"
+        android:text="@string/invite_to_play"
         android:textAllCaps="true"
         android:textColor="@color/teal_200"
         android:textSize="@dimen/textSize_menu_btn"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/matchmaker_tabelle"
-        app:layout_constraintVertical_bias="0.739" />
+        app:layout_constraintStart_toStartOf="parent" />
+
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
