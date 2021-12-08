@@ -151,47 +151,77 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/listStatus"
             app:layout_constraintVertical_bias="0.049" />-->
-
+        <!--Playbutton-->
         <Button
             android:id="@+id/restartGame"
-            android:layout_width="75dp"
-            android:layout_height="75dp"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
             android:layout_alignParentTop="true"
             android:layout_alignParentRight="true"
             android:background="@drawable/startonlinegame_herz_90"
             android:onClick="restartGame"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.8"
+            app:layout_constraintHorizontal_bias="0.498"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.936" />
-
+            app:layout_constraintVertical_bias="0.935" />
+    <!--"Optionenbutton" geht zu Icons und Statistiken-->
         <ImageView
             android:id="@+id/zahnrad_matchmaker"
-            android:layout_width="75dp"
-            android:layout_height="75dp"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
             android:layout_gravity="center"
             android:clickable="true"
             android:contentDescription="@string/zahnrad"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/restartGame"
-            app:layout_constraintHorizontal_bias="0.8"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.918"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.936"
+            app:layout_constraintVertical_bias="0.053"
             app:srcCompat="@drawable/optionsonlinegame_2_90" />
-
+        <!--"Matching complete Icon"-->
         <ImageView
-            android:id="@+id/icontransport"
-            android:layout_width="75dp"
-            android:layout_height="75dp"
+            android:id="@+id/matching_complete"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_gravity="center"
+            android:clickable="true"
+            android:contentDescription=""
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/zahnrad_matchmaker"
+            app:layout_constraintEnd_toStartOf="@+id/restartGame"
             app:layout_constraintHorizontal_bias="0.6"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.936"
+            app:layout_constraintVertical_bias="0.935"
+            app:srcCompat="@drawable/matching_complete" />
+        <!-- "Zurück zum Menü" Button-->
+        <ImageView
+            android:id="@+id/online_backtomenu"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_gravity="center"
+            android:clickable="true"
+            android:contentDescription=""
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.4"
+            app:layout_constraintStart_toEndOf="@+id/restartGame"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.935"
+            app:srcCompat="@drawable/menu_90" />
+        <!--Imageview die das gewählte Icon anzeigt aus der Iconwahl-->
+        <ImageView
+            android:id="@+id/icontransport"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.048"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.053"
             app:srcCompat="@drawable/chosenicon_dummy_90" />
 
 
@@ -209,6 +239,7 @@
             android:id="@+id/playerList"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="28dp"
             android:layout_marginTop="8dp"
             android:layout_marginBottom="8dp"
             app:layout_constraintBottom_toBottomOf="parent"
