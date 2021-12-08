@@ -125,7 +125,6 @@ public class OnlinespielActivity extends AppCompatActivity {
             System.out.println("reconnecting...");
             this.client.reconnect();
         }
-
     }
 
     //Overriding all System methods that disable the activity to also disconnect the websocket
