@@ -1,8 +1,10 @@
-package space.game.tictactoe;
+package space.game.tictactoe.dialogs;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+
+import space.game.tictactoe.R;
 
 public class InvitationOnlineGameDialog extends AppCompatActivity {
 
