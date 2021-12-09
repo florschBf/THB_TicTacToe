@@ -11,7 +11,6 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.firebase.ui.auth.FirebaseAuthUIActivityResultContract;
@@ -44,13 +43,13 @@ public class MenuActivity extends AppCompatActivity {
         Window w = getWindow();
         w.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
-        // Button 1 btn_singleGame -> Weiterleitung zum Spiel mit PC GameActivity
+        // Button 1 btn_singleGame -> Weiterleitung zum Spiel mit PC GameSingleActivity
         Button btn_singleGame = (Button)findViewById(R.id.btn_singleGame);
         btn_singleGame.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 try {
-                    Intent intent = new Intent(MenuActivity.this, GameActivity.class);
+                    Intent intent = new Intent(MenuActivity.this, GameSingleActivity.class);
                     startActivity(intent);
                 } catch(Exception e) {
 

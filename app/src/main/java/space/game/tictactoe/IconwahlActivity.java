@@ -2,19 +2,16 @@ package space.game.tictactoe;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.RadioButton;
 
 //@author Peggy Kleinert
 
 public class IconwahlActivity extends AppCompatActivity {
-    private int icon;
+    private int icon = R.drawable.stern_90;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,8 +26,8 @@ public class IconwahlActivity extends AppCompatActivity {
             public void onClick(View v) {
                 try {
 
-                    Intent intent = new Intent(IconwahlActivity.this, GameActivity.class);
-                    //Übergabe des Icon an die nächste Activity -> GameActivity = Gegen PC spielen
+                    Intent intent = new Intent(IconwahlActivity.this, GameSingleActivity.class);
+                    //Übergabe des Icon an die nächste Activity -> GameSingleActivity = Gegen PC spielen
                     intent.putExtra("playerIcon", icon);
                     startActivity(intent);
                 } catch (Exception e) {
@@ -38,7 +35,7 @@ public class IconwahlActivity extends AppCompatActivity {
                 }
             }
         });
-        // Button2 button_icons_pcspiel -> Weiterleitung zum Spiel per PC
+        // Button2 button_icon_onlinespiel -> Weiterleitung zum Onlinespiel
         Button button_icon_onlinespiel = (Button) findViewById(R.id.button_icon_onlinespiel);
 
         button_icon_onlinespiel.setOnClickListener(new View.OnClickListener() {
