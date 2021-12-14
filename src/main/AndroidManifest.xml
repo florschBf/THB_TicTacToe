@@ -46,7 +46,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="space.game.tictactoe.GameActivity"
+            android:name="space.game.tictactoe.GameSingleActivity"
             android:configChanges="orientation|keyboardHidden"
             android:exported="true"
             android:screenOrientation="portrait"

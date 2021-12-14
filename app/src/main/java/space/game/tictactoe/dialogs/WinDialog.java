@@ -1,4 +1,4 @@
-package space.game.tictactoe;
+package space.game.tictactoe.dialogs;
 
 import static android.graphics.Color.TRANSPARENT;
 
@@ -12,19 +12,25 @@ import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 
-public class DrawDialog extends Dialog {
-    private final GameActivity gameActivity;
+import space.game.tictactoe.GameSingleActivity;
+import space.game.tictactoe.MenuActivity;
+import space.game.tictactoe.R;
 
-    public DrawDialog(@NonNull Context context, GameActivity gameActivity) {
+public class WinDialog extends Dialog {
+
+    private final GameSingleActivity gameSingleActivity;
+
+    public WinDialog(@NonNull Context context, GameSingleActivity gameSingleActivity) {
         super(context);
-        this.gameActivity = gameActivity;
+        this.gameSingleActivity = gameSingleActivity;
+
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.layout_dialog_draw);
+        setContentView((R.layout.layout_dialog_win));
         getWindow().setBackgroundDrawable(new ColorDrawable(TRANSPARENT));
 
         final ImageView imageViewClose = findViewById(R.id.imageViewClose);
@@ -32,18 +38,18 @@ public class DrawDialog extends Dialog {
         final Button btnMenu = findViewById(R.id.btn_menu);
 
         imageViewClose.setOnClickListener(v -> {
-//            gameActivity.startNewGame();
+//          gameSingleActivity.startNewGame();
             dismiss();
         });
 
         btnPlay.setOnClickListener(v -> {
-            gameActivity.startNewGame();
+            gameSingleActivity.startNewGame();
             dismiss();
-        });
 
+        });
         btnMenu.setOnClickListener(v -> {
-            Intent intent = new Intent(this.gameActivity, MenuActivity.class);
-            gameActivity.startActivity(intent);
+            Intent intent = new Intent(this.gameSingleActivity, MenuActivity.class);
+            gameSingleActivity.startActivity(intent);
             dismiss();
         });
 

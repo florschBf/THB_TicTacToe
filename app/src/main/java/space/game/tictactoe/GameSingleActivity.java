@@ -17,10 +17,12 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import java.util.Random;
 
-import space.game.tictactoe.Dialog.WinDialog;
+import space.game.tictactoe.dialogs.DrawDialog;
+import space.game.tictactoe.dialogs.LoseDialog;
+import space.game.tictactoe.dialogs.WinDialog;
 
 
-public class GameActivity extends AppCompatActivity {
+public class GameSingleActivity extends AppCompatActivity {
 
 
     // Schwierigkeitsgrad
@@ -28,7 +30,7 @@ public class GameActivity extends AppCompatActivity {
 
     Dialog dialog;
 
-    private GameActivityLogic minimax;
+    private GameSingleActivityLogic minimax;
 
     private ImageView mBoardImageView[];
     private CharSequence[] items = new CharSequence[]{"Ich", "Android"};
@@ -52,7 +54,7 @@ public class GameActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 try {
-                    Intent intent = new Intent(GameActivity.this, OptionenActivity.class);
+                    Intent intent = new Intent(GameSingleActivity.this, OptionenActivity.class);
                     startActivity(intent);
                 } catch(Exception e) {
 
@@ -85,7 +87,7 @@ public class GameActivity extends AppCompatActivity {
                 }
                 dialog.dismiss();
 
-                minimax = new GameActivityLogic(GameActivity.this);
+                minimax = new GameSingleActivityLogic(GameSingleActivity.this);
                 startNewGame();
             }
         });
@@ -268,17 +270,17 @@ public class GameActivity extends AppCompatActivity {
 
         // Dialogfenster für Spielergebniss
         private void showLoseDialog() {
-            LoseDialog loseDialog = new LoseDialog(GameActivity.this, GameActivity.this);
+            LoseDialog loseDialog = new LoseDialog(GameSingleActivity.this, GameSingleActivity.this);
             loseDialog.show();
         }
         private void showDrawDialog() {
-            DrawDialog drawDialog = new DrawDialog(GameActivity.this, GameActivity.this);
+            DrawDialog drawDialog = new DrawDialog(GameSingleActivity.this, GameSingleActivity.this);
             drawDialog.show();
         }
 
 
         private void showWinDialog() {
-            WinDialog winDialog = new WinDialog(GameActivity.this, GameActivity.this);
+            WinDialog winDialog = new WinDialog(GameSingleActivity.this, GameSingleActivity.this);
             winDialog.show();
         }
     }

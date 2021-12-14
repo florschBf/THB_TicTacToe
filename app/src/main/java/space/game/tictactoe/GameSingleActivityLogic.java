@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-public class GameActivityLogic {
+public class GameSingleActivityLogic {
 
     // Namenskonstanten zur Darstellung der Blockinhalt
     public final int EMPTY = 0; // Leer
@@ -23,10 +23,10 @@ public class GameActivityLogic {
     public static final int BOARSDIZE = 9; // Anzahl der Blocks
     public static int[] board = new int[BOARSDIZE]; // Spielbrett in Array-Anordnung
 
-    GameActivity gameActivityActivity;
+    GameSingleActivity gameActivitySingleActivity;
 
-    public GameActivityLogic(GameActivity gameActivityActivity) {
-        this.gameActivityActivity = gameActivityActivity;
+    public GameSingleActivityLogic(GameSingleActivity gameActivitySingleActivity) {
+        this.gameActivitySingleActivity = gameActivitySingleActivity;
     }
 
     public void resetBoard() {
