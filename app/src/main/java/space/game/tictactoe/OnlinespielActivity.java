@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -28,14 +29,8 @@ import space.game.tictactoe.websocket.TttWebsocketClient;
 
 1. Die Playerlist geht immer im oncreate auf, egal woher man kommt → sollte nur stattfinden,
  wenn man vom Hauptmenü kommt → kann man das irgendwie per Fallunterscheidungen lösen in Android?
-2. Die Playerliste darf nicht verfügbar sein, wenn eine Anfrage zu einem Opponent gesendet wurde → blockieren?
-3. Wie lange wartet ein Spieler auf die Annahme der Anfrage?
-4. Bekommt er dann einen Toast mit → Spieler hat angenommen?
- → kann man ein Icon Match complete einblenden? →
- erst DANN müssen beide Spieler Play drücken, damit wir wissen, dass einvernehmlich ein Spiel stattfindet.
-3. Ein Spielzug darf erst möglich sein, wenn ein match von beiden Seiten (Anfrage und Opponent) angenommen ist,
- und der Play Button von BEIDEN gedrückt wurde.
-4. Wenn der Playbutton gedrückt wurde, startet das Spiel.
+
+2. Wenn der Playbutton gedrückt wurde, startet das Spiel.
 5. Wenn ein Spiel gestartet wurde, dürfen keine Optionen mehr anclickbar sein,
 und auch keine Playerliste etc. → Möglichkeit Imageviews auszublenden oder auszugrauen? (Android prüfen)
 6. Wenn zu lange kein Zug vorgenommen wurde kann ein diconnect vorliegen,
@@ -47,7 +42,9 @@ public class OnlinespielActivity extends AppCompatActivity {
 
     private static final String TAG = "OnlineSpiel";
     private int icon;
-    private TttWebsocketClient client = new TttWebsocketClient(new URI("ws://192.168.178.249:8088"), this);
+
+    private static final int iconDefault = R.drawable.stern_90;
+    private TttWebsocketClient client = new TttWebsocketClient(new URI("ws://192.168.178.52:8088"), this);
     private ImageView mBoardImageView[];
 
     public OnlinespielActivity() throws URISyntaxException {
@@ -61,7 +58,9 @@ public class OnlinespielActivity extends AppCompatActivity {
         //Activate websocket connection
         OnlinespielActivity.this.startConnection();
         View playerListOverlay = findViewById(R.id.overlay);
-        System.out.println("Setting visible");
+
+        //TODO Variable an Activity übergeben (bspw. von MenuActivity kommend), "showlist":true oder so ähnlich und hier prüfen
+        System.out.println("Setting playerList visible");
         try {
             playerListOverlay.setVisibility(View.VISIBLE);
         } catch (Exception e) {
@@ -69,6 +68,7 @@ public class OnlinespielActivity extends AppCompatActivity {
         }
 
         //Click listener to open Playerlist-View -> Fallunerscheidungen möglich? Je nachdem aus welcher Activity man kommt? TODO
+        // Die Fallunterscheidung muss weiter oben stattfinden. Der Button hier dient ja nur dem Debugging, damit man die Liste jederzeit ein- u ausschalten kann
         TextView playerListToggle = (TextView) findViewById(R.id.listStatus);
         playerListToggle.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -133,14 +133,20 @@ public class OnlinespielActivity extends AppCompatActivity {
                 }
             }
         });
-        //Datatransfair from IconwahlActivity -> chosen Icon kommt in die OnlinespielActivity
+        //Datatransfair from IconwahlActivity -> chosen Icon kommt in die OnlinespielActivity aus der Iconactivity woher auch immer diese aufgerufen wird
         final Intent intent = getIntent();
-        int playerIcon = intent.getIntExtra("playerIcon", R.drawable.chosenicon_dummy_90);
-        Log.d(TAG, "player icon" + playerIcon);
+        //Test ob auch wirklich ein playericon geschickt wurde, just in case...sonst wird eines default gesetzt
+        if(intent.hasExtra("playerIcon")){
+            int playerIcon = intent.getIntExtra("playerIcon", R.drawable.chosenicon_dummy_90);
+            Log.d(TAG, "player icon" + playerIcon);
+            icon = playerIcon;
+        } else{
+            icon = iconDefault;
+        }
         //overwrite default Icon in the ImageView of the onlinespielactivity with the chosen one from the IconWahlActivity, that was transfered above
-        icon= playerIcon;
         ImageView image = (ImageView) findViewById(icontransport);
         image.setImageResource(icon);
+
 
 
         //TAKEN FROM GAMEACTIVITY TO CONTROL THE BOARD
@@ -224,7 +230,8 @@ public class OnlinespielActivity extends AppCompatActivity {
         //minimax.placeMove(x, player);
         if (player == 1) {
             System.out.println("Player did this " + player );
-            mBoardImageView[x].setImageResource(R.drawable.cross);
+
+            mBoardImageView[x].setImageResource(icon);
         } else {
             // Zeitverzug für Android Schritte
             new Runnable() {

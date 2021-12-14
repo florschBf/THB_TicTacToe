@@ -38,7 +38,7 @@ public class TttWebsocketClient extends WebSocketClient{
 
     @Override
     public void onOpen(ServerHandshake handshakedata) {
-        send("{\"topic\":\"signup\",\"register\":\"player\",\"name\":\"android\",\"firebaseId\":\"none\"}");
+        send("{\"topic\":\"signup\",\"command\":\"register\",\"player\":\"android\",\"firebaseId\":\"none\"}");
         System.out.println("new connection opened");
     }
 
