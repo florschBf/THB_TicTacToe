@@ -159,7 +159,8 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/listStatus"
             app:layout_constraintVertical_bias="0.049" />-->
-        <!--Playbutton-->
+
+        <!--PLAYbutton-->
         <Button
             android:id="@+id/restartGame"
             android:layout_width="70dp"
@@ -248,11 +249,12 @@
             android:id="@+id/playerList"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="28dp"
             android:layout_marginTop="8dp"
             android:layout_marginBottom="8dp"
+            android:animationCache="false"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/closeList" />
+            app:layout_constraintTop_toBottomOf="@+id/closeList"
+            tools:layout_editor_absoluteX="28dp" />
 
         <Button
             android:id="@+id/closeList"
@@ -276,5 +278,7 @@
             app:layout_constraintVertical_bias="0.052" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+
 
 </RelativeLayout>

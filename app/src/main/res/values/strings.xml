@@ -54,7 +54,7 @@
 
     <string name="next">Next</string>
     <string name="previous">Previous</string>
-    <string name="image_dialog_onlineanfrage">Ein Spieler aus dem Online Pool möchte mit Dir spielen!</string>
+    <string name="image_dialog_onlineanfrage">Warte auf Deinen Gegenspieler.</string>
     <string name="button_annehmen_onlineanfrage">Annehmen</string>
     <string name="button_ablehnen_onlineanfrage">Ablehnen</string>
     <string name="radiobutton_icon"></string>
