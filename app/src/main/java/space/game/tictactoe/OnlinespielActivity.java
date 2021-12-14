@@ -44,7 +44,7 @@ public class OnlinespielActivity extends AppCompatActivity {
     private int icon;
 
     private static final int iconDefault = R.drawable.stern_90;
-    private TttWebsocketClient client = new TttWebsocketClient(new URI("ws://192.168.178.249:8088"), this);
+    private TttWebsocketClient client = new TttWebsocketClient(new URI("ws://192.168.178.52:8088"), this);
     private ImageView mBoardImageView[];
 
     public OnlinespielActivity() throws URISyntaxException {
@@ -58,7 +58,9 @@ public class OnlinespielActivity extends AppCompatActivity {
         //Activate websocket connection
         OnlinespielActivity.this.startConnection();
         View playerListOverlay = findViewById(R.id.overlay);
-        System.out.println("Setting visible");
+
+        //TODO Variable an Activity übergeben (bspw. von MenuActivity kommend), "showlist":true oder so ähnlich und hier prüfen
+        System.out.println("Setting playerList visible");
         try {
             playerListOverlay.setVisibility(View.VISIBLE);
         } catch (Exception e) {
@@ -66,6 +68,7 @@ public class OnlinespielActivity extends AppCompatActivity {
         }
 
         //Click listener to open Playerlist-View -> Fallunerscheidungen möglich? Je nachdem aus welcher Activity man kommt? TODO
+        // Die Fallunterscheidung muss weiter oben stattfinden. Der Button hier dient ja nur dem Debugging, damit man die Liste jederzeit ein- u ausschalten kann
         TextView playerListToggle = (TextView) findViewById(R.id.listStatus);
         playerListToggle.setOnClickListener(new View.OnClickListener() {
             @Override
