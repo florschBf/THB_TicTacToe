@@ -22,7 +22,7 @@
             android:fontFamily="@font/facon"
             android:padding="5pt"
             android:rotationX="0"
-            android:text="Tap here to open Playerlist again"
+            android:text="Tap here to open Playerlist"
             android:textAlignment="center"
             android:textColor="@color/teal_200"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -243,7 +243,7 @@
         android:layout_height="fill_parent"
         android:background="#99000000"
         android:clickable="true"
-        android:visibility="visible">
+        android:visibility="gone">
 
         <ListView
             android:id="@+id/playerList"

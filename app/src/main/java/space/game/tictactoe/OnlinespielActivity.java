@@ -3,12 +3,17 @@ package space.game.tictactoe;
 import static space.game.tictactoe.R.id.icontransport;
 
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.DialogFragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.navigation.fragment.DialogFragmentNavigator;
 
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.app.Activity;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -21,10 +26,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
+import org.java_websocket.client.WebSocketClient;
+
 import java.net.URI;
 import java.net.URISyntaxException;
 
 import space.game.tictactoe.dialogs.InvitationOnlineGameDialog;
+import space.game.tictactoe.dialogs.WaitingForOpponentDialogFragment;
 import space.game.tictactoe.websocket.TttWebsocketClient;
 /* Liste der zu lösenden Schwierigkeiten im Online Spiel (neben den Spielzügen):
 
@@ -40,7 +48,10 @@ und auch keine Playerliste etc. → Möglichkeit Imageviews auszublenden oder au
 Wir müssen verhindern, dass zu jedem Zeitpunkt, dauernd die Spielerliste neu geclickt werden kann,
  oder Icons während des Spiels getauscht werden, oder im Spiel zurück ins Menü gesprungen wird etc. */
 public class OnlinespielActivity extends AppCompatActivity {
-
+    //booleans um Status im Blick zu behalten
+    private boolean inRandomQueue = false;
+    private boolean inGame = false;
+    private boolean inChallengeOrChallenging = false;
 
 
     private static final String TAG = "OnlineSpiel";
@@ -59,21 +70,18 @@ public class OnlinespielActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_onlinespiel);
 
-
-
-
-
         //Activate websocket connection
         OnlinespielActivity.this.startConnection();
         View playerListOverlay = findViewById(R.id.overlay);
 
         //TODO Variable an Activity übergeben (bspw. von MenuActivity kommend), "showlist":true oder so ähnlich und hier prüfen
-        System.out.println("Setting playerList visible");
+        //disabling playerList on load for now - favoring random matchmaking approach
+/*        System.out.println("Setting playerList visible");
         try {
             playerListOverlay.setVisibility(View.VISIBLE);
         } catch (Exception e) {
             System.out.println(e);
-        }
+        }*/
 
         //Click listener to open Playerlist-View -> Fallunerscheidungen möglich? Je nachdem aus welcher Activity man kommt? TODO
         // Die Fallunterscheidung muss weiter oben stattfinden. Der Button hier dient ja nur dem Debugging, damit man die Liste jederzeit ein- u ausschalten kann
@@ -90,7 +98,6 @@ public class OnlinespielActivity extends AppCompatActivity {
         });
 
         //Click listener to close Playerlist-View
-
         Button closeList = (Button) findViewById(R.id.closeList);
         closeList.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -120,23 +127,27 @@ public class OnlinespielActivity extends AppCompatActivity {
         });
 
 
-        // Imageview restartGame -> PLAY Button -> zumindest schon einmal angelegt...wenn der getriggert wird, muss dann der Player 1 gewählt sein und das Spiel losgehen
-
-
-
+        // Zufallsspiel Button
         Button restartGame = (Button)findViewById(R.id.restartGame);
         restartGame.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 try {
-
+                    //TODO send signup message -> client.send("topic") I want to play random
+                    //Erstelle einen Dialog zum Warten auf den Gegner und den dazugehörigen Fragmentmanager
+                    DialogFragment waitForOpponent = new WaitingForOpponentDialogFragment(client);
+                    FragmentManager fragMan = getSupportFragmentManager();
+                    waitForOpponent.setCancelable(false);
+                    //TODO ABLEHNEN am Button implementieren, entweder hier oder in WaitingForOpponentDialogFragment.java
+                    waitForOpponent.show(fragMan, "waitOpponent");
+                    client.randomGameQueue("start");
+                    fragMan.executePendingTransactions();
 
                     // hier muss dann die GET PLAYER METHODE rein vermutlich TODO
-                    Intent intent = new Intent(OnlinespielActivity.this, InvitationOnlineGameDialog.class);
-                    startActivity(intent);
+/*                    Intent intent = new Intent(OnlinespielActivity.this, InvitationOnlineGameDialog.class);
+                    startActivity(intent);*/
                 } catch(Exception e) {
-
+                    System.out.println("woah? Dialog fail: " + e);
                 }
             }
         });
@@ -268,7 +279,7 @@ public class OnlinespielActivity extends AppCompatActivity {
 
             mBoardImageView[x].setImageResource(icon);
         } else {
-            // Zeitverzug für Android Schritte
+            // TODO implement this on websocket client
             new Runnable() {
                 @Override
                 public void run() {

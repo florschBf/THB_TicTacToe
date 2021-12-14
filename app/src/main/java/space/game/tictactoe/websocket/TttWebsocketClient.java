@@ -104,4 +104,17 @@ public class TttWebsocketClient extends WebSocketClient{
     }
 
 
+    public void randomGameQueue(String todo) {
+        switch (todo){
+            case "start":
+                send(this.cmdHandler.startRandom());
+                break;
+            case "stop":
+                send(this.cmdHandler.stopRandom());
+                break;
+            default:
+                System.out.println("Error, random queue implementation is Start|Stop, nothing else");
+        }
+
+    }
 }
