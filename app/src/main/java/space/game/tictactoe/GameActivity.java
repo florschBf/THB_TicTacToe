@@ -4,11 +4,6 @@ import android.app.AlertDialog;
 
 import android.app.Dialog;
 
-import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
-import android.media.Image;
-
 import android.content.DialogInterface;
 
 import android.os.Bundle;
@@ -21,6 +16,8 @@ import android.widget.RadioGroup;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import java.util.Random;
+
+import space.game.tictactoe.Dialog.WinDialog;
 
 
 public class GameActivity extends AppCompatActivity {
