@@ -6,11 +6,11 @@ import static space.game.tictactoe.R.id.icontransport;
 import androidx.appcompat.app.AppCompatActivity;
 
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.app.Activity;
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -24,6 +24,7 @@ import android.widget.Toast;
 import java.net.URI;
 import java.net.URISyntaxException;
 
+import space.game.tictactoe.dialogs.InvitationOnlineGameDialog;
 import space.game.tictactoe.websocket.TttWebsocketClient;
 /* Liste der zu lösenden Schwierigkeiten im Online Spiel (neben den Spielzügen):
 
@@ -40,6 +41,8 @@ Wir müssen verhindern, dass zu jedem Zeitpunkt, dauernd die Spielerliste neu ge
  oder Icons während des Spiels getauscht werden, oder im Spiel zurück ins Menü gesprungen wird etc. */
 public class OnlinespielActivity extends AppCompatActivity {
 
+
+
     private static final String TAG = "OnlineSpiel";
     private int icon;
 
@@ -53,7 +56,12 @@ public class OnlinespielActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_onlinespiel);
+
+
+
+
 
         //Activate websocket connection
         OnlinespielActivity.this.startConnection();
@@ -82,12 +90,15 @@ public class OnlinespielActivity extends AppCompatActivity {
         });
 
         //Click listener to close Playerlist-View
+
         Button closeList = (Button) findViewById(R.id.closeList);
         closeList.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 try {
                     playerListOverlay.setVisibility(View.GONE);
+
                 } catch (Exception e) {
                     System.out.println(e);
                 }
@@ -105,6 +116,28 @@ public class OnlinespielActivity extends AppCompatActivity {
                 Toast selectedOpponent = Toast.makeText(getApplicationContext(), "Du kannst die Liste schließen.Du fragst ein Spiel an. Bitte warte auf Bestätigung von:  " + opponentName, Toast.LENGTH_SHORT);
                 selectedOpponent.show();
                 client.send(client.startGame(playerList.getItemAtPosition(position)));
+            }
+        });
+
+
+        // Imageview restartGame -> PLAY Button -> zumindest schon einmal angelegt...wenn der getriggert wird, muss dann der Player 1 gewählt sein und das Spiel losgehen
+
+
+
+        Button restartGame = (Button)findViewById(R.id.restartGame);
+        restartGame.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                try {
+
+
+                    // hier muss dann die GET PLAYER METHODE rein vermutlich TODO
+                    Intent intent = new Intent(OnlinespielActivity.this, InvitationOnlineGameDialog.class);
+                    startActivity(intent);
+                } catch(Exception e) {
+
+                }
             }
         });
         // Imageview Zahnrad als Button anclickbar-> Optionen im Menü -> Weiterleitung zu Optionen->Icons->Statistiken
@@ -165,6 +198,8 @@ public class OnlinespielActivity extends AppCompatActivity {
         //@TODO use selected Player
         // use some values from selected Player
     }
+    // crossfade Methode --------------------------------------------------------------------------------------------------------CROSSFADE--------------------
+
 
     //start connection
     private void startConnection() {
@@ -244,6 +279,7 @@ public class OnlinespielActivity extends AppCompatActivity {
         mBoardImageView[x].setEnabled(false);
     }
 
+
     private class ButtonClickListener implements View.OnClickListener {
         int x;
 
@@ -257,6 +293,8 @@ public class OnlinespielActivity extends AppCompatActivity {
                 mBoardImageView[i].setClickable(false);
             }
         }
+
+
 
         // verwendet den Schwierigkeitsgrad, um zu bestimmen, welchen Algorithmus der Computer verwenden soll
         @Override
@@ -274,5 +312,6 @@ public class OnlinespielActivity extends AppCompatActivity {
                 //blockAllFields();
             }
         }
+
     }
 }
