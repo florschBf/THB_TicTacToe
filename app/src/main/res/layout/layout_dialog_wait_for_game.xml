@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="350dp"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center">
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:cardBackgroundColor="@color/secondary_transparent"
+        app:cardCornerRadius="20dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/dialog_anfrage_onlinespieler"
+                android:layout_width="251dp"
+                android:layout_height="64dp"
+                android:text="@string/image_dialog_onlineanfrage"
+                android:textAlignment="center"
+                android:textColor="@color/white"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toTopOf="@+id/image_dialog_onlineanfrage"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/content"
+                app:layout_constraintVertical_bias="1.0" />
+
+            <ImageView
+                android:id="@+id/image_dialog_onlineanfrage"
+                android:layout_width="95dp"
+                android:layout_height="99dp"
+                android:contentDescription="Stern und Anfrage eines Online Spielers für ein Spiel"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/dialog_anfrage_onlinespieler"
+                app:srcCompat="@drawable/stern" />
+            <ProgressBar
+                android:id="@+id/loading_spinner"
+                style="?android:progressBarStyleLarge"
+                android:layout_width="151dp"
+                android:layout_height="143dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/dialog_anfrage_onlinespieler"
+                android:layout_gravity="center" />
+
+
+
+            <!--<Button
+                android:id="@+id/button_annehmen_onlineanfrage"
+                android:layout_width="123dp"
+                android:layout_height="48dp"
+                android:layout_marginBottom="10dp"
+                android:background="@drawable/btn_press_white"
+                android:fontFamily="@font/facon"
+                android:paddingLeft="10dp"
+                android:paddingTop="10dp"
+                android:paddingRight="10dp"
+                android:paddingBottom="10dp"
+                android:text="Annehmen"
+                android:textAllCaps="true"
+                android:textColor="@color/teal_200"
+                android:textSize="@dimen/textSize_menu_btn"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.877"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.878" />-->
+
+            <Button
+                android:id="@+id/button_ablehnen_onlineanfrage"
+                android:layout_width="123dp"
+                android:layout_height="48dp"
+                android:layout_marginBottom="25dp"
+                android:background="@drawable/btn_press_white"
+                android:fontFamily="@font/facon"
+                android:paddingLeft="10dp"
+                android:paddingTop="10dp"
+                android:paddingRight="10dp"
+                android:paddingBottom="10dp"
+                android:text="Abbrechen"
+                android:textAllCaps="true"
+                android:textColor="@color/teal_200"
+                android:textSize="@dimen/textSize_menu_btn"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/loading_spinner"
+                app:layout_constraintVertical_bias="0.878" />
+
+
+
+            <ScrollView
+                android:id="@+id/content"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+
+            </ScrollView>
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
+</androidx.constraintlayout.widget.ConstraintLayout>
