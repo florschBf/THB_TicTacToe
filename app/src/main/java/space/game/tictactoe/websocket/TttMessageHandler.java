@@ -8,14 +8,14 @@ import org.json.JSONException;
 
 import java.text.ParseException;
 
-import space.game.tictactoe.websocket.commandHandlers.GameSessionCmdHandler;
-import space.game.tictactoe.websocket.commandHandlers.MoveCmdHandler;
-import space.game.tictactoe.websocket.commandHandlers.SignUpCmdHandler;
+import space.game.tictactoe.websocket.commandHandlers.GameSessionMsgHandler;
+import space.game.tictactoe.websocket.commandHandlers.MoveMsgHandler;
+import space.game.tictactoe.websocket.commandHandlers.SignUpMsgHandler;
 
 public class TttMessageHandler {
-    private SignUpCmdHandler signUp = new SignUpCmdHandler();
-    private GameSessionCmdHandler sessionCmd = new GameSessionCmdHandler();
-    private MoveCmdHandler moveCmd = new MoveCmdHandler();
+    private SignUpMsgHandler signUp = new SignUpMsgHandler();
+    private GameSessionMsgHandler sessionCmd = new GameSessionMsgHandler();
+    private MoveMsgHandler moveCmd = new MoveMsgHandler();
 
     public String handle(String message) throws ParseException, JSONException {
 
@@ -27,13 +27,13 @@ public class TttMessageHandler {
         String topic = payload.get("topic").getAsString();
         switch (topic) {
             case "signup":
-                System.out.println("signup topic -> calling SignUpCmdHandler");
+                System.out.println("signup topic -> calling SignUpMsgHandler");
                 return this.signUp.handle(payload);
             case "gameSession":
-                System.out.println("gameSession topic -> calling GameSessionCmdHandler");
+                System.out.println("gameSession topic -> calling GameSessionMsgHandler");
                 return this.sessionCmd.handle(payload);
             case "gameMove":
-                System.out.println("gameMove topic -> calling MoveCmdHandler");
+                System.out.println("gameMove topic -> calling MoveMsgHandler");
                 return this.moveCmd.handle(payload);
             default:
                 System.out.println("found no useful message..");

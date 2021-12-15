@@ -53,10 +53,4 @@ public class WaitingForOpponentDialogFragment extends DialogFragment {
         // Create the AlertDialog object and return it
         return builder.create();
     }
-
-
-
-
-
-
 }
