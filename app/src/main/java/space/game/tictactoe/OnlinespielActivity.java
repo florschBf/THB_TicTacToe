@@ -133,19 +133,16 @@ public class OnlinespielActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 try {
-                    //TODO send signup message -> client.send("topic") I want to play random
                     //Erstelle einen Dialog zum Warten auf den Gegner und den dazugehörigen Fragmentmanager
-                    DialogFragment waitForOpponent = new WaitingForOpponentDialogFragment(client);
+                    DialogFragment waitForOpponent = new WaitingForOpponentDialogFragment(client); //Dialog benötigt Client-Zugriff für Abbruch
                     FragmentManager fragMan = getSupportFragmentManager();
                     waitForOpponent.setCancelable(false);
-                    //TODO ABLEHNEN am Button implementieren, entweder hier oder in WaitingForOpponentDialogFragment.java
                     waitForOpponent.show(fragMan, "waitOpponent");
-                    client.randomGameQueue("start");
-                    fragMan.executePendingTransactions();
 
-                    // hier muss dann die GET PLAYER METHODE rein vermutlich TODO
-/*                    Intent intent = new Intent(OnlinespielActivity.this, InvitationOnlineGameDialog.class);
-                    startActivity(intent);*/
+                    //Sage dem Server, dass ich einen zufälligen Gegner möchte. Jetzt.
+                    // Queue wird verlassen beim Schließen des Dialogs -> siehe WaitingForOpponentDialogFragment
+                    client.randomGameQueue("start");
+
                 } catch(Exception e) {
                     System.out.println("woah? Dialog fail: " + e);
                 }
@@ -317,7 +314,7 @@ public class OnlinespielActivity extends AppCompatActivity {
                 System.out.println(x);
                 System.out.println(mBoardImageView[x]);
 
-                if (client.setMove(x)) {
+                if (client.setMove(x)) { // if wartet auf Bestätigung des Moves durch Server - vielleicht nicht die beste Lösung UX wise
                     setMove(x, 1); // Mensch macht einen Schritt KREUZ
                 }
                 //blockAllFields();
