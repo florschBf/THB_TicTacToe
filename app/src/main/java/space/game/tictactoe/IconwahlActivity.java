@@ -87,12 +87,24 @@ public class IconwahlActivity extends AppCompatActivity {
         selectIcon(R.drawable.donat_3d_gold_60, view);
     }
 
+    public void onClickedIcon9(View view) {
+        selectIcon(R.drawable.monster_60, view);
+    }
+
     public void onClickedIcon5(View view) {
         selectIcon(R.drawable.lebkuchenherz_3d_60, view);
     }
 
     public void onClickedIcon6(View view) {
         selectIcon(R.drawable.kleeblatt_3d_60, view);
+    }
+
+    public void onClickedIcon7(View view) {
+        selectIcon(R.drawable.schaf_60, view);
+    }
+
+    public void onClickedIcon8(View view) {
+        selectIcon(R.drawable.krebsmonster_60, view);
     }
 
     private void selectIcon(int icon, View view) {

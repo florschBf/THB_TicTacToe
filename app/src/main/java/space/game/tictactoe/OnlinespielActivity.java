@@ -58,7 +58,7 @@ public class OnlinespielActivity extends AppCompatActivity {
     private int icon;
 
     private static final int iconDefault = R.drawable.stern_90;
-    private TttWebsocketClient client = new TttWebsocketClient(new URI("ws://192.168.178.52:8088"), this);
+    private TttWebsocketClient client = new TttWebsocketClient(new URI("ws://192.168.178.249:8088"), this);
     private ImageView mBoardImageView[];
 
     public OnlinespielActivity() throws URISyntaxException {

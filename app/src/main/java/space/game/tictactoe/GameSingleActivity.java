@@ -6,8 +6,10 @@ import android.app.Dialog;
 
 import android.content.DialogInterface;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.ImageView;
@@ -23,6 +25,12 @@ import space.game.tictactoe.dialogs.WinDialog;
 
 
 public class GameSingleActivity extends AppCompatActivity {
+
+    //für die Iconauswahl
+    private static final String TAG = "OnlineSpiel";
+    private int icon;
+
+    private static final int iconDefault = R.drawable.stern_90;
 
 
     // Schwierigkeitsgrad
@@ -46,6 +54,18 @@ public class GameSingleActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
+
+
+        //Datatransfair from IconwahlActivity -> chosen Icon kommt in die OnlinespielActivity aus der Iconactivity woher auch immer diese aufgerufen wird
+        final Intent intent = getIntent();
+        //Test ob auch wirklich ein playericon geschickt wurde, just in case...sonst wird eines default gesetzt
+        if(intent.hasExtra("playerIcon")){
+            int playerIcon = intent.getIntExtra("playerIcon", R.drawable.chosenicon_dummy_90);
+            Log.d(TAG, "player icon" + playerIcon);
+            icon = playerIcon;
+        } else{
+            icon = iconDefault;
+        }
 
 /* ZAHNRAD
         // Imageview Zahnrad als Button anclickbar-> Optionen im Menü -> Weiterleitung zu Optionen->Icons->Statistiken
@@ -139,13 +159,13 @@ public class GameSingleActivity extends AppCompatActivity {
     public void setMove(int x, int player) {
         minimax.placeMove(x, player);
         if (player == 1) {
-            mBoardImageView[x].setImageResource(R.drawable.cross);
+            mBoardImageView[x].setImageResource(icon);
         } else {
             // Zeitverzug für Android Schritte
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    mBoardImageView[x].setImageResource(R.drawable.zero);
+                    mBoardImageView[x].setImageResource(R.drawable.herz_90);
                     unblockAllFields();
                 }
             }, 450);

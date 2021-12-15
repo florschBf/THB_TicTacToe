@@ -54,6 +54,12 @@
                 android:layout_height="60dp"
                 android:drawableStart="@drawable/donat_3d_gold_60"
                 android:onClick="onClickedIcon4" />
+            <RadioButton
+                android:id="@+id/radiobutton_icon9"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:drawableStart="@drawable/monster_60"
+                android:onClick="onClickedIcon9" />
 
             <RadioButton
                 android:id="@+id/radiobutton_icon5"
@@ -68,6 +74,18 @@
                 android:layout_height="60dp"
                 android:drawableStart="@drawable/kleeblatt_3d_60"
                 android:onClick="onClickedIcon6" />
+            <RadioButton
+                android:id="@+id/radiobutton_icon7"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:drawableStart="@drawable/schaf_60"
+                android:onClick="onClickedIcon7" />
+            <RadioButton
+                android:id="@+id/radiobutton_icon8"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:drawableStart="@drawable/krebsmonster_60"
+                android:onClick="onClickedIcon8" />
 
 
         </RadioGroup>
