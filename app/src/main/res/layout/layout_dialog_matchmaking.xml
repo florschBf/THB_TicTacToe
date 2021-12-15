@@ -19,7 +19,7 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="472dp">
 
             <ImageView
                 android:id="@+id/imageViewClose"
@@ -41,6 +41,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_margin="20dp"
+                android:layout_marginBottom="16dp"
                 android:background="@drawable/btn_draw"
                 android:fontFamily="@font/facon"
                 android:text="@string/nochmal_spielen"
@@ -57,11 +58,11 @@
                 android:background="@drawable/btn_draw"
                 android:fontFamily="@font/facon"
                 android:text="@string/zum_menu"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/btn_play"
                 app:layout_constraintHorizontal_weight="1"
-                app:layout_constraintStart_toStartOf="parent"
-                tools:layout_editor_absoluteY="327dp" />
+                app:layout_constraintStart_toStartOf="parent" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>

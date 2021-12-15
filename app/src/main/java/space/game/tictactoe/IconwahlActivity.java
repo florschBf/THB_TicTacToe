@@ -2,18 +2,16 @@ package space.game.tictactoe;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.RadioButton;
 
 //@author Peggy Kleinert
 
 public class IconwahlActivity extends AppCompatActivity {
+    private int icon = R.drawable.stern_90;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,14 +26,16 @@ public class IconwahlActivity extends AppCompatActivity {
             public void onClick(View v) {
                 try {
 
-                    Intent intent = new Intent(IconwahlActivity.this, GameActivity.class);
+                    Intent intent = new Intent(IconwahlActivity.this, GameSingleActivity.class);
+                    //Übergabe des Icon an die nächste Activity -> GameSingleActivity = Gegen PC spielen
+                    intent.putExtra("playerIcon", icon);
                     startActivity(intent);
                 } catch (Exception e) {
                     System.out.println("Something went wrong");
                 }
             }
         });
-        // Button2 button_icons_pcspiel -> Weiterleitung zum Spiel per PC
+        // Button2 button_icon_onlinespiel -> Weiterleitung zum Onlinespiel
         Button button_icon_onlinespiel = (Button) findViewById(R.id.button_icon_onlinespiel);
 
         button_icon_onlinespiel.setOnClickListener(new View.OnClickListener() {
@@ -43,8 +43,26 @@ public class IconwahlActivity extends AppCompatActivity {
             public void onClick(View v) {
                 try {
                     //int icontrans = checkedIcon;
-                    Intent intent = new Intent(IconwahlActivity.this, Matchmaking.class);
-                    //intent.putExtra("gechecktes Icon",(int) icontrans) TODO;
+                    Intent intent = new Intent(IconwahlActivity.this, OnlinespielActivity.class);
+                    //Übergabe des Icon an die nächste Activity -> OnlinespielActivity
+                    intent.putExtra("playerIcon", icon);
+                    startActivity(intent);
+                } catch (Exception e) {
+                    System.out.println("Something went wrong");
+                }
+            }
+        });
+        // Button3 btn_on_backTomenu -> Weiterleitung zum Menü von der Iconauswahl
+        Button  btn_on_backTomenu= (Button) findViewById(R.id.btn_on_backTomenu);
+
+        btn_on_backTomenu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                try {
+                    //int icontrans = checkedIcon;
+                    Intent intent = new Intent(IconwahlActivity.this, MenuActivity.class);
+                    /*//Übergabe des Icon an die nächste Activity
+                    intent.putExtra("playerIcon", icon);*/
                     startActivity(intent);
                 } catch (Exception e) {
                     System.out.println("Something went wrong");
@@ -52,100 +70,46 @@ public class IconwahlActivity extends AppCompatActivity {
             }
         });
     }
-
-    int checkedIcon;
-
-    @SuppressLint("NonConstantResourceId")
-    public int onRadioButtonClickedgetID(View view) {
-        // Is the button now checked?
-        boolean checked = ((RadioButton) view).isChecked();
-
-
-        // Check which radio button was clicked
-        try {
-            switch (view.getId()) {
-                case R.id.radiobutton_icon1:
-                    if (checked)
-                        checkedIcon = R.id.radiobutton_icon1;
-                        //checkedIcon = R.drawable.blume_eckig_3d_90;
-                    // first Icon
-                    break;
-                    case R.id.radiobutton_icon2:
-                    if (checked)
-                        checkedIcon = R.id.radiobutton_icon2;
-                        //checkedIcon = R.drawable.donat_3d_blau_90;
-                    // second Icon
-                    break;
-                case R.id.radiobutton_icon3:
-                    if (checked)
-                        checkedIcon = R.id.radiobutton_icon3;
-                        //checkedIcon = R.drawable.stern_90;
-                    // third Icon
-                    break;
-                case R.id.radiobutton_icon4:
-                    if (checked)
-                        checkedIcon = R.id.radiobutton_icon4;
-                        //checkedIcon = R.drawable.donat_3d_gold_90;
-                    // fourth Icon
-                    break;
-                case R.id.radiobutton_icon5:
-                    if (checked)
-                        checkedIcon = R.id.radiobutton_icon5;
-                        //checkedIcon = R.drawable.lebkuchenherz_3d_90;
-                    // fifth Icon
-                    break;
-                case R.id.radiobutton_icon6:
-                    if (checked)
-                        checkedIcon = R.id.radiobutton_icon6;
-                       // checkedIcon = R.drawable.kleeblatt_3d_90;
-                    // sixth Icon
-                    break;
-
-            }
-        } catch (Exception e) {
-            System.out.println("Something went wrong");
-        }
-        return checkedIcon;
-
-    }
-
-    int icon;
+    //verbesserter Code ;)
     public void onClickedIcon1(View view) {
-        this.icon = R.drawable.blume_eckig_3d_90;
-        ImageView image = (ImageView) findViewById(R.id.icontransport);
-        image.setImageResource(icon);
-
+        selectIcon(R.drawable.blume_eckig_3d_60, view);
     }
 
     public void onClickedIcon2(View view) {
-        this.icon = R.drawable.donat_3d_blau_90;
-        ImageView image = (ImageView) findViewById(R.id.icontransport);
-        image.setImageResource(icon);
+        selectIcon(R.drawable.donat_3d_blau_60, view);
     }
 
     public void onClickedIcon3(View view) {
-        this.icon = R.drawable.stern_90;
-        ImageView image = (ImageView) findViewById(R.id.icontransport);
-        image.setImageResource(icon);
+        selectIcon(R.drawable.stern_60, view);
     }
 
     public void onClickedIcon4(View view) {
-        this.icon = R.drawable.donat_3d_gold_90;
-        ImageView image = (ImageView) findViewById(R.id.icontransport);
-        image.setImageResource(icon);
+        selectIcon(R.drawable.donat_3d_gold_60, view);
+    }
+
+    public void onClickedIcon9(View view) {
+        selectIcon(R.drawable.monster_60, view);
     }
 
     public void onClickedIcon5(View view) {
-        this.icon = R.drawable.lebkuchenherz_3d_90;
-        ImageView image = (ImageView) findViewById(R.id.icontransport);
-        image.setImageResource(icon);
+        selectIcon(R.drawable.lebkuchenherz_3d_60, view);
     }
 
     public void onClickedIcon6(View view) {
-        this.icon = R.drawable.kleeblatt_3d_90;
+        selectIcon(R.drawable.kleeblatt_3d_60, view);
+    }
+
+    public void onClickedIcon7(View view) {
+        selectIcon(R.drawable.schaf_60, view);
+    }
+
+    public void onClickedIcon8(View view) {
+        selectIcon(R.drawable.krebsmonster_60, view);
+    }
+
+    private void selectIcon(int icon, View view) {
+        this.icon = icon;
         ImageView image = (ImageView) findViewById(R.id.icontransport);
         image.setImageResource(icon);
     }
-
-
 }

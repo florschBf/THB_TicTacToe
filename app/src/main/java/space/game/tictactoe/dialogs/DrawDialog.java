@@ -1,4 +1,4 @@
-package space.game.tictactoe;
+package space.game.tictactoe.dialogs;
 
 import static android.graphics.Color.TRANSPARENT;
 
@@ -12,21 +12,23 @@ import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 
-public class WinDialog extends Dialog {
+import space.game.tictactoe.GameSingleActivity;
+import space.game.tictactoe.MenuActivity;
+import space.game.tictactoe.R;
 
-    private final GameActivity gameActivity;
+public class DrawDialog extends Dialog {
+    private final GameSingleActivity gameSingleActivity;
 
-    public WinDialog(@NonNull Context context, GameActivity gameActivity) {
+    public DrawDialog(@NonNull Context context, GameSingleActivity gameSingleActivity) {
         super(context);
-        this.gameActivity = gameActivity;
-
+        this.gameSingleActivity = gameSingleActivity;
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView((R.layout.layout_dialog_win));
+        setContentView(R.layout.layout_dialog_draw);
         getWindow().setBackgroundDrawable(new ColorDrawable(TRANSPARENT));
 
         final ImageView imageViewClose = findViewById(R.id.imageViewClose);
@@ -34,18 +36,18 @@ public class WinDialog extends Dialog {
         final Button btnMenu = findViewById(R.id.btn_menu);
 
         imageViewClose.setOnClickListener(v -> {
-//          gameActivity.startNewGame();
+//            gameSingleActivity.startNewGame();
             dismiss();
         });
 
         btnPlay.setOnClickListener(v -> {
-            gameActivity.startNewGame();
+            gameSingleActivity.startNewGame();
             dismiss();
-
         });
+
         btnMenu.setOnClickListener(v -> {
-            Intent intent = new Intent(this.gameActivity, MenuActivity.class);
-            gameActivity.startActivity(intent);
+            Intent intent = new Intent(this.gameSingleActivity, MenuActivity.class);
+            gameSingleActivity.startActivity(intent);
             dismiss();
         });
 

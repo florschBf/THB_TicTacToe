@@ -4,15 +4,12 @@ import android.app.AlertDialog;
 
 import android.app.Dialog;
 
-import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
-import android.media.Image;
-
 import android.content.DialogInterface;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.ImageView;
@@ -22,8 +19,18 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import java.util.Random;
 
+import space.game.tictactoe.dialogs.DrawDialog;
+import space.game.tictactoe.dialogs.LoseDialog;
+import space.game.tictactoe.dialogs.WinDialog;
 
-public class GameActivity extends AppCompatActivity {
+
+public class GameSingleActivity extends AppCompatActivity {
+
+    //für die Iconauswahl
+    private static final String TAG = "OnlineSpiel";
+    private int icon;
+
+    private static final int iconDefault = R.drawable.stern_90;
 
 
     // Schwierigkeitsgrad
@@ -31,7 +38,7 @@ public class GameActivity extends AppCompatActivity {
 
     Dialog dialog;
 
-    private GameActivityLogic minimax;
+    private GameSingleActivityLogic minimax;
 
     private ImageView mBoardImageView[];
     private CharSequence[] items = new CharSequence[]{"Ich", "Android"};
@@ -48,6 +55,18 @@ public class GameActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
 
+
+        //Datatransfair from IconwahlActivity -> chosen Icon kommt in die OnlinespielActivity aus der Iconactivity woher auch immer diese aufgerufen wird
+        final Intent intent = getIntent();
+        //Test ob auch wirklich ein playericon geschickt wurde, just in case...sonst wird eines default gesetzt
+        if(intent.hasExtra("playerIcon")){
+            int playerIcon = intent.getIntExtra("playerIcon", R.drawable.chosenicon_dummy_90);
+            Log.d(TAG, "player icon" + playerIcon);
+            icon = playerIcon;
+        } else{
+            icon = iconDefault;
+        }
+
 /* ZAHNRAD
         // Imageview Zahnrad als Button anclickbar-> Optionen im Menü -> Weiterleitung zu Optionen->Icons->Statistiken
         ImageView zahnrad= findViewById(R.id.zahnrad_pcgame);
@@ -55,7 +74,7 @@ public class GameActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 try {
-                    Intent intent = new Intent(GameActivity.this, OptionenActivity.class);
+                    Intent intent = new Intent(GameSingleActivity.this, OptionenActivity.class);
                     startActivity(intent);
                 } catch(Exception e) {
 
@@ -88,7 +107,7 @@ public class GameActivity extends AppCompatActivity {
                 }
                 dialog.dismiss();
 
-                minimax = new GameActivityLogic(GameActivity.this);
+                minimax = new GameSingleActivityLogic(GameSingleActivity.this);
                 startNewGame();
             }
         });
@@ -140,13 +159,13 @@ public class GameActivity extends AppCompatActivity {
     public void setMove(int x, int player) {
         minimax.placeMove(x, player);
         if (player == 1) {
-            mBoardImageView[x].setImageResource(R.drawable.cross);
+            mBoardImageView[x].setImageResource(icon);
         } else {
             // Zeitverzug für Android Schritte
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    mBoardImageView[x].setImageResource(R.drawable.zero);
+                    mBoardImageView[x].setImageResource(R.drawable.herz_90);
                     unblockAllFields();
                 }
             }, 450);
@@ -271,17 +290,17 @@ public class GameActivity extends AppCompatActivity {
 
         // Dialogfenster für Spielergebniss
         private void showLoseDialog() {
-            LoseDialog loseDialog = new LoseDialog(GameActivity.this, GameActivity.this);
+            LoseDialog loseDialog = new LoseDialog(GameSingleActivity.this, GameSingleActivity.this);
             loseDialog.show();
         }
         private void showDrawDialog() {
-            DrawDialog drawDialog = new DrawDialog(GameActivity.this, GameActivity.this);
+            DrawDialog drawDialog = new DrawDialog(GameSingleActivity.this, GameSingleActivity.this);
             drawDialog.show();
         }
 
 
         private void showWinDialog() {
-            WinDialog winDialog = new WinDialog(GameActivity.this, GameActivity.this);
+            WinDialog winDialog = new WinDialog(GameSingleActivity.this, GameSingleActivity.this);
             winDialog.show();
         }
     }

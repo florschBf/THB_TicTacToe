@@ -5,12 +5,25 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#041042"
-    tools:context=".InvitationOnlineGameDialog">
+    tools:context=".dialogs.InvitationOnlineGameDialog">
+
+    <ImageView
+        android:id="@+id/imageViewOnlineClose"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:outlineAmbientShadowColor="@color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.907"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.181"
+        app:srcCompat="@drawable/ic_close" />
 
     <ImageView
         android:id="@+id/image_dialog_onlineanfrage"
-        android:layout_width="299dp"
-        android:layout_height="303dp"
+        android:layout_width="95dp"
+        android:layout_height="99dp"
         android:contentDescription="Stern und Anfrage eines Online Spielers für ein Spiel"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -22,6 +35,7 @@
         android:id="@+id/dialog_anfrage_onlinespieler"
         android:layout_width="247dp"
         android:layout_height="105dp"
+        android:layout_marginTop="20dp"
         android:text="@string/image_dialog_onlineanfrage"
         android:textAlignment="center"
         android:textColor="@color/white"
@@ -29,12 +43,11 @@
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/image_dialog_onlineanfrage"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="1.0" />
 
-    <Button
+    <!--<Button
         android:id="@+id/button_annehmen_onlineanfrage"
         android:layout_width="123dp"
         android:layout_height="48dp"
@@ -51,10 +64,10 @@
         android:textSize="@dimen/textSize_menu_btn"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.825"
+        app:layout_constraintHorizontal_bias="0.877"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.761" />
+        app:layout_constraintVertical_bias="0.878" />-->
 
     <Button
         android:id="@+id/button_ablehnen_onlineanfrage"
@@ -73,8 +86,37 @@
         android:textSize="@dimen/textSize_menu_btn"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.174"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.761" />
+        app:layout_constraintVertical_bias="0.878" />
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ScrollView
+            android:id="@+id/content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                style="?android:textAppearanceMedium"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="40dp"
+                android:layout_marginTop="30dp"
+                android:lineSpacingMultiplier="1.2"
+                android:padding="16dp"
+                android:text="Dein Spiel wird gleich erstellt." />
+
+        </ScrollView>
+
+        <ProgressBar
+            android:id="@+id/loading_spinner"
+            style="?android:progressBarStyleLarge"
+            android:layout_width="151dp"
+            android:layout_height="143dp"
+            android:layout_gravity="center" />
+
+    </FrameLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

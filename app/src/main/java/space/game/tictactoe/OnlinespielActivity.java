@@ -1,12 +1,21 @@
 package space.game.tictactoe;
 
+import static space.game.tictactoe.R.id.icontransport;
+
+
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.DialogFragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.navigation.fragment.DialogFragmentNavigator;
 
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.app.Activity;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -17,14 +26,38 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
+import org.java_websocket.client.WebSocketClient;
+
 import java.net.URI;
 import java.net.URISyntaxException;
 
+import space.game.tictactoe.dialogs.InvitationOnlineGameDialog;
+import space.game.tictactoe.dialogs.WaitingForOpponentDialogFragment;
+import space.game.tictactoe.handlers.GameBoardHandler;
 import space.game.tictactoe.websocket.TttWebsocketClient;
+/* Liste der zu lösenden Schwierigkeiten im Online Spiel (neben den Spielzügen):
 
+1. Die Playerlist geht immer im oncreate auf, egal woher man kommt → sollte nur stattfinden,
+ wenn man vom Hauptmenü kommt → kann man das irgendwie per Fallunterscheidungen lösen in Android?
+
+2. Wenn der Playbutton gedrückt wurde, startet das Spiel.
+5. Wenn ein Spiel gestartet wurde, dürfen keine Optionen mehr anclickbar sein,
+und auch keine Playerliste etc. → Möglichkeit Imageviews auszublenden oder auszugrauen? (Android prüfen)
+6. Wenn zu lange kein Zug vorgenommen wurde kann ein diconnect vorliegen,
+ oder einer der Player hat sein Handy weggelegt….was dann? → Timeout einbauen? → Spieler wieder ins Matching schicken? → Fehlernachricht? Toast?
+7. Ist ein Spiel beendet, durch win, lose, draw, dann kann man die Buttons alle wieder nutzen.
+Wir müssen verhindern, dass zu jedem Zeitpunkt, dauernd die Spielerliste neu geclickt werden kann,
+ oder Icons während des Spiels getauscht werden, oder im Spiel zurück ins Menü gesprungen wird etc. */
 public class OnlinespielActivity extends AppCompatActivity {
+
+
+    private static final String TAG = "OnlineSpiel";
+    private int icon;
+
+    private static final int iconDefault = R.drawable.stern_90;
     private TttWebsocketClient client = new TttWebsocketClient(new URI("ws://192.168.178.52:8088"), this);
     private ImageView mBoardImageView[];
+    private GameBoardHandler gameBoard;
 
     public OnlinespielActivity() throws URISyntaxException {
     }
@@ -32,19 +65,24 @@ public class OnlinespielActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_onlinespiel);
 
         //Activate websocket connection
         OnlinespielActivity.this.startConnection();
         View playerListOverlay = findViewById(R.id.overlay);
-        System.out.println("Setting visible");
+
+        //TODO Variable an Activity übergeben (bspw. von MenuActivity kommend), "showlist":true oder so ähnlich und hier prüfen
+        //disabling playerList on load for now - favoring random matchmaking approach
+/*        System.out.println("Setting playerList visible");
         try {
             playerListOverlay.setVisibility(View.VISIBLE);
         } catch (Exception e) {
             System.out.println(e);
-        }
+        }*/
 
-        //Click listener to open Playerlist-View
+        //Click listener to open Playerlist-View -> Fallunerscheidungen möglich? Je nachdem aus welcher Activity man kommt? TODO
+        // Die Fallunterscheidung muss weiter oben stattfinden. Der Button hier dient ja nur dem Debugging, damit man die Liste jederzeit ein- u ausschalten kann
         TextView playerListToggle = (TextView) findViewById(R.id.listStatus);
         playerListToggle.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -78,22 +116,98 @@ public class OnlinespielActivity extends AppCompatActivity {
                 //intent
                 System.out.println("clicked item" + parent + view + id);
                 String opponentName = playerList.getItemAtPosition(position).toString();
-                Toast selectedOpponent = Toast.makeText(getApplicationContext(), "Du startest ein Spiel gegen " + opponentName, Toast.LENGTH_SHORT);
+                Toast selectedOpponent = Toast.makeText(getApplicationContext(), "Du kannst die Liste schließen.Du fragst ein Spiel an. Bitte warte auf Bestätigung von:  " + opponentName, Toast.LENGTH_SHORT);
                 selectedOpponent.show();
                 client.send(client.startGame(playerList.getItemAtPosition(position)));
             }
         });
 
 
-        //TAKEN FROM GAMEACTIVITY TO CONTROL THE BOARD
+        // Zufallsspiel Button
+        Button restartGame = (Button)findViewById(R.id.restartGame);
+        restartGame.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(!client.isInRandomQueue() && !client.isInGame() && !client.isInChallengeOrChallenging()){
+                    try {
+                        //Erstelle einen Dialog zum Warten auf den Gegner und den dazugehörigen Fragmentmanager
+                        DialogFragment waitForOpponent = new WaitingForOpponentDialogFragment(client); //Dialog benötigt Client-Zugriff für Abbruch
+                        FragmentManager fragMan = getSupportFragmentManager();
+                        waitForOpponent.setCancelable(false);
+                        waitForOpponent.show(fragMan, "waitOpponent");
+
+                        //Sage dem Server, dass ich einen zufälligen Gegner möchte. Jetzt.
+                        // Queue wird verlassen beim Schließen des Dialogs -> siehe WaitingForOpponentDialogFragment
+                        if(!client.isInRandomQueue() && !client.isInGame() && !client.isInChallengeOrChallenging()) {
+                            client.randomGameQueue("start");
+                        }
+                        else {
+                            System.out.println("already in queue... weird, but not a problem");
+                        }
+
+                    } catch(Exception e) {
+                        System.out.println("woah? Dialog fail: " + e);
+                    }
+                }
+                else{
+                    System.out.println("already gaming");
+                    Toast errorPlay = Toast.makeText(v.getContext(), "Du bist bereits in einem Spiel.", Toast.LENGTH_SHORT);
+                    errorPlay.show();
+                }
+
+            }
+        });
+        // Imageview Zahnrad als Button anclickbar-> Optionen im Menü -> Weiterleitung zu Optionen->Icons->Statistiken
+        ImageView zahnrad = findViewById(R.id.zahnrad_matchmaker);
+        zahnrad.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                try {
+                    Intent intent = new Intent(OnlinespielActivity.this, OptionenActivity.class);
+                    startActivity(intent);
+                } catch (Exception e) {
+
+                }
+            }
+        });
+        // Imageview "Menu" in Online Activity-> anclickbar-> Weiterleitung ins Hauptmenü
+        ImageView online_backtomenu = findViewById(R.id.online_backtomenu);
+        online_backtomenu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                try {
+                    Intent intent = new Intent(OnlinespielActivity.this, MenuActivity.class);
+                    startActivity(intent);
+                } catch (Exception e) {
+
+                }
+            }
+        });
+        //Datatransfair from IconwahlActivity -> chosen Icon kommt in die OnlinespielActivity aus der Iconactivity woher auch immer diese aufgerufen wird
+        final Intent intent = getIntent();
+        //Test ob auch wirklich ein playericon geschickt wurde, just in case...sonst wird eines default gesetzt
+        if(intent.hasExtra("playerIcon")){
+            int playerIcon = intent.getIntExtra("playerIcon", R.drawable.chosenicon_dummy_90);
+            Log.d(TAG, "player icon" + playerIcon);
+            icon = playerIcon;
+        } else{
+            icon = iconDefault;
+        }
+        //overwrite default Icon in the ImageView of the onlinespielactivity with the chosen one from the IconWahlActivity, that was transfered above
+        ImageView image = (ImageView) findViewById(icontransport);
+        image.setImageResource(icon);
+
+        //TAKEN AND MODIFIED FROM GAMEACTIVITY TO CONTROL THE BOARD
         mBoardImageView = new ImageView[9];
         for (int i = 0; i < mBoardImageView.length; i++) {
+            System.out.println("populating ImageView Array " + i);
             mBoardImageView[i] = (ImageView) findViewById(getResources().getIdentifier("block" + i, "id", this.getPackageName()));
         }
-
-        clearAllBlocks();
-        unblockAllFields();
-
+        //hand over the ImageView[] to the GameBoardHandler
+        this.gameBoard = new GameBoardHandler(mBoardImageView, icon, client, this);
+        this.gameBoard.clearAllBlocks();
+        this.gameBoard.blockAllFields();
+        client.setGameBoard(this.gameBoard);
 
         //@TODO get selected Player
         // Intent intent = getIntent();
@@ -101,6 +215,8 @@ public class OnlinespielActivity extends AppCompatActivity {
         //@TODO use selected Player
         // use some values from selected Player
     }
+    // crossfade Methode --------------------------------------------------------------------------------------------------------CROSSFADE--------------------
+
 
     //start connection
     private void startConnection() {
@@ -146,68 +262,4 @@ public class OnlinespielActivity extends AppCompatActivity {
         this.client.close();
     }
 
-    //TAKEN FROM GAME ACTIVITY TO CONTROL PLACING SIGNS
-    public void clearAllBlocks()  {
-
-        for (int i = 0; i < 9; i++) {
-            mBoardImageView[i].setImageResource(0);
-            mBoardImageView[i].setEnabled(true);
-            mBoardImageView[i].setOnClickListener(new ButtonClickListener(i));
-        }
-    }
-    private void unblockAllFields() {
-        // alle Spielfelder für Mensch blockieren
-        for (int i = 0; i < 9; i++) {
-            mBoardImageView[i].setClickable(true);
-        }
-    }
-
-    public void setMove(int x, int player) {
-        //minimax.placeMove(x, player);
-        if (player == 1) {
-            System.out.println("Player did this " + player );
-            mBoardImageView[x].setImageResource(R.drawable.cross);
-        } else {
-            // Zeitverzug für Android Schritte
-            new Runnable() {
-                @Override
-                public void run() {
-                    mBoardImageView[x].setImageResource(R.drawable.zero);
-                }
-            };
-        }
-        mBoardImageView[x].setEnabled(false);
-    }
-
-    private class ButtonClickListener implements View.OnClickListener {
-        int x;
-
-        public ButtonClickListener(int i) {
-            this.x = i;
-        }
-
-        private void blockAllFields() {
-            // alle Spielfelder für Mensch blockieren
-            for (int i = 0; i < 9; i++) {
-                mBoardImageView[i].setClickable(false);
-            }
-        }
-
-        // verwendet den Schwierigkeitsgrad, um zu bestimmen, welchen Algorithmus der Computer verwenden soll
-        @Override
-        public void onClick(View v) {
-            // easy level, Spiel aktiv, Felder frei
-            if (mBoardImageView[x].isEnabled()) {
-
-                System.out.println("getting clicks");
-                System.out.println(x);
-                System.out.println(mBoardImageView[x]);
-
-                if (client.setMove(x)) {
-                    setMove(x, 1); // Mensch macht einen Schritt KREUZ
-                }
-                //blockAllFields();
-            }
-        }
-    }
 }

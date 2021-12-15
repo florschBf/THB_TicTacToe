@@ -1,4 +1,4 @@
-package space.game.tictactoe;
+package space.game.tictactoe.dialogs;
 
 import static android.graphics.Color.TRANSPARENT;
 
@@ -12,12 +12,16 @@ import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 
-public class LoseDialog extends Dialog {
-    private final GameActivity gameActivity;
+import space.game.tictactoe.GameSingleActivity;
+import space.game.tictactoe.MenuActivity;
+import space.game.tictactoe.R;
 
-    public LoseDialog(@NonNull Context context, GameActivity gameActivity) {
+public class LoseDialog extends Dialog {
+    private final GameSingleActivity gameSingleActivity;
+
+    public LoseDialog(@NonNull Context context, GameSingleActivity gameSingleActivity) {
         super(context);
-        this.gameActivity = gameActivity;
+        this.gameSingleActivity = gameSingleActivity;
     }
 
     @Override
@@ -33,19 +37,19 @@ public class LoseDialog extends Dialog {
 
         imageViewClose.setOnClickListener(v -> {
             //Dialogfenster schliessen, Felder inkl Zuege bleiben sichtbar
-//            gameActivity.startNewGame();
+//            gameSingleActivity.startNewGame();
             dismiss();
         });
 
         btnPlay.setOnClickListener(v -> {
             // Dialogfenstar schliessen, Spielfelder zurücksetzen
-            gameActivity.startNewGame();
+            gameSingleActivity.startNewGame();
             dismiss();
         });
 
         btnMenu.setOnClickListener(v -> {
-            Intent intent = new Intent(this.gameActivity, MenuActivity.class);
-            gameActivity.startActivity(intent);
+            Intent intent = new Intent(this.gameSingleActivity, MenuActivity.class);
+            gameSingleActivity.startActivity(intent);
             dismiss();
         });
 

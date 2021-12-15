@@ -11,7 +11,6 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.firebase.ui.auth.FirebaseAuthUIActivityResultContract;
@@ -44,13 +43,13 @@ public class MenuActivity extends AppCompatActivity {
         Window w = getWindow();
         w.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
-        // Button 1 btn_singleGame -> Weiterleitung zum Spiel mit PC GameActivity
+        // Button 1 btn_singleGame -> Weiterleitung zum Spiel mit PC GameSingleActivity
         Button btn_singleGame = (Button)findViewById(R.id.btn_singleGame);
         btn_singleGame.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 try {
-                    Intent intent = new Intent(MenuActivity.this, GameActivity.class);
+                    Intent intent = new Intent(MenuActivity.this, GameSingleActivity.class);
                     startActivity(intent);
                 } catch(Exception e) {
 
@@ -122,7 +121,28 @@ public class MenuActivity extends AppCompatActivity {
                 }
             }
         });
-        // Imageview Zahnrad als Button anclickbar-> Optionen im Menü -> Weiterleitung zu Optionen
+
+        Button button_optionen_general = (Button)findViewById(R.id.button_optionen_general);
+        button_optionen_general.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                try {
+                    Intent intent = new Intent(MenuActivity.this, OptionenActivity.class);
+                    startActivity(intent);
+                } catch(Exception e) {
+
+                }
+            }
+        });
+
+
+
+
+
+
+
+
+        /*// Imageview Zahnrad als Button anclickbar-> Optionen im Menü -> Weiterleitung zu Optionen
         ImageView zahnrad= findViewById(R.id.zahnrad);
         zahnrad.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -134,7 +154,7 @@ public class MenuActivity extends AppCompatActivity {
 
                 }
             }
-        });
+        });*/
 
         // Button 8 button_login -> Weiterleitung zum LogIn
         // Vorerst weiter drin als Login zu Testzwecken
