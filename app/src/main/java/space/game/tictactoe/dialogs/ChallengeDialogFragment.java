@@ -12,22 +12,23 @@ import androidx.fragment.app.FragmentManager;
 import space.game.tictactoe.R;
 import space.game.tictactoe.websocket.TttWebsocketClient;
 
-public class AnnehmDialogFragment extends DialogFragment {
+
+public class ChallengeDialogFragment extends DialogFragment {
     private TttWebsocketClient client = null;
 
-    public AnnehmDialogFragment(TttWebsocketClient client){
+    public ChallengeDialogFragment(TttWebsocketClient client){
         this.client = client;
     }
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         // Use the Builder class for convenient dialog construction
-       AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         LayoutInflater inflater = requireActivity().getLayoutInflater();
-        View v = inflater.inflate(R.layout.layout_annehmdialog_online, null);
+        View v = inflater.inflate(R.layout.layout_dialog_challenge, null);
         builder.setView(v);
 
-        v.findViewById(R.id.button_ablehnen_challenge).setOnClickListener(new View.OnClickListener() {
+        v.findViewById(R.id.button_ablehnen_sent).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 try {
@@ -41,7 +42,7 @@ public class AnnehmDialogFragment extends DialogFragment {
                 }
             }
         });
-        v.findViewById(R.id.button_annehmen_challenge).setOnClickListener(new View.OnClickListener() {
+        v.findViewById(R.id.button_challenge_senden).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 try {
