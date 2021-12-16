@@ -21,6 +21,7 @@ import org.json.JSONException;
 import space.game.tictactoe.R;
 import space.game.tictactoe.handlers.GameBoardHandler;
 import space.game.tictactoe.handlers.GameSessionHandler;
+import space.game.tictactoe.models.Player;
 
 
 public class TttWebsocketClient extends WebSocketClient{
@@ -30,8 +31,7 @@ public class TttWebsocketClient extends WebSocketClient{
     private PlayerListHandler listHandler;
     private GameBoardHandler gameBoard;
     private GameSessionHandler session;
-    private String playerName;
-    private String firebaseId;
+    public Player player;
 
     public void setGameBoard(GameBoardHandler gameBoard) {
         this.gameBoard = gameBoard;
@@ -80,8 +80,10 @@ public class TttWebsocketClient extends WebSocketClient{
          * @TODO add this player and firebase-ID
          * Player: randomname/ defaultname+nr
          **/
+        this.player = Player.getPlayer();
 
-        send("{\"topic\":\"signup\",\"command\":\"register\",\"" + playerName + "\":\"android\",\"" + firebaseId + "\":\"none\"}");
+
+        send("{\"topic\":\"signup\",\"command\":\"register\",\"player\":\"" + player.getName() +"\",\"firebaseId\":\""+ player.getFirebaseId() +"\"}");
         System.out.println("new connection opened");
     }
 

@@ -4,9 +4,12 @@ import com.google.gson.JsonObject;
 
 import java.util.Objects;
 
+import space.game.tictactoe.models.Player;
+
 //TODO REFACTOR CmdHandlers TO MsgHandlers TO PREVENT CONFUSION WITH ACTUAL!! TttCommandHandler who does the commands
 //These handle messages from the server
 public class SignUpMsgHandler implements MsgHandler {
+
 
     @Override
     public String handle(JsonObject payload) {
