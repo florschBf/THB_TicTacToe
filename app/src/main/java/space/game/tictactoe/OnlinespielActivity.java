@@ -33,7 +33,6 @@ import java.net.URISyntaxException;
 
 import space.game.tictactoe.dialogs.InvitationOnlineGameDialog;
 import space.game.tictactoe.dialogs.WaitingForOpponentDialogFragment;
-import space.game.tictactoe.handlers.GameBoardHandler;
 import space.game.tictactoe.websocket.TttWebsocketClient;
 /* Liste der zu lösenden Schwierigkeiten im Online Spiel (neben den Spielzügen):
 
@@ -50,14 +49,19 @@ Wir müssen verhindern, dass zu jedem Zeitpunkt, dauernd die Spielerliste neu ge
  oder Icons während des Spiels getauscht werden, oder im Spiel zurück ins Menü gesprungen wird etc. */
 public class OnlinespielActivity extends AppCompatActivity {
 
+    //booleans um Status im Blick zu behalten
+    private boolean inRandomQueue = false;
+    private boolean inGame = false;
+    private boolean inChallengeOrChallenging = false;
 
+    //variable und tag für Icons
     private static final String TAG = "OnlineSpiel";
     private int icon;
-
     private static final int iconDefault = R.drawable.stern_90;
-    private TttWebsocketClient client = new TttWebsocketClient(new URI("ws://192.168.178.52:8088"), this);
+
+    //websocket und imageview
+    private TttWebsocketClient client = new TttWebsocketClient(new URI("ws://192.168.178.249:8088"), this);
     private ImageView mBoardImageView[];
-    private GameBoardHandler gameBoard;
 
     public OnlinespielActivity() throws URISyntaxException {
     }
@@ -100,14 +104,16 @@ public class OnlinespielActivity extends AppCompatActivity {
         closeList.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 try {
                     playerListOverlay.setVisibility(View.GONE);
+
                 } catch (Exception e) {
                     System.out.println(e);
                 }
             }
         });
-
+        //TODO hier muss vermutlich irgendwie der Dialog rein, für die Opponent Challenge, wenn man auf einen Spieler clickt, der nicht man selbst ist
         //clicklistener for the playerList view
         ListView playerList = findViewById(R.id.playerList);
         playerList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -123,38 +129,28 @@ public class OnlinespielActivity extends AppCompatActivity {
         });
 
 
-        // Zufallsspiel Button
+        // Zufallsspiel Button -----------------------------------PLAY button
         Button restartGame = (Button)findViewById(R.id.restartGame);
         restartGame.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(!client.isInRandomQueue() && !client.isInGame() && !client.isInChallengeOrChallenging()){
-                    try {
-                        //Erstelle einen Dialog zum Warten auf den Gegner und den dazugehörigen Fragmentmanager
-                        DialogFragment waitForOpponent = new WaitingForOpponentDialogFragment(client); //Dialog benötigt Client-Zugriff für Abbruch
-                        FragmentManager fragMan = getSupportFragmentManager();
-                        waitForOpponent.setCancelable(false);
-                        waitForOpponent.show(fragMan, "waitOpponent");
+                try {
+                    //TODO send signup message -> client.send("topic") I want to play random
+                    //Erstelle einen Dialog zum Warten auf den Gegner und den dazugehörigen Fragmentmanager
+                    DialogFragment waitForOpponent = new WaitingForOpponentDialogFragment(client);
+                    FragmentManager fragMan = getSupportFragmentManager();
+                    waitForOpponent.setCancelable(false);
+                    //TODO ABLEHNEN am Button implementieren, entweder hier oder in WaitingForOpponentDialogFragment.java
+                    waitForOpponent.show(fragMan, "waitOpponent");
+                    client.randomGameQueue("start");
+                    fragMan.executePendingTransactions();
 
-                        //Sage dem Server, dass ich einen zufälligen Gegner möchte. Jetzt.
-                        // Queue wird verlassen beim Schließen des Dialogs -> siehe WaitingForOpponentDialogFragment
-                        if(!client.isInRandomQueue() && !client.isInGame() && !client.isInChallengeOrChallenging()) {
-                            client.randomGameQueue("start");
-                        }
-                        else {
-                            System.out.println("already in queue... weird, but not a problem");
-                        }
-
-                    } catch(Exception e) {
-                        System.out.println("woah? Dialog fail: " + e);
-                    }
+                    // hier muss dann die GET PLAYER METHODE rein vermutlich TODO
+/*                    Intent intent = new Intent(OnlinespielActivity.this, InvitationOnlineGameDialog.class);
+                    startActivity(intent);*/
+                } catch(Exception e) {
+                    System.out.println("woah? Dialog fail: " + e);
                 }
-                else{
-                    System.out.println("already gaming");
-                    Toast errorPlay = Toast.makeText(v.getContext(), "Du bist bereits in einem Spiel.", Toast.LENGTH_SHORT);
-                    errorPlay.show();
-                }
-
             }
         });
         // Imageview Zahnrad als Button anclickbar-> Optionen im Menü -> Weiterleitung zu Optionen->Icons->Statistiken
@@ -197,17 +193,17 @@ public class OnlinespielActivity extends AppCompatActivity {
         ImageView image = (ImageView) findViewById(icontransport);
         image.setImageResource(icon);
 
-        //TAKEN AND MODIFIED FROM GAMEACTIVITY TO CONTROL THE BOARD
+
+
+        //TAKEN FROM GAMEACTIVITY TO CONTROL THE BOARD
         mBoardImageView = new ImageView[9];
         for (int i = 0; i < mBoardImageView.length; i++) {
-            System.out.println("populating ImageView Array " + i);
             mBoardImageView[i] = (ImageView) findViewById(getResources().getIdentifier("block" + i, "id", this.getPackageName()));
         }
-        //hand over the ImageView[] to the GameBoardHandler
-        this.gameBoard = new GameBoardHandler(mBoardImageView, icon, client, this);
-        this.gameBoard.clearAllBlocks();
-        this.gameBoard.blockAllFields();
-        client.setGameBoard(this.gameBoard);
+
+        clearAllBlocks();
+        unblockAllFields();
+
 
         //@TODO get selected Player
         // Intent intent = getIntent();
@@ -262,4 +258,74 @@ public class OnlinespielActivity extends AppCompatActivity {
         this.client.close();
     }
 
+    //TAKEN FROM GAME ACTIVITY TO CONTROL PLACING SIGNS
+    public void clearAllBlocks()  {
+
+        for (int i = 0; i < 9; i++) {
+            mBoardImageView[i].setImageResource(0);
+            mBoardImageView[i].setEnabled(true);
+            mBoardImageView[i].setOnClickListener(new ButtonClickListener(i));
+        }
+    }
+    private void unblockAllFields() {
+        // alle Spielfelder für Mensch blockieren
+        for (int i = 0; i < 9; i++) {
+            mBoardImageView[i].setClickable(true);
+        }
+    }
+
+    public void setMove(int x, int player) {
+        //minimax.placeMove(x, player);
+        if (player == 1) {
+            System.out.println("Player did this " + player );
+            //die Variable icon ist für die gewählten icons aus der Iconauswahl zuständig
+            mBoardImageView[x].setImageResource(icon);
+        } else {
+            // TODO implement this on websocket client
+            new Runnable() {
+                @Override
+                // im Moment ist das vom Opponent angezeigte Icon einfach ein default gesetztes Icon
+                public void run() {
+                    mBoardImageView[x].setImageResource(R.drawable.herz_90);
+                }
+            };
+        }
+        mBoardImageView[x].setEnabled(false);
+    }
+
+
+    private class ButtonClickListener implements View.OnClickListener {
+        int x;
+
+        public ButtonClickListener(int i) {
+            this.x = i;
+        }
+
+        private void blockAllFields() {
+            // alle Spielfelder für Mensch blockieren
+            for (int i = 0; i < 9; i++) {
+                mBoardImageView[i].setClickable(false);
+            }
+        }
+
+
+
+        // verwendet den Schwierigkeitsgrad, um zu bestimmen, welchen Algorithmus der Computer verwenden soll
+        @Override
+        public void onClick(View v) {
+            // easy level, Spiel aktiv, Felder frei
+            if (mBoardImageView[x].isEnabled()) {
+
+                System.out.println("getting clicks");
+                System.out.println(x);
+                System.out.println(mBoardImageView[x]);
+
+                if (client.setMove(x)) {
+                    setMove(x, 1); // Mensch macht einen Schritt KREUZ
+                }
+                //blockAllFields();
+            }
+        }
+
+    }
 }

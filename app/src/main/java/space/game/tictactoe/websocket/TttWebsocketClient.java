@@ -1,13 +1,11 @@
 package space.game.tictactoe.websocket;
 
 import android.app.Activity;
+import android.app.Application;
 import android.content.Context;
+import android.os.Handler;
 import android.widget.ImageView;
 
-
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.DialogFragment;
-import androidx.fragment.app.FragmentManager;
 
 import java.net.URI;
 import java.nio.ByteBuffer;
@@ -18,9 +16,8 @@ import org.java_websocket.drafts.Draft;
 import org.java_websocket.handshake.ServerHandshake;
 import org.json.JSONException;
 
+import space.game.tictactoe.OnlinespielActivity;
 import space.game.tictactoe.R;
-import space.game.tictactoe.handlers.GameBoardHandler;
-import space.game.tictactoe.handlers.GameSessionHandler;
 
 
 public class TttWebsocketClient extends WebSocketClient{
@@ -28,42 +25,10 @@ public class TttWebsocketClient extends WebSocketClient{
     private final TttMessageHandler msgHandler = new TttMessageHandler();
     private final TttCommandHandler cmdHandler = new TttCommandHandler();
     private PlayerListHandler listHandler;
-    private GameBoardHandler gameBoard;
-    private GameSessionHandler session;
 
-    public void setGameBoard(GameBoardHandler gameBoard) {
-        this.gameBoard = gameBoard;
+    public TttWebsocketClient(URI serverUri, Draft draft) {
+        super(serverUri, draft);
     }
-
-    //booleans um Status im Blick zu behalten
-    private boolean inRandomQueue = false;
-    private boolean inGame = false;
-    private boolean inChallengeOrChallenging = false;
-
-    public boolean isInRandomQueue() {
-        return inRandomQueue;
-    }
-
-    public void setInRandomQueue(boolean inRandomQueue) {
-        this.inRandomQueue = inRandomQueue;
-    }
-
-    public boolean isInGame() {
-        return inGame;
-    }
-
-    public void setInGame(boolean inGame) {
-        this.inGame = inGame;
-    }
-
-    public boolean isInChallengeOrChallenging() {
-        return inChallengeOrChallenging;
-    }
-
-    public void setInChallengeOrChallenging(boolean inChallengeOrChallenging) {
-        this.inChallengeOrChallenging = inChallengeOrChallenging;
-    }
-
 
     public TttWebsocketClient(URI serverURI, Context context) {
         super(serverURI);
@@ -91,65 +56,17 @@ public class TttWebsocketClient extends WebSocketClient{
     public void onMessage(String message) {
         System.out.println("received message: " + message);
         String handledMessage = null;
-        Integer x = null;
-
         try{
             handledMessage = this.msgHandler.handle(message);
         } catch (ParseException | JSONException e){
             e.printStackTrace();
         }
-
         switch (handledMessage){
             case ("playerList"):
                 this.listHandler.renderList(message);
-                break;
-            case ("gameStarted!"):
-                setInRandomQueue(false);
-                setInGame(true);
-                //need to disable dialog from here if there is one, kinda messy..
-                try{
-                    AppCompatActivity here = (AppCompatActivity)context;
-                    FragmentManager myManager = here.getSupportFragmentManager();
-                    DialogFragment queueDialog = (DialogFragment) myManager.getFragments().get(0);
-                    queueDialog.dismiss();
-                }
-                catch (Exception e){
-                    System.out.print("no dialog present after all: " + e);
-                }
-
-                //get a GameSessionHandler going, set turn false for now, GameSessionHandler knows what to do with the board
-                this.session = new GameSessionHandler(gameBoard);
-                this.session.setMyTurn(false);
-                break;
-            case ("turnInfo"):
-                //my turn? let's unblock the fields, else wait
-                try {
-                    System.out.println("setting turn");
-                    this.session.setMyTurn(session.findTurnInfo(message));
-                } catch (ParseException e) {
-                    System.out.println("sth wrong with turn message");
-                    e.printStackTrace();
-                }
-                break;
-            case ("0"):
             case ("1"):
-            case ("2"):
-            case ("3"):
-            case ("4"):
-            case ("5"):
-            case ("6"):
-            case ("7"):
-            case ("8"):
-                x = Integer.valueOf(handledMessage);
-                System.out.println(x);
-                gameBoard.renderMove(x);
-                session.setMyTurn(true);
-                break;
-            case ("Zug bestätigt"):
-                session.setMyTurn(false);
-                break;
-            default:
-                System.out.println("Error, message handling failed");
+                Integer x = Integer.valueOf(handledMessage);
+                renderMove(x);
         }
     }
 
@@ -167,7 +84,7 @@ public class TttWebsocketClient extends WebSocketClient{
         return cmdHandler.startGame(selectedPlayer);
     }
 
-    public boolean sendMoveToServer(Integer feld){
+    public boolean setMove(Integer feld){
         //TODO implement server validation
         boolean moveValid = true;
         String command = cmdHandler.sendMove(feld.toString());
@@ -175,20 +92,25 @@ public class TttWebsocketClient extends WebSocketClient{
         return moveValid;
     }
 
-
     /**
-     * Methode um in die Liste für Zufallsspiele auf dem Server ein- bzw ausgetragen zu werden
-     * @param todo String start|stop
+     * Method to render received opponent moves
+     * @param feld Feld auf dem Spielfeld, 0-8, oben links bis unten rechts
      */
+    public void renderMove(Integer feld){
+        //find board in context and mark it
+        String idFeld = "block" + feld;
+        ImageView fieldToMark = ((Activity) context).findViewById(((Activity) context).getResources().getIdentifier(idFeld, "id", ((Activity) context).getPackageName()));
+        fieldToMark.setImageResource(R.drawable.zero);
+    }
+
+
     public void randomGameQueue(String todo) {
         switch (todo){
             case "start":
                 send(this.cmdHandler.startRandom());
-                this.setInRandomQueue(true);
                 break;
             case "stop":
                 send(this.cmdHandler.stopRandom());
-                this.setInRandomQueue(false);
                 break;
             default:
                 System.out.println("Error, random queue implementation is Start|Stop, nothing else");

@@ -2,11 +2,9 @@ package space.game.tictactoe.models;
 
 public class Player {
     // keys of the JSON - analog to Player @Server
-    //TODO diese Werte beim Start der App setzen oder durch den Nutzer setzen lassen
-    //TODO diese Werte beim Anmelden am Websocketserver verwenden (Playerobjekt in OnlinespielActivity)
     private String name;
     private String firebaseId;
-    private Long uid; // Denke wir brauchen hier keine uid. Eigentlich sollte es nur ein Player-Objekt in der App geben, oder?
+    private Long uid;
 
     public Player(String name, String firebaseId, Long uid) {
         this.name = name;
