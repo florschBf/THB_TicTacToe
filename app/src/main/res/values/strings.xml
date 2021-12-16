@@ -77,6 +77,8 @@ Wenn nach 9 Zügen keiner eine Reihe legen konnte, endet das Spiel unentschieden
     <string name="spielmitmir">Du bist herzlich eingeladen mit mir zu spielen! Bitte clicke auf spielen.</string>
     <string name="btn_on_backTomenu">Menü</string>
     <string name="button_optionen_general">Optionen</string>
+    <string name="dialog_challenge_sent">Du sendest nun eine Spielaufforderung an den folgenden Spieler:</string>
+    <string name="dialog_challenge_online">Ich möchte gern eine Runde Tic Tac Toe gegen Dich spielen. Bitte nimm die Anfrage an.</string>
 
 
 </resources>
