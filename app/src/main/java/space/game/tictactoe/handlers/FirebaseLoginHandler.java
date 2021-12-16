@@ -1,4 +1,4 @@
-package space.game.tictactoe;
+package space.game.tictactoe.handlers;
 
 import android.content.Context;
 import android.content.Intent;
@@ -17,6 +17,9 @@ import com.google.firebase.auth.FirebaseUser;
 import java.util.Arrays;
 import java.util.List;
 
+import space.game.tictactoe.R;
+import space.game.tictactoe.models.Player;
+
 /** Class to handle Firebase Authentication
  * called from MenuActivity, checks for logged in person
  * provides methods to get login status and user data
@@ -30,6 +33,7 @@ public class FirebaseLoginHandler extends AppCompatActivity {
     private boolean loggedIn;
     private boolean anonSignIn;
     final private Context menuContext;
+    public Player player;
 
     protected void setLoggedIn(boolean loggedIn) {
         this.loggedIn = loggedIn;
@@ -51,16 +55,25 @@ public class FirebaseLoginHandler extends AppCompatActivity {
         currentUser = mAuth.getCurrentUser();
     }
 
+
+
     /**
      * Methode zum Verarbeiten des Signins
      * @param result Firebase Auth answer
      */
-    protected void onSignInResult(FirebaseAuthUIAuthenticationResult result) {
+    public void onSignInResult(FirebaseAuthUIAuthenticationResult result) {
         IdpResponse response = result.getIdpResponse();
         if (result.getResultCode() == RESULT_OK) {
             // Successfully signed in
             FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-            System.out.println(user);
+
+            this.player = Player.getPlayer();
+
+            player.setName(getUserName());
+            player.setFirebaseId(getFirebaseId());
+            System.out.println("Firebase-User " + user + " Player: " + player);
+
+
             setLoggedIn(true);
             setAnonSignIn(false);
         } else {
@@ -168,5 +181,9 @@ public class FirebaseLoginHandler extends AppCompatActivity {
      */
     public String getUserName(){
         return this.currentUser.getDisplayName();
+    }
+
+    public String getFirebaseId(){
+        return this.currentUser.getUid();
     }
 }

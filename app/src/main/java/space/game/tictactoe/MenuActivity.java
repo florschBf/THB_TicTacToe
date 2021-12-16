@@ -16,6 +16,8 @@ import android.widget.TextView;
 import com.firebase.ui.auth.FirebaseAuthUIActivityResultContract;
 import com.firebase.ui.auth.data.model.FirebaseAuthUIAuthenticationResult;
 
+import space.game.tictactoe.handlers.FirebaseLoginHandler;
+
 public class MenuActivity extends AppCompatActivity {
 
     //handle login status

@@ -30,6 +30,8 @@ public class TttWebsocketClient extends WebSocketClient{
     private PlayerListHandler listHandler;
     private GameBoardHandler gameBoard;
     private GameSessionHandler session;
+    private String playerName;
+    private String firebaseId;
 
     public void setGameBoard(GameBoardHandler gameBoard) {
         this.gameBoard = gameBoard;
@@ -69,11 +71,17 @@ public class TttWebsocketClient extends WebSocketClient{
         super(serverURI);
         this.context = context;
         this.listHandler = new PlayerListHandler(context);
+
     }
 
     @Override
     public void onOpen(ServerHandshake handshakedata) {
-        send("{\"topic\":\"signup\",\"command\":\"register\",\"player\":\"android\",\"firebaseId\":\"none\"}");
+        /*
+         * @TODO add this player and firebase-ID
+         * Player: randomname/ defaultname+nr
+         **/
+
+        send("{\"topic\":\"signup\",\"command\":\"register\",\"" + playerName + "\":\"android\",\"" + firebaseId + "\":\"none\"}");
         System.out.println("new connection opened");
     }
 
