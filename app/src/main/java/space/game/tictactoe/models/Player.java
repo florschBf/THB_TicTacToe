@@ -1,6 +1,9 @@
 package space.game.tictactoe.models;
 
+import java.util.ArrayList;
 import java.util.Random;
+
+import space.game.tictactoe.R;
 
 public class Player {
     // keys of the JSON - analog to Player @Server
@@ -9,12 +12,11 @@ public class Player {
     private String name = "unknown";
     private String firebaseId = "unknown";
     private String serverId = "unknown"; // Wird vom Server aus der Connection gehashed
-
-
-    private int icon;
+    private int icon = R.drawable.stern_90;;
 
     public static Player player;
 
+    private ArrayList<Game> gameResults;
 
 //    public Player(String name, String firebaseId, String serverId) {
 //        this.name = name;
@@ -84,4 +86,7 @@ public class Player {
     public int getIcon() {
         return icon;
     }
+
+    // statistics
+
 }

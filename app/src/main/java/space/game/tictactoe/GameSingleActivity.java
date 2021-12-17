@@ -22,15 +22,16 @@ import java.util.Random;
 import space.game.tictactoe.dialogs.DrawDialog;
 import space.game.tictactoe.dialogs.LoseDialog;
 import space.game.tictactoe.dialogs.WinDialog;
+import space.game.tictactoe.models.Player;
 
 
 public class GameSingleActivity extends AppCompatActivity {
 
     //für die Iconauswahl
     private static final String TAG = "OnlineSpiel";
-    private int icon;
+    private int icon = Player.getPlayer().getIcon();
 
-    private static final int iconDefault = R.drawable.stern_90;
+    // private static final int iconDefault = R.drawable.stern_90;
 
 
     // Schwierigkeitsgrad
@@ -63,8 +64,6 @@ public class GameSingleActivity extends AppCompatActivity {
             int playerIcon = intent.getIntExtra("playerIcon", R.drawable.chosenicon_dummy_90);
             Log.d(TAG, "player icon" + playerIcon);
             icon = playerIcon;
-        } else{
-            icon = iconDefault;
         }
 
 /* ZAHNRAD

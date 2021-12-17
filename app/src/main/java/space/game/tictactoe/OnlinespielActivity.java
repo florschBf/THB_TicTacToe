@@ -34,6 +34,7 @@ import java.net.URISyntaxException;
 import space.game.tictactoe.dialogs.InvitationOnlineGameDialog;
 import space.game.tictactoe.dialogs.WaitingForOpponentDialogFragment;
 import space.game.tictactoe.handlers.GameBoardHandler;
+import space.game.tictactoe.models.Player;
 import space.game.tictactoe.websocket.TttWebsocketClient;
 /* Liste der zu lösenden Schwierigkeiten im Online Spiel (neben den Spielzügen):
 
@@ -54,7 +55,7 @@ public class OnlinespielActivity extends AppCompatActivity {
     private static final String TAG = "OnlineSpiel";
     private int icon;
 
-    private static final int iconDefault = R.drawable.stern_90;
+    // private static int iconDefault = R.drawable.stern_90;
     private TttWebsocketClient client = new TttWebsocketClient(new URI("ws://192.168.0.100:8088"), this);
     private ImageView mBoardImageView[];
     private GameBoardHandler gameBoard;
@@ -64,6 +65,7 @@ public class OnlinespielActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        this.icon = Player.getPlayer().getIcon();
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_onlinespiel);
@@ -190,8 +192,6 @@ public class OnlinespielActivity extends AppCompatActivity {
             int playerIcon = intent.getIntExtra("playerIcon", R.drawable.chosenicon_dummy_90);
             Log.d(TAG, "player icon" + playerIcon);
             icon = playerIcon;
-        } else{
-            icon = iconDefault;
         }
         //overwrite default Icon in the ImageView of the onlinespielactivity with the chosen one from the IconWahlActivity, that was transfered above
         ImageView image = (ImageView) findViewById(icontransport);
