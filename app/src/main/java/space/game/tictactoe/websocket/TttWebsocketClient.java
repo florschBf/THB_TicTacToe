@@ -131,6 +131,8 @@ public class TttWebsocketClient extends WebSocketClient{
                 this.session = new GameSessionHandler(gameBoard);
                 this.session.setMyTurn(false);
                 break;
+            case ("gameTerminated"):
+                setInGame(false);
             case ("turnInfo"):
                 //my turn? let's unblock the fields, else wait
                 try {

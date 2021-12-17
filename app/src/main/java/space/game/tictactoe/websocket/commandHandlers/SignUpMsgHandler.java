@@ -23,6 +23,8 @@ public class SignUpMsgHandler implements MsgHandler {
             try {
                 if (payload.get("players").getAsString().equals("all")){
                     return "playerList";
+                } else if (payload.get("player").getAsString().equals("self")) {
+                    return "player";
                 }
                 else { return "Error, no valid register command found";}
             } catch (Exception e){

@@ -16,6 +16,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import space.game.tictactoe.R;
+import space.game.tictactoe.models.Player;
 
 
 public class PlayerListHandler {
@@ -27,6 +28,8 @@ public class PlayerListHandler {
     private ListView playerList;
     private final Context context;
 
+    private Player player;
+
     public PlayerListHandler(Context context) {
         this.context = context;
     }
@@ -35,6 +38,8 @@ public class PlayerListHandler {
      * @param message String from websocket server including playerlist objects
      */
     public void renderList(String message) {
+        this.player = Player.getPlayer();
+
         //TODO render the list in message into context
         System.out.println("rendering list somewhere...");
 
@@ -46,7 +51,7 @@ public class PlayerListHandler {
                 .stream()
                 .map(i -> i.getKey())
                 .collect(Collectors.toCollection(ArrayList::new));
-        System.out.println(keys);
+        System.out.println("Payload keys: " + keys);
 
         //HAS TO RUN ON UITHREAD OR WE CANT KEEP UPDATING
         ((Activity)context).runOnUiThread(new Runnable() {
@@ -54,6 +59,11 @@ public class PlayerListHandler {
             public void run() {
                 //empty playerlist to refill from data later
                 playerListItems.clear();
+
+                /** @Todo get player self */
+
+
+
                 adapter = new ArrayAdapter<String>(context, android.R.layout.simple_list_item_1, playerListItems);
                 playerList = ((Activity) context).findViewById(R.id.playerList);
                 playerList.setAdapter(adapter);
@@ -61,11 +71,14 @@ public class PlayerListHandler {
                 for (String key : keys) {
                     if (!key.equals("topic") && !key.equals("players")) { //excluding keys we know are not player strings
                         System.out.println("running for key " + key);
+
                         try {
                             JsonObject player = (JsonObject) payload.get(key);
                             String playerName = player.get("name").getAsString();
                             String playerUID = player.get("playerUID").getAsString();
-                            String listEntry = playerName + " " + playerUID;
+                            String listEntry = playerName; // + " " + playerUID;
+                            /**@Todo  add listentry only if (player not self)
+                             */
                             adapter.add(listEntry);
                         } catch (Exception e) {
                             System.out.println(e);

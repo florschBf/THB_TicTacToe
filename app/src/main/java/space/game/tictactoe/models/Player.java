@@ -10,6 +10,9 @@ public class Player {
     private String firebaseId = "unknown";
     private String serverId = "unknown"; // Wird vom Server aus der Connection gehashed
 
+
+    private int icon;
+
     public static Player player;
 
 
@@ -49,6 +52,11 @@ public class Player {
         this.serverId=serverId;
     }
 
+    public void setIcon(int icon) {
+        this.icon = icon;
+    }
+
+
 
     public static Player getPlayer(){
         return player;
@@ -71,5 +79,9 @@ public class Player {
         char letter = (char) ('A' + rnd.nextInt(26));
         String randomName = "Player-" + letter;;
         return randomName;
+    }
+
+    public int getIcon() {
+        return icon;
     }
 }
