@@ -53,16 +53,13 @@
             android:textColor="@color/teal_200"
             android:textSize="@dimen/textSize_menu_btn" />
 
+        <Switch
+            android:id="@+id/switch_sound"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
 
-
-
-
-
-
-
-
-
-
+            android:text="Soundeffekte" />
 
 
     </LinearLayout>

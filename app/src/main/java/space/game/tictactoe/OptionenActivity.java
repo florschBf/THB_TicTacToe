@@ -4,10 +4,19 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CompoundButton;
+import android.widget.Switch;
+import android.widget.Toast;
+
+import com.google.android.material.switchmaterial.SwitchMaterial;
 
 public class OptionenActivity extends AppCompatActivity {
+
+//    Switch ton;
+//    public static boolean tonOn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,5 +50,29 @@ public class OptionenActivity extends AppCompatActivity {
                 }
             }
         });
+
+//        // Souneffekte defaul aktiviert
+//        ton = (Switch)findViewById(R.id.switch_sound);
+//        ton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+//            @Override
+//            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+//                if(isChecked == true) {
+//                    Toast.makeText(OptionenActivity.this, "Sound is on", Toast.LENGTH_LONG).show();
+//                    tonOn = true;
+//                } else {
+//                    Toast.makeText(OptionenActivity.this, "Sound is off", Toast.LENGTH_LONG).show();
+//                    tonOn = false;
+//                }
+//            }
+//        });
+//
+//        if(tonOn == true) {
+//            ton.setChecked(true);
+//        } else {
+//            ton.setChecked(false);
+//        }
+
+
     }
+
 }
