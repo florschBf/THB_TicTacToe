@@ -69,17 +69,23 @@ public class PlayerListHandler {
                 playerList.setAdapter(adapter);
                 //using key list to get all player objects with their names and uids - putting them into playerList ListView with adapter
                 for (String key : keys) {
-                    if (!key.equals("topic") && !key.equals("players")) { //excluding keys we know are not player strings
+                    if (!key.equals("topic") && !key.equals("players") &&!key.equals("command")) { //excluding keys we know are not player strings
                         System.out.println("running for key " + key);
 
                         try {
-                            JsonObject player = (JsonObject) payload.get(key);
-                            String playerName = player.get("name").getAsString();
-                            String playerUID = player.get("playerUID").getAsString();
-                            String listEntry = playerName; // + " " + playerUID;
-                            /**@Todo  add listentry only if (player not self)
-                             */
-                            adapter.add(listEntry);
+                            JsonObject listPlayer = (JsonObject) payload.get(key);
+                            String playerName = listPlayer.get("name").getAsString();
+                            String playerUID = listPlayer.get("playerUID").getAsString();
+                            //String listEntry = playerName; // + " " + playerUID;
+                            //@TODO playerUIDs müssen gespeichert werden für spätere Nutzung, ohne in der Liste sichtbar zu sein
+                            //Vorschlag wäre eine Klasse 'listitem' oder auch 'listplayer', die hier in der ArrayList gespeichert wird
+                            //von der wird dann hier nur die Methode "getName" auf die Liste gerendert
+
+                            //filtering for own serverID here
+                            if (!playerUID.equals(player.getServerId())){
+                                adapter.add(playerName);
+                            }
+
                         } catch (Exception e) {
                             System.out.println(e);
                         }

@@ -51,7 +51,7 @@ public class Player {
     }
 
     public void setUid(String uid) {
-        this.serverId=serverId;
+        this.serverId=uid;
     }
 
     public void setIcon(int icon) {
