@@ -113,6 +113,9 @@ public class TttWebsocketClient extends WebSocketClient{
             case ("playerList"):
                 this.listHandler.renderList(message);
                 break;
+            case ("Set playerUID already"):
+                //nothing more to do here
+                break;
             case ("gameStarted!"):
                 setInRandomQueue(false);
                 setInGame(true);
