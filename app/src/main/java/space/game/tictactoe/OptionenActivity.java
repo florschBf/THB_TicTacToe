@@ -51,28 +51,6 @@ public class OptionenActivity extends AppCompatActivity {
             }
         });
 
-//        // Souneffekte defaul aktiviert
-//        ton = (Switch)findViewById(R.id.switch_sound);
-//        ton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-//            @Override
-//            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-//                if(isChecked == true) {
-//                    Toast.makeText(OptionenActivity.this, "Sound is on", Toast.LENGTH_LONG).show();
-//                    tonOn = true;
-//                } else {
-//                    Toast.makeText(OptionenActivity.this, "Sound is off", Toast.LENGTH_LONG).show();
-//                    tonOn = false;
-//                }
-//            }
-//        });
-//
-//        if(tonOn == true) {
-//            ton.setChecked(true);
-//        } else {
-//            ton.setChecked(false);
-//        }
-
-
     }
 
 }

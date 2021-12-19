@@ -25,6 +25,7 @@ import java.util.Random;
 import space.game.tictactoe.dialogs.DrawDialog;
 import space.game.tictactoe.dialogs.LoseDialog;
 import space.game.tictactoe.dialogs.WinDialog;
+import space.game.tictactoe.models.Player;
 
 
 public class GameSingleActivity extends AppCompatActivity {
@@ -56,9 +57,8 @@ public class GameSingleActivity extends AppCompatActivity {
     private MediaPlayer sound1, sound2, soundWin, soundLose, soundDraw;
 
     Button ton;
-    public boolean tonOn = true;
-    public boolean tonChange = true;
-
+    boolean isTonOn = Player.getPlayer().getIsTonOn();
+    int i = 1; // 1 = ton on, 0 = ton off
 
 
     @Override
@@ -68,20 +68,24 @@ public class GameSingleActivity extends AppCompatActivity {
 
         // Sound für Android ein- und ausschalten
         ton = (Button)findViewById(R.id.ton);
+        if(Player.getPlayer().getIsTonOn() == true) {
+            ton.setBackgroundResource(R.drawable.ic_baseline_music_note_24);
+        } else {
+            ton.setBackgroundResource(R.drawable.ic_baseline_music_off_24);
+        }
+
         ton.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 if(event.getAction() == MotionEvent.ACTION_DOWN) {
-                    if(tonChange == true) {
+                    if(i == 1) {
                         ton.setBackgroundResource(R.drawable.ic_baseline_music_note_24);
-                        Toast.makeText(GameSingleActivity.this, "Sound is on", Toast.LENGTH_LONG).show();
-                        tonChange = false;
-                        tonOn = true;
-                    } else {
+                        Player.getPlayer().setIsTonOn(true);
+                        i = 0;
+                    } else if (i == 0){
                         ton.setBackgroundResource(R.drawable.ic_baseline_music_off_24);
-                        Toast.makeText(GameSingleActivity.this, "Sound is off", Toast.LENGTH_LONG).show();
-                        tonChange = true;
-                        tonOn = false;
+                        Player.getPlayer().setIsTonOn(false);
+                        i = 1;
                     }
                 }
                 return false;
@@ -215,14 +219,8 @@ public class GameSingleActivity extends AppCompatActivity {
     }
 
     public void soundPlay(MediaPlayer sound) {
-        if(tonOn) { // wenn Sound unter Optionen aktiviert
+        if(Player.getPlayer().getIsTonOn()) { // wenn Sound unter Optionen aktiviert
             sound.start();
-        }
-    }
-
-    public void soundStop(MediaPlayer sound) {
-        if(tonOn) { // wenn Sound unter Optionen aktiviert
-            sound.stop();
         }
     }
 
@@ -353,7 +351,6 @@ public class GameSingleActivity extends AppCompatActivity {
             DrawDialog drawDialog = new DrawDialog(GameSingleActivity.this, GameSingleActivity.this);
             drawDialog.show();
         }
-
 
         private void showWinDialog() {
             WinDialog winDialog = new WinDialog(GameSingleActivity.this, GameSingleActivity.this);

@@ -3,6 +3,7 @@ package space.game.tictactoe.models;
 import java.util.Random;
 
 public class Player {
+
     // keys of the JSON - analog to Player @Server
     //TODO diese Werte beim Start der App setzen oder durch den Nutzer setzen lassen
     //TODO diese Werte beim Anmelden am Websocketserver verwenden (Playerobjekt in OnlinespielActivity)
@@ -10,6 +11,8 @@ public class Player {
     private String firebaseId = "unknown";
     private String serverId = "unknown"; // Wird vom Server aus der Connection gehashed
 
+    //sound
+    private static boolean isTonOn = true;
     public static Player player;
 
 
@@ -49,6 +52,8 @@ public class Player {
         this.serverId=serverId;
     }
 
+    public void setIsTonOn(boolean isTonOn) {this.isTonOn = isTonOn; }
+    public boolean getIsTonOn() {return isTonOn; }
 
     public static Player getPlayer(){
         return player;
