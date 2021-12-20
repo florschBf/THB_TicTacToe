@@ -52,29 +52,28 @@
             <TableRow
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginTop="8dp">
+                >
 
                 <ImageView
                     android:id="@+id/block0"
-                    android:layout_width="80dp"
-                    android:layout_height="80dp"
-                    android:layout_marginLeft="5dp"
+                    android:layout_width="85dp"
+                    android:layout_height="90dp"
 
                     />
 
                 <ImageView
                     android:id="@+id/block1"
-                    android:layout_width="80dp"
-                    android:layout_height="80dp"
-                    android:layout_marginLeft="24dp"
+                    android:layout_width="81dp"
+                    android:layout_height="90dp"
+                    android:layout_marginLeft="14dp"
 
                     />
 
                 <ImageView
                     android:id="@+id/block2"
-                    android:layout_width="80dp"
-                    android:layout_height="80dp"
-                    android:layout_marginLeft="22dp"
+                    android:layout_width="81dp"
+                    android:layout_height="90dp"
+                    android:layout_marginLeft="15dp"
 
                     />
             </TableRow>
@@ -82,31 +81,30 @@
             <TableRow
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginTop="18dp">
+                android:layout_marginTop="13dp">
 
                 <ImageView
                     android:id="@+id/block3"
-                    android:layout_width="80dp"
-                    android:layout_height="80dp"
-                    android:layout_marginTop="5dp"
+                    android:layout_width="85dp"
+                    android:layout_height="90dp"
+
 
                     />
 
                 <ImageView
                     android:id="@+id/block4"
-                    android:layout_width="80dp"
-                    android:layout_height="80dp"
-                    android:layout_marginLeft="25dp"
-                    android:layout_marginTop="5dp"
+                    android:layout_width="86dp"
+                    android:layout_height="88dp"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginTop="2dp"
 
                     />
 
                 <ImageView
                     android:id="@+id/block5"
                     android:layout_width="80dp"
-                    android:layout_height="80dp"
-                    android:layout_marginLeft="25dp"
-                    android:layout_marginTop="5dp"
+                    android:layout_height="90dp"
+                    android:layout_marginLeft="13dp"
 
                     />
             </TableRow>
@@ -115,34 +113,33 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
 
-                android:layout_marginTop="20dp"
-               >
+                android:layout_marginTop="14dp">
 
                 <ImageView
                     android:id="@+id/block6"
-                    android:layout_width="80dp"
-                    android:layout_height="80dp"
-                    android:layout_marginLeft="5dp"
+                    android:layout_width="90dp"
+                    android:layout_height="90dp"
+                    android:layout_marginLeft="2dp"
 
                     />
 
                 <ImageView
                     android:id="@+id/block7"
-                    android:layout_width="80dp"
-                    android:layout_height="80dp"
-                    android:layout_marginLeft="25dp"
+                    android:layout_width="90dp"
+                    android:layout_height="90dp"
+                    android:layout_marginLeft="11dp"
                     />
 
                 <ImageView
                     android:id="@+id/block8"
-                    android:layout_width="80dp"
-                    android:layout_height="80dp"
-                    android:layout_marginLeft="25dp"
+                    android:layout_width="90dp"
+                    android:layout_height="90dp"
+                    android:layout_marginLeft="15dp"
+
 
                     />
             </TableRow>
         </TableLayout>
-
         <!--<TextView
             android:id="@+id/selectOpponentMessage"
             android:layout_width="fill_parent"
@@ -175,7 +172,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.935" />
-    <!--"Optionenbutton" geht zu Icons und Statistiken-->
+        <!--"Optionenbutton" geht zu Icons und Statistiken-->
         <!--<ImageView
             android:id="@+id/zahnrad_matchmaker"
             android:layout_width="60dp"
