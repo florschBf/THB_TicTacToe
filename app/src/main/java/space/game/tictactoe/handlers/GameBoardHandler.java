@@ -33,7 +33,6 @@ public class GameBoardHandler {
             public void run() {
                 System.out.println("clearing all blocks");
                 for (int i = 0; i < 9; i++) {
-                    System.out.println("iterating through ImageViews: " + mBoardImageView[i] + " placing listener");
                     mBoardImageView[i].setImageResource(0);
                     mBoardImageView[i].setEnabled(true);
                     mBoardImageView[i].setOnClickListener(new ButtonClickListener(i));
@@ -52,7 +51,6 @@ public class GameBoardHandler {
             @Override
             public void run() {
                 for (int i = 0; i < 9; i++) {
-                    System.out.println("Unblocking for: " + mBoardImageView[i]);
                     mBoardImageView[i].setClickable(true);
                 }
             }
@@ -69,7 +67,6 @@ public class GameBoardHandler {
             @Override
             public void run() {
                 for (int i = 0; i < 9; i++) {
-                    System.out.println("Setting block for: " + mBoardImageView[i]);
                     mBoardImageView[i].setClickable(false);
                 }
             }
@@ -85,11 +82,10 @@ public class GameBoardHandler {
 
         if (player == 1) {
             System.out.println("Player did this " + player );
-
             mBoardImageView[x].setImageResource(icon);
         } else {
             System.out.println("Remote move received!");
-            // TODO implement this on websocket client
+            // TODO get opponent icon
             ((Activity)context).runOnUiThread(new Runnable() {
                 @Override
                 public void run() {

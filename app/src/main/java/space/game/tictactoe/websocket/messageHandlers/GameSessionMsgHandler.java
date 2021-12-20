@@ -34,6 +34,36 @@ public class GameSessionMsgHandler implements MsgHandler {
                             handledMsg = "boardState";
                             break;
                         }
+                    case ("quitgame"):
+                        if (payload.get("state").getAsString().equals("confirmed")){
+                            //server just confirmed me ending the game, all is fine
+                            handledMsg = "gameEndedOnServer";
+                            break;
+                        }
+                        else if (payload.get("state").getAsString().equals("youwin")){
+                            //Server says I won!
+                            handledMsg = "youwin";
+                            break;
+                        }
+                        else if (payload.get("state").getAsString().equals("youlose")){
+                            // Server say I lost!
+                            handledMsg = "youlose";
+                            break;
+                        }
+                        else if (payload.get("state").getAsString().equals("draw")){
+                            // Server says it's a draw!
+                            handledMsg = "draw";
+                            break;
+                        }
+                        else if (payload.get("state").getAsString().equals("now") && payload.get("reason").getAsString().equals("opponentDisco")){
+                            handledMsg = "gameTerminatedDisco";
+                            break;
+                        }
+                        else if (payload.get("state").getAsString().equals("now") && payload.get("reason").getAsString().equals("opponentQuit")){
+                            handledMsg = "gameTerminatedQuit";
+                            break;
+                        }
+
                     default:
                         System.out.println("Error, no valid gameSession command");
                         handledMsg = "Error, no valid gameSession command";
