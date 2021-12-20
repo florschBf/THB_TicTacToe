@@ -56,31 +56,8 @@
                 android:layout_gravity="center" />
 
 
-
-            <!--<Button
-                android:id="@+id/button_annehmen_onlineanfrage"
-                android:layout_width="123dp"
-                android:layout_height="48dp"
-                android:layout_marginBottom="10dp"
-                android:background="@drawable/btn_press_white"
-                android:fontFamily="@font/facon"
-                android:paddingLeft="10dp"
-                android:paddingTop="10dp"
-                android:paddingRight="10dp"
-                android:paddingBottom="10dp"
-                android:text="Annehmen"
-                android:textAllCaps="true"
-                android:textColor="@color/teal_200"
-                android:textSize="@dimen/textSize_menu_btn"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.877"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.878" />-->
-
             <Button
-                android:id="@+id/button_ablehnen_onlineanfrage"
+                android:id="@+id/button_abbrechen_randomgame"
                 android:layout_width="123dp"
                 android:layout_height="48dp"
                 android:layout_marginBottom="25dp"

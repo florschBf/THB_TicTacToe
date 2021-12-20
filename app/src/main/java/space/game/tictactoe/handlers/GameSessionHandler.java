@@ -1,5 +1,7 @@
 package space.game.tictactoe.handlers;
 
+import android.app.Activity;
+
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
@@ -19,9 +21,35 @@ public class GameSessionHandler {
         this.gameOver = true;
         switch (reason){
             case("disconnect"):
+                //TODO show an alert dialog to explain things
+                gameBoard.showNotification("disconnect");
                 hardReset();
+                break;
             case ("oppoQuit"):
+                //TODO show an alert dialog to explain things
+                gameBoard.showNotification("oppoQuit");
                 hardReset();
+                break;
+            case ("youWin"):
+                //TODO show win dialog
+                gameBoard.showNotification("youWin");
+                hardReset();
+                break;
+            case ("youLose"):
+                //TODO show lose dialog
+                gameBoard.showNotification("youLose");
+                hardReset();
+                break;
+            case ("draw"):
+                //TODO show draw dialog
+                gameBoard.showNotification("draw");
+                hardReset();
+                break;
+            case ("endForNoReason"):
+                //TODO remove completely or combine disco and quit
+                gameBoard.showNotification("endForNoReason");
+                hardReset();
+                break;
         }
     }
 

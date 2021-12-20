@@ -2,10 +2,12 @@ package space.game.tictactoe.handlers;
 
 import android.app.Activity;
 import android.content.Context;
+import android.os.Looper;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import space.game.tictactoe.OnlinespielActivity;
 import space.game.tictactoe.R;
 import space.game.tictactoe.websocket.TttWebsocketClient;
 
@@ -104,6 +106,47 @@ public class GameBoardHandler {
         //find field and mark it for opponent
         System.out.println("renderMove called");
         setMove(feld, 2);
+    }
+
+    public void showNotification(String reason) {
+        OnlinespielActivity here = (OnlinespielActivity) context;
+        here.runOnUiThread(new Runnable() {
+            public void run() {
+                System.out.println("being called to display notification toast");
+                switch (reason) {
+                    case ("disconnect"):
+                        Toast oppoDisco = Toast.makeText(context, "Die Verbindung deines Mitspielers ist abgebrochen... sorry. Spiel beendet.", Toast.LENGTH_SHORT);
+                        oppoDisco.show();
+                        break;
+                    case ("oppoQuit"):
+                        Toast oppoQuit = Toast.makeText(context, "Dein Mitspieler hat das Spiel abgebrochen... sorry. Spiel beendet.", Toast.LENGTH_SHORT);
+                        oppoQuit.show();
+                        break;
+                    case ("youWin"):
+                        here.showWinDialog();
+                        Toast youWon = Toast.makeText(context, "Du hast gewonnen! Resette Activity.", Toast.LENGTH_SHORT);
+                        youWon.show();
+                        break;
+                    case ("youLose"):
+                        here.showLoseDialog();
+                        Toast youLose = Toast.makeText(context, "Du hast verloren! Resette Activity.", Toast.LENGTH_SHORT);
+                        youLose.show();
+                        break;
+                    case ("draw"):
+                        here.showDrawDialog();
+                        Toast draw = Toast.makeText(context, "Unentschieden! Resette Activity.", Toast.LENGTH_SHORT);
+                        draw.show();
+                        break;
+                    case ("endForNoReason"):
+                        Toast end = Toast.makeText(context, "Ich musste dein Spiel beenden, sorry. Resette Activity.", Toast.LENGTH_SHORT);
+                        end.show();
+                        break;
+                    default:
+                        Toast err = Toast.makeText(context, "Dunno what to say... sorry.", Toast.LENGTH_SHORT);
+                        err.show();
+                }
+            }
+        });
     }
 
 

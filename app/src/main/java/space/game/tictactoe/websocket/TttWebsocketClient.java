@@ -91,28 +91,39 @@ public class TttWebsocketClient extends WebSocketClient{
     *   KOMMT EINE MESSAGE VOM SERVER AN, WIRD SIE ANHAND DES PROTOKOLLS GEPRÜFT UND AUSGEWERTET
     *   EIGENE KLASSE FÜR DIE PRÜFUNG: TttMessageHandler
      */
+
+    /**
+     * Hier bei der onMessage findet der Datenaustausch mit dem Server statt
+     * Kommt eine Message vom Server an, wird sie anhand des Protokolls geprüft und ausgewertet
+     * Eigene Klasse für die Prüfung ist der TttMessageHandler mit seinen Unter-Handlern
+     * @param message Der vom Server empfangene String im JSON-Format, TTT-Protokoll V2.0
+     */
     @Override
     public void onMessage(String message) {
         System.out.println("received message: " + message);
         String handledMessage = null;
-        Integer x = null;
+        Integer x;
 
         try{
+            //Hier findet die Auswertung der Nachricht durch den Handler statt
             handledMessage = this.msgHandler.handle(message);
         } catch (ParseException | JSONException e){
             e.printStackTrace();
         }
 
+        //In diesem switch statement wird das Resultat umgesetzt
         switch (handledMessage){
             case ("playerList"):
                 this.listHandler.renderList(message);
                 break;
             case ("Set playerUID already"):
-                //nothing more to do here
+                //nothing more to do here, UID is set through messageHandler already
                 break;
             case ("gameStarted!"):
                 setInRandomQueue(false);
+                setInChallengeOrChallenging(false);
                 setInGame(true);
+
                 //need to disable dialog from here if there is one, kinda messy..
                 try{
                     AppCompatActivity here = (AppCompatActivity)context;
@@ -132,37 +143,47 @@ public class TttWebsocketClient extends WebSocketClient{
                 //TODO handle winning the game!
                 //sth sth session
                 System.out.println("I won, I won");
+                session.setGameOver("youWin");
+                cleanSlate();
                 break;
             case ("youlose"):
                 //TODO handle losing, Loser.
                 //sth sth session
                 System.out.println("I lost, oh no");
+                session.setGameOver("youLose");
+                cleanSlate();
                 break;
             case ("draw"):
                 //TODO handle a draw
                 //sth sth session
                 System.out.println("It's a draw, how exciting");
+                session.setGameOver("draw");
+                cleanSlate();
                 break;
             case ("gameTerminatedDisco"):
-                //TODO handle opponent disco by quitting game state
-                //sth sth session
+                //opponent disconnected, ending game session, resetting activity
                 System.out.println("My opponent disconnected, bummer");
                 session.setGameOver("disconnect");
                 cleanSlate();
                 break;
             case ("gameTerminatedQuit"):
-                //TODO handle opponent disco by quitting game state
-                //sth sth session
+                //opponent quit, ending game session, resetting activity
                 System.out.println("My opponent quit with proper protocol... bummer");
                 session.setGameOver("oppoQuit");
                 cleanSlate();
                 break;
             case ("gameEndedOnServer"):
                 //Server confirms my quit... well I already cleaned everything when quitting so I don't care.
-                System.out.println("Server confirmed my quit");
+                System.out.println("Game termination confirmed");
+                session.setGameOver("endForNoReason");
+                cleanSlate();
                 break;
             case ("gameTerminated"):
-                setInGame(false);
+                //TODO wird momentan nicht zurückgegeben, stattdessen Unterscheidung in quit und disconnect. Nötig?
+                //opponent disconnected, ending game session, resetting activity
+                System.out.println("Game terminated, bummer");
+                session.setGameOver("endForNoReason");
+                cleanSlate();
                 break;
             case ("turnInfo"):
                 //my turn? let's unblock the fields, else wait
