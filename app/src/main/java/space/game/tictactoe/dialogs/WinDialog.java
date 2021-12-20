@@ -14,16 +14,22 @@ import androidx.annotation.NonNull;
 
 import space.game.tictactoe.GameSingleActivity;
 import space.game.tictactoe.MenuActivity;
+import space.game.tictactoe.OnlinespielActivity;
 import space.game.tictactoe.R;
 
 public class WinDialog extends Dialog {
 
-    private final GameSingleActivity gameSingleActivity;
+    private GameSingleActivity gameSingleActivity = null;
+    private OnlinespielActivity onlinespielActivity = null;
 
     public WinDialog(@NonNull Context context, GameSingleActivity gameSingleActivity) {
         super(context);
         this.gameSingleActivity = gameSingleActivity;
+    }
 
+    public WinDialog(@NonNull Context context, OnlinespielActivity onlinespielActivity) {
+        super(context);
+        this.onlinespielActivity = onlinespielActivity;
     }
 
     @Override
@@ -37,21 +43,42 @@ public class WinDialog extends Dialog {
         final Button btnPlay = findViewById(R.id.btn_play);
         final Button btnMenu = findViewById(R.id.btn_menu);
 
-        imageViewClose.setOnClickListener(v -> {
+        if (gameSingleActivity != null){
+            imageViewClose.setOnClickListener(v -> {
 //          gameSingleActivity.startNewGame();
-            dismiss();
-        });
+                dismiss();
+            });
 
-        btnPlay.setOnClickListener(v -> {
-            gameSingleActivity.startNewGame();
-            dismiss();
+            btnPlay.setOnClickListener(v -> {
+                gameSingleActivity.startNewGame();
+                dismiss();
 
-        });
-        btnMenu.setOnClickListener(v -> {
-            Intent intent = new Intent(this.gameSingleActivity, MenuActivity.class);
-            gameSingleActivity.startActivity(intent);
-            dismiss();
-        });
+            });
+            btnMenu.setOnClickListener(v -> {
+                Intent intent = new Intent(this.gameSingleActivity, MenuActivity.class);
+                gameSingleActivity.startActivity(intent);
+                dismiss();
+            });
+        }
+        else if (onlinespielActivity != null){
+            this.setCancelable(false); // weggeklickte Dialoge werden in OnlinespielActivity nicht ordentlich verarbeitet, deshalb disabled
+            imageViewClose.setOnClickListener(v -> {
+//          gameSingleActivity.startNewGame();
+                dismiss();
+            });
+
+            btnPlay.setOnClickListener(v -> {
+                //gameSingleActivity.startNewGame();
+                dismiss();
+
+            });
+            btnMenu.setOnClickListener(v -> {
+                Intent intent = new Intent(this.onlinespielActivity, MenuActivity.class);
+                onlinespielActivity.startActivity(intent);
+                dismiss();
+            });
+        }
+
 
     }
 }

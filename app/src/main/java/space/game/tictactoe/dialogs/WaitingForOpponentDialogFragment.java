@@ -35,7 +35,7 @@ public class WaitingForOpponentDialogFragment extends DialogFragment {
         View v = inflater.inflate(R.layout.layout_dialog_wait_for_game, null);
         builder.setView(v);
 
-        v.findViewById(R.id.button_ablehnen_onlineanfrage).setOnClickListener(new View.OnClickListener() {
+        v.findViewById(R.id.button_abbrechen_randomgame).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 try {

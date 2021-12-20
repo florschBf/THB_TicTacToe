@@ -31,8 +31,11 @@ import org.java_websocket.client.WebSocketClient;
 import java.net.URI;
 import java.net.URISyntaxException;
 
+import space.game.tictactoe.dialogs.DrawDialog;
 import space.game.tictactoe.dialogs.InvitationOnlineGameDialog;
+import space.game.tictactoe.dialogs.LoseDialog;
 import space.game.tictactoe.dialogs.WaitingForOpponentDialogFragment;
+import space.game.tictactoe.dialogs.WinDialog;
 import space.game.tictactoe.handlers.GameBoardHandler;
 import space.game.tictactoe.models.Player;
 import space.game.tictactoe.websocket.TttWebsocketClient;
@@ -272,6 +275,21 @@ public class OnlinespielActivity extends AppCompatActivity {
     protected void onStop() {
         super.onStop();
         this.client.close();
+    }
+
+    // Dialogfenster für Spielergebniss
+    public void showLoseDialog() {
+        LoseDialog loseDialog = new LoseDialog(this, OnlinespielActivity.this);
+        loseDialog.show();
+    }
+    public void showDrawDialog() {
+        DrawDialog drawDialog = new DrawDialog(this, OnlinespielActivity.this);
+        drawDialog.show();
+    }
+
+    public void showWinDialog() {
+        WinDialog winDialog = new WinDialog(this, OnlinespielActivity.this);
+        winDialog.show();
     }
 
 }
