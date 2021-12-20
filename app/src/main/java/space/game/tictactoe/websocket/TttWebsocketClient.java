@@ -76,13 +76,7 @@ public class TttWebsocketClient extends WebSocketClient{
 
     @Override
     public void onOpen(ServerHandshake handshakedata) {
-        /*
-         * @TODO add this player and firebase-ID
-         * Player: randomname/ defaultname+nr
-         **/
         this.player = Player.getPlayer();
-
-
         send("{\"topic\":\"signup\",\"command\":\"register\",\"player\":\"" + player.getName() +"\",\"firebaseId\":\""+ player.getFirebaseId() +"\"}");
         System.out.println("new connection opened");
     }
@@ -134,8 +128,42 @@ public class TttWebsocketClient extends WebSocketClient{
                 this.session = new GameSessionHandler(gameBoard);
                 this.session.setMyTurn(false);
                 break;
+            case ("youwin"):
+                //TODO handle winning the game!
+                //sth sth session
+                System.out.println("I won, I won");
+                break;
+            case ("youlose"):
+                //TODO handle losing, Loser.
+                //sth sth session
+                System.out.println("I lost, oh no");
+                break;
+            case ("draw"):
+                //TODO handle a draw
+                //sth sth session
+                System.out.println("It's a draw, how exciting");
+                break;
+            case ("gameTerminatedDisco"):
+                //TODO handle opponent disco by quitting game state
+                //sth sth session
+                System.out.println("My opponent disconnected, bummer");
+                session.setGameOver("disconnect");
+                cleanSlate();
+                break;
+            case ("gameTerminatedQuit"):
+                //TODO handle opponent disco by quitting game state
+                //sth sth session
+                System.out.println("My opponent quit with proper protocol... bummer");
+                session.setGameOver("oppoQuit");
+                cleanSlate();
+                break;
+            case ("gameEndedOnServer"):
+                //Server confirms my quit... well I already cleaned everything when quitting so I don't care.
+                System.out.println("Server confirmed my quit");
+                break;
             case ("gameTerminated"):
                 setInGame(false);
+                break;
             case ("turnInfo"):
                 //my turn? let's unblock the fields, else wait
                 try {
@@ -188,6 +216,13 @@ public class TttWebsocketClient extends WebSocketClient{
         String command = cmdHandler.sendMove(feld.toString());
         send(command);
         return moveValid;
+    }
+
+    private void cleanSlate(){
+        System.out.println("removing all ingame, inqueue, inchallenge flags");
+        setInRandomQueue(false);
+        setInGame(false);
+        setInChallengeOrChallenging(false);
     }
 
 

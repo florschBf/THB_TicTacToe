@@ -14,8 +14,8 @@ import space.game.tictactoe.websocket.messageHandlers.SignUpMsgHandler;
 
 public class TttMessageHandler {
     private SignUpMsgHandler signUp = new SignUpMsgHandler();
-    private GameSessionMsgHandler sessionCmd = new GameSessionMsgHandler();
-    private MoveMsgHandler moveCmd = new MoveMsgHandler();
+    private GameSessionMsgHandler sessionMsg = new GameSessionMsgHandler();
+    private MoveMsgHandler moveMsg = new MoveMsgHandler();
 
     public String handle(String message) throws ParseException, JSONException {
 
@@ -31,10 +31,10 @@ public class TttMessageHandler {
                 return this.signUp.handle(payload);
             case "gameSession":
                 System.out.println("gameSession topic -> calling GameSessionMsgHandler");
-                return this.sessionCmd.handle(payload);
+                return this.sessionMsg.handle(payload);
             case "gameMove":
                 System.out.println("gameMove topic -> calling MoveMsgHandler");
-                return this.moveCmd.handle(payload);
+                return this.moveMsg.handle(payload);
             default:
                 System.out.println("found no useful message..");
                 return "You said" + payload;

@@ -14,8 +14,15 @@ public class GameSessionHandler {
         return gameOver;
     }
 
-    public void setGameOver(boolean gameOver) {
-        this.gameOver = gameOver;
+    public void setGameOver(String reason) {
+        //Game's over...
+        this.gameOver = true;
+        switch (reason){
+            case("disconnect"):
+                hardReset();
+            case ("oppoQuit"):
+                hardReset();
+        }
     }
 
     public boolean isMyTurn() {
@@ -51,5 +58,12 @@ public class GameSessionHandler {
             System.out.println("its not my turn");
             return false;
         }
+    }
+
+    private void hardReset(){
+        System.out.println("hard resetting boardstate");
+        gameBoard.clearAllBlocks();
+        gameBoard.blockAllFields();
+        setMyTurn(false);
     }
 }

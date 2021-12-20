@@ -34,7 +34,6 @@ public class Player {
         this.name = randomName();
         player = this;
         System.out.println("New Player-Instanciated: " + player);
-
     }
 
 
