@@ -6,6 +6,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -34,6 +35,7 @@ public class DrawDialog extends Dialog {
         final ImageView imageViewClose = findViewById(R.id.imageViewClose);
         final Button btnPlay = findViewById(R.id.btn_play);
         final Button btnMenu = findViewById(R.id.btn_menu);
+
 
         imageViewClose.setOnClickListener(v -> {
 //            gameSingleActivity.startNewGame();
