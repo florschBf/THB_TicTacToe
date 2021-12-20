@@ -176,7 +176,7 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.935" />
     <!--"Optionenbutton" geht zu Icons und Statistiken-->
-        <ImageView
+        <!--<ImageView
             android:id="@+id/zahnrad_matchmaker"
             android:layout_width="60dp"
             android:layout_height="60dp"
@@ -189,7 +189,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.053"
-            app:srcCompat="@drawable/optionsonlinegame_2_90" />
+            app:srcCompat="@drawable/optionsonlinegame_2_90" />-->
         <!--"Matching complete Icon"
         <ImageView
             android:id="@+id/matching_complete"
@@ -213,7 +213,7 @@
             android:layout_height="70dp"
             android:layout_gravity="center"
             android:clickable="true"
-            android:contentDescription=""
+            android:contentDescription="button zurück zum menü"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.4"
@@ -232,7 +232,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.935"
-            app:srcCompat="@drawable/chosenicon_dummy_90" />
+            app:srcCompat="@drawable/stern_60" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
