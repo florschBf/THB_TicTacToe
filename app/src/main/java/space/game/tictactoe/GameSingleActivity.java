@@ -8,6 +8,7 @@ import android.content.DialogInterface;
 
 import android.content.Intent;
 import android.media.MediaPlayer;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -30,11 +31,12 @@ import space.game.tictactoe.models.Player;
 
 public class GameSingleActivity extends AppCompatActivity {
 
+
     //für die Iconauswahl
     private static final String TAG = "OnlineSpiel";
-    private int icon;
+    private int icon = Player.getPlayer().getIcon();
 
-    private static final int iconDefault = R.drawable.stern_90;
+    // private static final int iconDefault = R.drawable.stern_90;
 
 
     // Schwierigkeitsgrad
@@ -105,8 +107,6 @@ public class GameSingleActivity extends AppCompatActivity {
             int playerIcon = intent.getIntExtra("playerIcon", R.drawable.chosenicon_dummy_90);
             Log.d(TAG, "player icon" + playerIcon);
             icon = playerIcon;
-        } else{
-            icon = iconDefault;
         }
 
 /* ZAHNRAD
@@ -242,6 +242,7 @@ public class GameSingleActivity extends AppCompatActivity {
             mBoardImageView[i].setImageResource(0);
             mBoardImageView[i].setEnabled(true);
             mBoardImageView[i].setOnClickListener(new ButtonClickListener(i));
+            mBoardImageView[i].setBackgroundColor(Color.argb(100, 11, 11, 59 ));
         }
     }
     private void unblockAllFields() {
@@ -356,5 +357,6 @@ public class GameSingleActivity extends AppCompatActivity {
             WinDialog winDialog = new WinDialog(GameSingleActivity.this, GameSingleActivity.this);
             winDialog.show();
         }
+
     }
 }

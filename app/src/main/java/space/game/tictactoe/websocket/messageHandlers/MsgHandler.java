@@ -1,4 +1,4 @@
-package space.game.tictactoe.websocket.commandHandlers;
+package space.game.tictactoe.websocket.messageHandlers;
 
 import com.google.gson.JsonObject;
 

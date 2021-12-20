@@ -1,6 +1,9 @@
 package space.game.tictactoe.models;
 
+import java.util.ArrayList;
 import java.util.Random;
+
+import space.game.tictactoe.R;
 
 public class Player {
 
@@ -10,11 +13,13 @@ public class Player {
     private String name = "unknown";
     private String firebaseId = "unknown";
     private String serverId = "unknown"; // Wird vom Server aus der Connection gehashed
+    private int icon = R.drawable.stern_90;;
 
     //sound
     private static boolean isTonOn = true;
     public static Player player;
 
+    private ArrayList<Game> gameResults;
 
 //    public Player(String name, String firebaseId, String serverId) {
 //        this.name = name;
@@ -49,11 +54,16 @@ public class Player {
     }
 
     public void setUid(String uid) {
-        this.serverId=serverId;
+        this.serverId=uid;
+    }
+
+    public void setIcon(int icon) {
+        this.icon = icon;
     }
 
     public void setIsTonOn(boolean isTonOn) {this.isTonOn = isTonOn; }
     public boolean getIsTonOn() {return isTonOn; }
+
 
     public static Player getPlayer(){
         return player;
@@ -77,4 +87,11 @@ public class Player {
         String randomName = "Player-" + letter;;
         return randomName;
     }
+
+    public int getIcon() {
+        return icon;
+    }
+
+    // statistics
+
 }

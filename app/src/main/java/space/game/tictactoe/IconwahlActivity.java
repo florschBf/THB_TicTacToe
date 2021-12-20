@@ -8,10 +8,16 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 
+import space.game.tictactoe.models.Player;
+
 //@author Peggy Kleinert
 
 public class IconwahlActivity extends AppCompatActivity {
     private int icon = R.drawable.stern_90;
+
+    public Player player;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -109,6 +115,10 @@ public class IconwahlActivity extends AppCompatActivity {
 
     private void selectIcon(int icon, View view) {
         this.icon = icon;
+
+        this.player = Player.getPlayer();
+
+        player.setIcon(icon);
         ImageView image = (ImageView) findViewById(R.id.icontransport);
         image.setImageResource(icon);
     }
