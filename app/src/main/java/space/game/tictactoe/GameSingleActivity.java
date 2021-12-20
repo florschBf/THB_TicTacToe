@@ -7,12 +7,15 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 
 import android.content.Intent;
+import android.media.MediaPlayer;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.MotionEvent;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -52,12 +55,50 @@ public class GameSingleActivity extends AppCompatActivity {
     Random random = new Random();
     private boolean gameActiv = true;
 
+    // Sound
+    private MediaPlayer sound1, sound2, soundWin, soundLose, soundDraw;
+
+    Button ton;
+    boolean isTonOn = Player.getPlayer().getIsTonOn();
+    int i = 1; // 1 = ton on, 0 = ton off
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
 
+        // Sound für Android ein- und ausschalten
+        ton = (Button)findViewById(R.id.ton);
+        if(Player.getPlayer().getIsTonOn() == true) {
+            ton.setBackgroundResource(R.drawable.ic_baseline_music_note_24);
+        } else {
+            ton.setBackgroundResource(R.drawable.ic_baseline_music_off_24);
+        }
+
+        ton.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if(event.getAction() == MotionEvent.ACTION_DOWN) {
+                    if(i == 1) {
+                        ton.setBackgroundResource(R.drawable.ic_baseline_music_note_24);
+                        Player.getPlayer().setIsTonOn(true);
+                        i = 0;
+                    } else if (i == 0){
+                        ton.setBackgroundResource(R.drawable.ic_baseline_music_off_24);
+                        Player.getPlayer().setIsTonOn(false);
+                        i = 1;
+                    }
+                }
+                return false;
+            }
+        });
+
+        sound1 = MediaPlayer.create(this, R.raw.one);
+        sound2 = MediaPlayer.create(this, R.raw.two);
+        soundWin = MediaPlayer.create(this, R.raw.win);
+        soundLose = MediaPlayer.create(this, R.raw.lose);
+        soundDraw = MediaPlayer.create(this, R.raw.draw);
 
         //Datatransfair from IconwahlActivity -> chosen Icon kommt in die OnlinespielActivity aus der Iconactivity woher auch immer diese aufgerufen wird
         final Intent intent = getIntent();
@@ -125,6 +166,7 @@ public class GameSingleActivity extends AppCompatActivity {
 
         // Ermöglicht Schwierigkeitsgrad zu ändern
         difficultyLevel.setOnCheckedChangeListener((group, checkedId) -> doOnDifficultyLevelChanged(group, checkedId));
+
     }
 
     // Schwierigkeitsgrad wurde geändert
@@ -161,7 +203,9 @@ public class GameSingleActivity extends AppCompatActivity {
         minimax.placeMove(x, player);
         if (player == 1) {
             mBoardImageView[x].setImageResource(icon);
+            soundPlay(sound1);
         } else {
+            soundPlay(sound2);
             // Zeitverzug für Android Schritte
             new Handler().postDelayed(new Runnable() {
                 @Override
@@ -172,6 +216,12 @@ public class GameSingleActivity extends AppCompatActivity {
             }, 450);
         }
         mBoardImageView[x].setEnabled(false);
+    }
+
+    public void soundPlay(MediaPlayer sound) {
+        if(Player.getPlayer().getIsTonOn()) { // wenn Sound unter Optionen aktiviert
+            sound.start();
+        }
     }
 
     public void restartGame(View view) {
@@ -262,31 +312,34 @@ public class GameSingleActivity extends AppCompatActivity {
         private void checkWinner() {
             int winner = minimax.checkGameStatus();
             if (winner == minimax.DRAW) { // unentschieden
+                soundPlay(soundDraw);
                 gameActiv = false;
                 new Handler().postDelayed(new Runnable() { // Zeitverzug
                     @Override
                     public void run() {
                         showDrawDialog();
                     }
-                }, 500);
+                }, 700);
 
             } else if (winner == minimax.CROSS_WON) { // X gewonnen
                 gameActiv = false;
+                soundPlay(soundWin);
                 new Handler().postDelayed(new Runnable() { // Zeitverzug
                     @Override
                     public void run() {
                         showWinDialog();
                     }
-                }, 500);
+                }, 700);
 
             } else if (winner == minimax.NOUGHT_WON) { // O gewonnen, X verloren
                 gameActiv = false;
+                soundPlay(soundLose);
                 new Handler().postDelayed(new Runnable() { // Zeitverzug
                     @Override
                     public void run() {
                         showLoseDialog();
                     }
-                }, 500);
+                }, 700);
             }
         }
 
@@ -300,13 +353,10 @@ public class GameSingleActivity extends AppCompatActivity {
             drawDialog.show();
         }
 
-
         private void showWinDialog() {
             WinDialog winDialog = new WinDialog(GameSingleActivity.this, GameSingleActivity.this);
             winDialog.show();
         }
 
     }
-
-
 }

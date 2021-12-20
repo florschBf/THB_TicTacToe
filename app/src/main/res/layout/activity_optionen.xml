@@ -54,16 +54,5 @@
             android:textSize="@dimen/textSize_menu_btn" />
 
 
-
-
-
-
-
-
-
-
-
-
-
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -6,6 +6,7 @@ import java.util.Random;
 import space.game.tictactoe.R;
 
 public class Player {
+
     // keys of the JSON - analog to Player @Server
     //TODO diese Werte beim Start der App setzen oder durch den Nutzer setzen lassen
     //TODO diese Werte beim Anmelden am Websocketserver verwenden (Playerobjekt in OnlinespielActivity)
@@ -14,6 +15,8 @@ public class Player {
     private String serverId = "unknown"; // Wird vom Server aus der Connection gehashed
     private int icon = R.drawable.stern_90;;
 
+    //sound
+    private static boolean isTonOn = true;
     public static Player player;
 
     private ArrayList<Game> gameResults;
@@ -58,6 +61,8 @@ public class Player {
         this.icon = icon;
     }
 
+    public void setIsTonOn(boolean isTonOn) {this.isTonOn = isTonOn; }
+    public boolean getIsTonOn() {return isTonOn; }
 
 
     public static Player getPlayer(){
