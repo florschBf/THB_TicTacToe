@@ -16,18 +16,28 @@ import com.google.firebase.firestore.QuerySnapshot;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 import space.game.tictactoe.models.Player;
 import space.game.tictactoe.models.UserStatistics;
 
 public class FirebaseHandler extends AppCompatActivity {
 
-    private final FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+
     Player player = Player.getPlayer();
+
+    private final FirebaseFirestore db = FirebaseFirestore.getInstance();
+    // private final DocumentReference playerDataReference = db.collection("users").document(player.getFirebaseId());
 
     public static FirebaseHandler firebaseHandler;
 
-    List<Object> dbContentList;
+    // private int db_wins;
+    private static Long db_wins;
+    private static Long db_losses;
+    private static Long db_draws;
+    private Map<String, Object> playerFirestoreData;
+
 
     public FirebaseHandler() {
         firebaseHandler = this;
@@ -72,49 +82,71 @@ public class FirebaseHandler extends AppCompatActivity {
         });
     }
 
-//    public List readStatistics(){
-//
-//        db.collection("userStatistics").get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-//
-//            @Override
-//            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-//                List<DocumentSnapshot> dbContentSnapshotList = null;
-//                if(!queryDocumentSnapshots.isEmpty()){
-//                    dbContentSnapshotList = queryDocumentSnapshots.getDocuments();
-//                    for (DocumentSnapshot document : dbContentSnapshotList){
-//                        UserStatistics userStatistics = document.toObject(UserStatistics.class);
-//                    }
-//                } else {
-//                    dbContentSnapshotList = null;
-//                }
-//            }
-//        });
-//        return dbContentList;
-//    }
 
-    public void addUserData() throws Exception {
+    public void addPlayerData() throws Exception {
         // FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         // assert firebaseUser != null;
         String firebaseUser = player.getFirebaseId();
         if (!firebaseUser.equals("unknown")) {
-            FirebaseFirestore.getInstance().collection("users").document(player.getFirebaseId()).set(player);
+            db.collection("users").document(player.getFirebaseId()).set(player).addOnSuccessListener(new OnSuccessListener<Void>() {
+                @Override
+                public void onSuccess(Void unused) {
+                    System.out.println("Playerdata added to FireStore");
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    System.out.println("Playerdata not added to FireStore. Got Failure: " + e.getMessage());
+                }
+            });
         } else {
             System.out.println("Playerdata not added to FireStore because Player has no valid FirebaseId");
             throw new Exception("Player has no valid FirebaseId");
         }
     }
 
-    public void getUserData() throws Exception {
+    public void getPlayerData() throws Exception {
         // FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         // assert firebaseUser != null;
         String firebaseUser = player.getFirebaseId();
         if (!firebaseUser.equals("unknown")) {
-            Object userData = FirebaseFirestore.getInstance().collection("users").document(player.getFirebaseId()).get();
-            System.out.println("Got Userdata: " + userData);
+            System.out.println("Trying to get stored Playerdata from Firestore");
+
+            db.collection("users").document(player.getFirebaseId()).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+
+                //private Long db_wins;
+
+                @Override
+                public void onSuccess(DocumentSnapshot documentSnapshot) {
+                    if (documentSnapshot.exists()){
+                        db_wins = documentSnapshot.getLong("wins");
+                        db_losses = documentSnapshot.getLong("losses");
+                        db_draws = documentSnapshot.getLong("draws");
+
+                        System.out.println("Got Userdata: " + "Wins: " + db_wins.toString()  + "Losses: " + db_losses.toString()  + "Draws: " + db_draws.toString() );
+                        playerFirestoreData = documentSnapshot.getData();
+                    }
+
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    System.out.println("Something went wrong by reading data from firestore. Go Failor: " + e.getMessage());
+                }
+            });
+
         } else {
             System.out.println("Could not read Playerdata (UserData) from FireStore because Player has no valid FirebaseId");
             throw new Exception("Player has no valid FirebaseId");
         }
     }
+
+    /*@TODO Update stored firestore-data
+     * how to workarround data-update?
+     * 0) check, if there are Data found with the firebase-id - if not: set new Data (from client)
+     * 1) read stored PlayerData from Firestore
+     * 2) if there are values different then the recent values: substitute - but only settings, NOT gameresults
+     * 3) add recent gameresults (wins, losses, draws) to stored data
+     * */
 
 }

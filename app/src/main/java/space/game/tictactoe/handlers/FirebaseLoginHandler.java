@@ -70,6 +70,7 @@ public class FirebaseLoginHandler extends AppCompatActivity {
             this.player = Player.getPlayer();
 
             player.setName(getUserName());
+            player.setEmail(getEmail());
             player.setFirebaseId(getFirebaseId());
             System.out.println("Firebase-User " + user + " Player: " + player);
 
@@ -186,4 +187,6 @@ public class FirebaseLoginHandler extends AppCompatActivity {
     public String getFirebaseId(){
         return this.currentUser.getUid();
     }
+
+    public String getEmail() { return  this.currentUser.getEmail(); }
 }

@@ -11,6 +11,7 @@ public class Player {
     //TODO diese Werte beim Start der App setzen oder durch den Nutzer setzen lassen
     //TODO diese Werte beim Anmelden am Websocketserver verwenden (Playerobjekt in OnlinespielActivity)
     private String name = "unknown";
+    private String email = "unknown";
     private String firebaseId = "unknown";
     private String serverId = "unknown"; // Wird vom Server aus der Connection gehashed
     private int icon = R.drawable.stern_90; // set icon as default from fireBase
@@ -60,6 +61,10 @@ public class Player {
 
     public void setName(String name) { this.name=name; }
 
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
     public void setFirebaseId(String firebaseId) {
         this.firebaseId=firebaseId;
     }
@@ -83,6 +88,11 @@ public class Player {
     public String getName() {
         return name;
     }
+
+    public String getEmail() {
+        return email;
+    }
+
 
     public String getFirebaseId() {
         return firebaseId;
@@ -139,6 +149,7 @@ public class Player {
     public void setInterrupted() {
         this.interrupted++;
     }
+
 
 
 }
