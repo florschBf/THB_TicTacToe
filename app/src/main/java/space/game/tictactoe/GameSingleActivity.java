@@ -34,7 +34,8 @@ public class GameSingleActivity extends AppCompatActivity {
 
     //für die Iconauswahl
     private static final String TAG = "OnlineSpiel";
-    private int icon = Player.getPlayer().getIcon();
+    private final Player player = Player.getPlayer();
+    private int icon = player.getIcon();
 
     // private static final int iconDefault = R.drawable.stern_90;
 
@@ -70,7 +71,7 @@ public class GameSingleActivity extends AppCompatActivity {
 
         // Sound für Android ein- und ausschalten
         ton = (Button)findViewById(R.id.ton);
-        if(Player.getPlayer().getIsTonOn() == true) {
+        if(player.getIsTonOn()) {
             ton.setBackgroundResource(R.drawable.ic_baseline_music_note_24);
         } else {
             ton.setBackgroundResource(R.drawable.ic_baseline_music_off_24);
@@ -345,15 +346,18 @@ public class GameSingleActivity extends AppCompatActivity {
 
         // Dialogfenster für Spielergebniss
         private void showLoseDialog() {
+            player.setLosses();
             LoseDialog loseDialog = new LoseDialog(GameSingleActivity.this, GameSingleActivity.this);
             loseDialog.show();
         }
         private void showDrawDialog() {
+            player.setDraws();
             DrawDialog drawDialog = new DrawDialog(GameSingleActivity.this, GameSingleActivity.this);
             drawDialog.show();
         }
 
         private void showWinDialog() {
+            player.setWins();
             WinDialog winDialog = new WinDialog(GameSingleActivity.this, GameSingleActivity.this);
             winDialog.show();
         }

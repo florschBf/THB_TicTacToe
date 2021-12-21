@@ -27,5 +27,17 @@ public class StatistikenActivity extends AppCompatActivity {
         // update the FirebaseDate:
         // call updateStatistics fetches actual Player properties and writes them into the Firestore
         firebaseHandler.updateStatistics();
+        try {
+            firebaseHandler.addUserData();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        try {
+            firebaseHandler.getUserData();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
     }
 }
