@@ -100,6 +100,7 @@ public class TttWebsocketClient extends WebSocketClient{
      */
     @Override
     public void onMessage(String message) {
+        this.player = Player.getPlayer();
         System.out.println("received message: " + message);
         String handledMessage = null;
         Integer x;
@@ -140,6 +141,7 @@ public class TttWebsocketClient extends WebSocketClient{
                 this.session.setMyTurn(false);
                 break;
             case ("youwin"):
+                this.player.setWins();
                 //TODO handle winning the game!
                 //sth sth session
                 System.out.println("I won, I won");
@@ -147,6 +149,7 @@ public class TttWebsocketClient extends WebSocketClient{
                 cleanSlate();
                 break;
             case ("youlose"):
+                this.player.setLosses();
                 //TODO handle losing, Loser.
                 //sth sth session
                 System.out.println("I lost, oh no");
@@ -154,6 +157,7 @@ public class TttWebsocketClient extends WebSocketClient{
                 cleanSlate();
                 break;
             case ("draw"):
+                this.player.setDraws();
                 //TODO handle a draw
                 //sth sth session
                 System.out.println("It's a draw, how exciting");
@@ -161,24 +165,28 @@ public class TttWebsocketClient extends WebSocketClient{
                 cleanSlate();
                 break;
             case ("gameTerminatedDisco"):
+                this.player.setInterrupted();
                 //opponent disconnected, ending game session, resetting activity
                 System.out.println("My opponent disconnected, bummer");
                 session.setGameOver("disconnect");
                 cleanSlate();
                 break;
             case ("gameTerminatedQuit"):
+                this.player.setInterrupted();
                 //opponent quit, ending game session, resetting activity
                 System.out.println("My opponent quit with proper protocol... bummer");
                 session.setGameOver("oppoQuit");
                 cleanSlate();
                 break;
             case ("gameEndedOnServer"):
+                this.player.setInterrupted();
                 //Server confirms my quit... well I already cleaned everything when quitting so I don't care.
                 System.out.println("Game termination confirmed");
                 session.setGameOver("endForNoReason");
                 cleanSlate();
                 break;
             case ("gameTerminated"):
+                this.player.setInterrupted();
                 //TODO wird momentan nicht zurückgegeben, stattdessen Unterscheidung in quit und disconnect. Nötig?
                 //opponent disconnected, ending game session, resetting activity
                 System.out.println("Game terminated, bummer");

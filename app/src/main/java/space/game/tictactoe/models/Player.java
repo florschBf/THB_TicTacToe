@@ -13,12 +13,24 @@ public class Player {
     private String name = "unknown";
     private String firebaseId = "unknown";
     private String serverId = "unknown"; // Wird vom Server aus der Connection gehashed
-    private int icon = R.drawable.stern_90;;
+    private int icon = R.drawable.stern_90; // set icon as default from fireBase
 
     //sound
     private static boolean isTonOn = true;
     public static Player player;
 
+
+    /*
+     * How to store the results of a game at firestore and make it accessable for Statistics
+     * */
+    // easy way
+    // statistics counted on the actual session
+    private int wins = 0;
+    private int losses = 0;
+    private int draws  = 0;
+    private int interrupted = 0;
+
+    // more komplex way
     private ArrayList<Game> gameResults;
 
 //    public Player(String name, String firebaseId, String serverId) {
@@ -91,6 +103,42 @@ public class Player {
         return icon;
     }
 
-    // statistics
+    /*
+     * statistics
+     */
+
+    public int getWins() {
+        return wins;
+    }
+
+    public int getLosses() {
+        return losses;
+    }
+
+    public int getDraws() {
+        return draws;
+    }
+
+    public int getInterrupted() {
+        return interrupted;
+    }
+
+
+    public void setWins() {
+        this.wins++;
+    }
+
+    public void setLosses() {
+        this.losses++;
+    }
+
+    public void setDraws() {
+        this.draws++;
+    }
+
+    public void setInterrupted() {
+        this.interrupted++;
+    }
+
 
 }
