@@ -346,18 +346,18 @@ public class GameSingleActivity extends AppCompatActivity {
 
         // Dialogfenster für Spielergebniss
         private void showLoseDialog() {
-            player.setLosses();
+            player.increaseLosses();
             LoseDialog loseDialog = new LoseDialog(GameSingleActivity.this, GameSingleActivity.this);
             loseDialog.show();
         }
         private void showDrawDialog() {
-            player.setDraws();
+            player.increaseDraws();
             DrawDialog drawDialog = new DrawDialog(GameSingleActivity.this, GameSingleActivity.this);
             drawDialog.show();
         }
 
         private void showWinDialog() {
-            player.setWins();
+            player.increaseWins();
             WinDialog winDialog = new WinDialog(GameSingleActivity.this, GameSingleActivity.this);
             winDialog.show();
         }

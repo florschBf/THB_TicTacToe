@@ -4,34 +4,23 @@ import androidx.appcompat.app.AppCompatActivity;
 
 
 import android.os.Bundle;
+import android.widget.Toast;
 
-import space.game.tictactoe.handlers.FirebaseHandler;
+import space.game.tictactoe.handlers.StatisticsHandler;
+import space.game.tictactoe.models.Player;
+
 
 public class StatistikenActivity extends AppCompatActivity {
 
-
-    FirebaseHandler firebaseHandler = FirebaseHandler.getFirebaseHandler();
+    Player player = Player.getPlayer();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_statistiken);
         System.out.println("Statistics onCreate called");
-        // update the FirebaseDate:
-        // call updateStatistics fetches actual Player properties and writes them into the Firestore
-        // firebaseHandler.updateStatistics();
-        try {
-            firebaseHandler.addPlayerData();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
 
-        try {
-            firebaseHandler.getPlayerData();
-        } catch (Exception e) {
-            e.printStackTrace();
-            System.out.println("Error happend by getting stored playerdata from firebase. Got error: " + e.getMessage());
-        }
-
+        /*@TODO show selected playerdata as textview */
+        Toast.makeText(this, "Wins: " + player.getWins() + " Losses: " + player.getLosses() + " Draws: " + player.getDraws(), Toast.LENGTH_LONG).show();
     }
 }

@@ -17,11 +17,13 @@ import com.firebase.ui.auth.FirebaseAuthUIActivityResultContract;
 import com.firebase.ui.auth.data.model.FirebaseAuthUIAuthenticationResult;
 
 import space.game.tictactoe.handlers.FirebaseLoginHandler;
+import space.game.tictactoe.handlers.StatisticsHandler;
 
 public class MenuActivity extends AppCompatActivity {
 
     //handle login status
     private FirebaseLoginHandler fbLogin = new FirebaseLoginHandler(this);
+    private StatisticsHandler statisticsHandler = StatisticsHandler.getStatisticsHandler();
 
     // See: https://developer.android.com/training/basics/intents/result
     // launches new view when login is started
@@ -30,7 +32,11 @@ public class MenuActivity extends AppCompatActivity {
             new ActivityResultCallback<FirebaseAuthUIAuthenticationResult>() {
                 @Override
                 public void onActivityResult(FirebaseAuthUIAuthenticationResult result) {
-                    fbLogin.onSignInResult(result);
+                    try {
+                        fbLogin.onSignInResult(result);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                 }
             }
     );
@@ -124,6 +130,7 @@ public class MenuActivity extends AppCompatActivity {
             }
         });
 
+        // Button #3
         Button button_optionen_general = (Button)findViewById(R.id.button_optionen_general);
         button_optionen_general.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -131,6 +138,21 @@ public class MenuActivity extends AppCompatActivity {
                 try {
                     Intent intent = new Intent(MenuActivity.this, OptionenActivity.class);
                     startActivity(intent);
+                } catch(Exception e) {
+
+                }
+            }
+        });
+
+        // Button 4 button_showAbout -> Weiterleitung zur Projektbeschreibung
+        Button button_quit = (Button)findViewById(R.id.button_quit);
+        button_showAbout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                try {
+                    // store last PlayerData at FireStore
+                    StatisticsHandler.getStatisticsHandler().setPlayerData();
+                    System.out.println("Trying to store local and updated PlayerData (if logged in) at FireStore.");
                 } catch(Exception e) {
 
                 }
@@ -178,6 +200,8 @@ public class MenuActivity extends AppCompatActivity {
                 else{
                     try {
                         signInLauncher.launch(fbLogin.login());
+
+                        // statisticsHandler.updateLocalPlayerDataWithFbData();
                     } catch (Exception e){
                         System.out.println("Meh, login didn't start?: " + e);
                     }

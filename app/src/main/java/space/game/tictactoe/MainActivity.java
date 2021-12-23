@@ -7,7 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
-import space.game.tictactoe.handlers.FirebaseHandler;
+import space.game.tictactoe.handlers.StatisticsHandler;
 import space.game.tictactoe.models.Player;
 
 public class MainActivity extends AppCompatActivity {
@@ -26,7 +26,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 // instantiate a player with default-values when app is started
                 Player player = new Player();
-                FirebaseHandler firebaseHandler = new FirebaseHandler();
+                StatisticsHandler statisticsHandler = new StatisticsHandler();
 
                 try {
                     Intent intent = new Intent(MainActivity.this, MenuActivity.class);

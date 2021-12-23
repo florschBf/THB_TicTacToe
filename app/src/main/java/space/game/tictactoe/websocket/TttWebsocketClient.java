@@ -1,8 +1,6 @@
 package space.game.tictactoe.websocket;
 
-import android.app.Activity;
 import android.content.Context;
-import android.widget.ImageView;
 
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -14,11 +12,9 @@ import java.nio.ByteBuffer;
 import java.text.ParseException;
 
 import org.java_websocket.client.WebSocketClient;
-import org.java_websocket.drafts.Draft;
 import org.java_websocket.handshake.ServerHandshake;
 import org.json.JSONException;
 
-import space.game.tictactoe.R;
 import space.game.tictactoe.handlers.GameBoardHandler;
 import space.game.tictactoe.handlers.GameSessionHandler;
 import space.game.tictactoe.models.Player;
@@ -141,7 +137,7 @@ public class TttWebsocketClient extends WebSocketClient{
                 this.session.setMyTurn(false);
                 break;
             case ("youwin"):
-                this.player.setWins();
+                this.player.increaseWins();
                 //TODO handle winning the game!
                 //sth sth session
                 System.out.println("I won, I won");
@@ -149,7 +145,7 @@ public class TttWebsocketClient extends WebSocketClient{
                 cleanSlate();
                 break;
             case ("youlose"):
-                this.player.setLosses();
+                this.player.increaseLosses();
                 //TODO handle losing, Loser.
                 //sth sth session
                 System.out.println("I lost, oh no");
@@ -157,7 +153,7 @@ public class TttWebsocketClient extends WebSocketClient{
                 cleanSlate();
                 break;
             case ("draw"):
-                this.player.setDraws();
+                this.player.increaseDraws();
                 //TODO handle a draw
                 //sth sth session
                 System.out.println("It's a draw, how exciting");
@@ -165,28 +161,28 @@ public class TttWebsocketClient extends WebSocketClient{
                 cleanSlate();
                 break;
             case ("gameTerminatedDisco"):
-                this.player.setInterrupted();
+                this.player.increaseInterrupted();
                 //opponent disconnected, ending game session, resetting activity
                 System.out.println("My opponent disconnected, bummer");
                 session.setGameOver("disconnect");
                 cleanSlate();
                 break;
             case ("gameTerminatedQuit"):
-                this.player.setInterrupted();
+                this.player.increaseInterrupted();
                 //opponent quit, ending game session, resetting activity
                 System.out.println("My opponent quit with proper protocol... bummer");
                 session.setGameOver("oppoQuit");
                 cleanSlate();
                 break;
             case ("gameEndedOnServer"):
-                this.player.setInterrupted();
+                this.player.increaseInterrupted();
                 //Server confirms my quit... well I already cleaned everything when quitting so I don't care.
                 System.out.println("Game termination confirmed");
                 session.setGameOver("endForNoReason");
                 cleanSlate();
                 break;
             case ("gameTerminated"):
-                this.player.setInterrupted();
+                this.player.increaseInterrupted();
                 //TODO wird momentan nicht zurückgegeben, stattdessen Unterscheidung in quit und disconnect. Nötig?
                 //opponent disconnected, ending game session, resetting activity
                 System.out.println("Game terminated, bummer");

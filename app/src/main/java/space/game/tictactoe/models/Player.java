@@ -26,10 +26,13 @@ public class Player {
      * */
     // easy way
     // statistics counted on the actual session
-    private int wins = 0;
-    private int losses = 0;
-    private int draws  = 0;
-    private int interrupted = 0;
+    private long wins = 0;
+    private long losses = 0;
+    private long draws  = 0;
+    private long interrupted = 0;
+    private long totalGames = 0;
+
+
 
     // more komplex way
     private ArrayList<Game> gameResults;
@@ -117,39 +120,69 @@ public class Player {
      * statistics
      */
 
-    public int getWins() {
+    public long getWins() {
         return wins;
     }
 
-    public int getLosses() {
+    public long getLosses() {
         return losses;
     }
 
-    public int getDraws() {
+    public long getDraws() {
         return draws;
     }
 
-    public int getInterrupted() {
+    public long getInterrupted() {
         return interrupted;
     }
 
+    public long getTotalGames() {
+        return wins + losses + draws + interrupted;
+    }
 
-    public void setWins() {
+
+    public void increaseWins() {
         this.wins++;
     }
 
-    public void setLosses() {
+    public void increaseLosses() {
         this.losses++;
     }
 
-    public void setDraws() {
+    public void increaseDraws() {
         this.draws++;
     }
 
-    public void setInterrupted() {
-        this.interrupted++;
+    public void increaseInterrupted() { this.interrupted++; }
+
+    public void increasetotalGames() { this.totalGames++; }
+
+    public void updateWins(long winsFromFireStore) {
+        this.wins += winsFromFireStore;
+    }
+
+    public void updateLosses(long lossesFromFireStore) {
+        this.losses += lossesFromFireStore;
+    }
+
+    public void updateDraws(long drawsFromFireStore) {
+        this.draws += drawsFromFireStore;
+    }
+
+    public void updateInterrupted(long interruptedFromFireStore) {
+        this.draws += interruptedFromFireStore;
+    }
+
+
+    public void updateTotalGames(long totalGamesFromFireStore) {
+        this.totalGames += totalGamesFromFireStore;
     }
 
 
 
-}
+
+
+
+
+
+    }

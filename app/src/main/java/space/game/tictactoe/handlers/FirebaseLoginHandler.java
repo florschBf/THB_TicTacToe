@@ -34,6 +34,7 @@ public class FirebaseLoginHandler extends AppCompatActivity {
     private boolean anonSignIn;
     final private Context menuContext;
     public Player player;
+    public StatisticsHandler statisticsHandler = StatisticsHandler.getStatisticsHandler();
 
     protected void setLoggedIn(boolean loggedIn) {
         this.loggedIn = loggedIn;
@@ -61,7 +62,7 @@ public class FirebaseLoginHandler extends AppCompatActivity {
      * Methode zum Verarbeiten des Signins
      * @param result Firebase Auth answer
      */
-    public void onSignInResult(FirebaseAuthUIAuthenticationResult result) {
+    public void onSignInResult(FirebaseAuthUIAuthenticationResult result) throws Exception {
         IdpResponse response = result.getIdpResponse();
         if (result.getResultCode() == RESULT_OK) {
             // Successfully signed in
@@ -74,6 +75,7 @@ public class FirebaseLoginHandler extends AppCompatActivity {
             player.setFirebaseId(getFirebaseId());
             System.out.println("Firebase-User " + user + " Player: " + player);
 
+            statisticsHandler.updateLocalPlayerDataWithFbData();
 
             setLoggedIn(true);
             setAnonSignIn(false);
@@ -93,7 +95,8 @@ public class FirebaseLoginHandler extends AppCompatActivity {
      * Methode zum Ausloggen aus Firebase
      * -> nicht eingeloggt => triggert anonymous login in MenuActivity
      */
-    public void logout(Context c){
+    public void logout(Context c) throws Exception {
+        statisticsHandler.setPlayerData();
         AuthUI.getInstance()
                 .signOut(c)
                 .addOnCompleteListener(task -> setLoggedIn(false));
@@ -102,7 +105,8 @@ public class FirebaseLoginHandler extends AppCompatActivity {
     /**
      * Methode zum Start des Firebase Signin Intent
      */
-    public Intent login(){
+    public Intent login() throws Exception {
+
         // Choose authentication providers
         List<AuthUI.IdpConfig> providers = Arrays.asList(
                 new AuthUI.IdpConfig.EmailBuilder().build() // E-Mail will do for now
