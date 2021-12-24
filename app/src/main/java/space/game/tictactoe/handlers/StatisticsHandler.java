@@ -132,11 +132,16 @@ public class StatisticsHandler extends AppCompatActivity {
                 @Override
                 public void onSuccess(DocumentSnapshot documentSnapshot) {
                     if (documentSnapshot.exists()) {
-                        player.updateWins(documentSnapshot.getLong("wins"));
-                        player.updateLosses(documentSnapshot.getLong("losses"));
-                        player.updateDraws(documentSnapshot.getLong("draws"));
-                        player.updateInterrupted(documentSnapshot.getLong("interrupted"));
-                        player.updateTotalGames(documentSnapshot.getLong("totalGames"));
+                        if (!player.getPlayerAlreadyUpdatedByFirestoreData()) {
+                            player.updateWins(documentSnapshot.getLong("wins"));
+                            player.updateLosses(documentSnapshot.getLong("losses"));
+                            player.updateDraws(documentSnapshot.getLong("draws"));
+                            player.updateInterrupted(documentSnapshot.getLong("interrupted"));
+                            player.updateTotalGames(documentSnapshot.getLong("totalGames"));
+                            player.setPlayerAlreadyUpdatedByFirestoreData(true);
+                        } else {
+                            System.out.println("Local PlayerData had been updated by FireStoreData before. Local Playerdata are ahead.");
+                        }
 
                     } else {
                         System.out.println("Document " + documentSnapshot + " does not exist on FireStore");

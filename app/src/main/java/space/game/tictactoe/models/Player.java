@@ -18,7 +18,6 @@ public class Player {
 
     //sound
     private static boolean isTonOn = true;
-    public static Player player;
 
 
     /*
@@ -37,20 +36,15 @@ public class Player {
     // more komplex way
     private ArrayList<Game> gameResults;
 
-//    public Player(String name, String firebaseId, String serverId) {
-//        this.name = name;
-//        this.firebaseId = firebaseId;
-//        this.serverId = serverId;
-//        player = this;
-//
-//        System.out.println("New Player-Instanciated: " + player);
-//    }
+    public static Player player;
 
     public Player() {
         this.name = randomName();
         player = this;
         System.out.println("New Player-Instanciated: " + player);
     }
+
+    private Boolean isPlayerAlreadyUpdatedByFirestoreData = false;
 
 
     @Override
@@ -171,6 +165,14 @@ public class Player {
 
     public void updateInterrupted(long interruptedFromFireStore) {
         this.draws += interruptedFromFireStore;
+    }
+
+    public Boolean getPlayerAlreadyUpdatedByFirestoreData() {
+        return isPlayerAlreadyUpdatedByFirestoreData;
+    }
+
+    public void setPlayerAlreadyUpdatedByFirestoreData(Boolean playerAlreadyUpdatedByFirestoreData) {
+        isPlayerAlreadyUpdatedByFirestoreData = playerAlreadyUpdatedByFirestoreData;
     }
 
 
