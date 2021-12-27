@@ -79,6 +79,18 @@ Wenn nach 9 Zügen keiner eine Reihe legen konnte, endet das Spiel unentschieden
     <string name="button_optionen_general">Optionen</string>
     <string name="dialog_challenge_sent">Du sendest nun eine Spielaufforderung an den folgenden Spieler:</string>
     <string name="dialog_challenge_online">Ich möchte gern eine Runde Tic Tac Toe gegen Dich spielen. Bitte nimm die Anfrage an.</string>
+    <string name="statistiken_table_head_col1">Category</string>
+    <string name="statistiken_table_head_col2">Result</string>
+    <string name="statistiken_table_col1">Total Games</string>
+    <string name="statistiken_table_col2">0</string>
+    <string name="statistiken_table_wins_key">Wins</string>
+    <string name="statistiken_table_wins_value">0</string>
+    <string name="statistiken_table_totalgames_key">Total Games</string>
+    <string name="statistiken_table_totalgames_value">0</string>
+    <string name="statistiken_table_losses_key">Losses</string>
+    <string name="statistiken_table_losses_value">0</string>
+    <string name="statistiken_table_draws_key">Draws</string>
+    <string name="statistiken_table_draws_value">0</string>
 
 
 </resources>

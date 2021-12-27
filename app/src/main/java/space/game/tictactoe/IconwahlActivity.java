@@ -122,6 +122,6 @@ public class IconwahlActivity extends AppCompatActivity {
 
         player.setIcon(icon);
         ImageView image = (ImageView) findViewById(R.id.icontransport);
-        image.setImageResource(icon);
+        image.setImageResource(player.getIcon());
     }
 }
