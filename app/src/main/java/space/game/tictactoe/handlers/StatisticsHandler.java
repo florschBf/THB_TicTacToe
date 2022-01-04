@@ -14,8 +14,8 @@ import java.util.Map;
 
 import space.game.tictactoe.models.Player;
 
-public class StatisticsHandler extends AppCompatActivity {
-
+//public class StatisticsHandler extends AppCompatActivity {
+public class StatisticsHandler {
 
 
     Player player = Player.getPlayer();
