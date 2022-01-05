@@ -3,17 +3,11 @@ package space.game.tictactoe;
 import static space.game.tictactoe.R.id.icontransport;
 
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.FragmentManager;
-import androidx.navigation.fragment.DialogFragmentNavigator;
 
 
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
-import android.app.Activity;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -30,6 +24,9 @@ import org.java_websocket.client.WebSocketClient;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 import space.game.tictactoe.dialogs.DrawDialog;
 import space.game.tictactoe.dialogs.InvitationOnlineGameDialog;
@@ -59,7 +56,8 @@ public class OnlinespielActivity extends AppCompatActivity {
     private int icon;
 
     // private static int iconDefault = R.drawable.stern_90;
-    private TttWebsocketClient client = new TttWebsocketClient(new URI("ws://192.168.178.249:8088"), this);
+    private Map<String, String> headers = new HashMap<>();
+    private TttWebsocketClient client = new TttWebsocketClient(new URI("wss://ttt-server-gizejztnta-ew.a.run.app"), headers, this);;
     private ImageView mBoardImageView[];
     private GameBoardHandler gameBoard;
 

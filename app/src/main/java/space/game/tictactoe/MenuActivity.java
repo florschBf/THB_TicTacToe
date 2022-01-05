@@ -14,16 +14,24 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.firebase.ui.auth.FirebaseAuthUIActivityResultContract;
+import com.firebase.ui.auth.IdpResponse;
 import com.firebase.ui.auth.data.model.FirebaseAuthUIAuthenticationResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 import space.game.tictactoe.handlers.FirebaseLoginHandler;
 import space.game.tictactoe.handlers.StatisticsHandler;
+import space.game.tictactoe.models.Player;
+
 
 public class MenuActivity extends AppCompatActivity {
 
     //handle login status
-    private FirebaseLoginHandler fbLogin = new FirebaseLoginHandler(this);
-    private StatisticsHandler statisticsHandler = StatisticsHandler.getStatisticsHandler();
+    private static FirebaseLoginHandler fbLogin;
+    private static FirebaseAuth mAuth;
+    private static FirebaseUser currentUser;
+    private static StatisticsHandler statisticsHandler = StatisticsHandler.getStatisticsHandler();
+    public static Player player;
 
     // See: https://developer.android.com/training/basics/intents/result
     // launches new view when login is started
@@ -33,7 +41,7 @@ public class MenuActivity extends AppCompatActivity {
                 @Override
                 public void onActivityResult(FirebaseAuthUIAuthenticationResult result) {
                     try {
-                        fbLogin.onSignInResult(result);
+                        onSignInResult(result);
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
@@ -41,11 +49,63 @@ public class MenuActivity extends AppCompatActivity {
             }
     );
 
+    /**
+     * Methode zum Verarbeiten des Signins
+     * @param result Firebase Auth answer
+     */
+    public void onSignInResult(FirebaseAuthUIAuthenticationResult result) throws Exception {
+        IdpResponse response = result.getIdpResponse();
+        if (result.getResultCode() == RESULT_OK) {
+            // Successfully signed in
+            FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+
+            this.player = Player.getPlayer();
+
+            player.setName(fbLogin.getUserName());
+            player.setEmail(fbLogin.getEmail());
+            player.setFirebaseId(fbLogin.getFirebaseId());
+            System.out.println("Firebase-User " + user + " Player: " + player);
+
+            statisticsHandler.updateLocalPlayerDataWithFbData();
+
+        } else {
+            // Sign in failed. If response is null the user canceled the
+            // sign-in flow using the back button. Otherwise check
+            // response.getError().getErrorCode() and handle the error.
+            // ...
+            System.out.println("no user after all");
+        }
+    }
+
+    /**
+     * Methode für anonymous login Firebase
+     */
+    public void signInAnon(TextView login_status, Button login_button){
+        System.out.println("Trying anon sign-in");
+        this.mAuth.signInAnonymously()
+                .addOnCompleteListener(this, task -> {
+                    if (task.isSuccessful()) {
+                        //Logged in as Anon
+                        System.out.println("finally anon");
+                        //There's an anon user authenticated via Firebase
+                        fbLogin.changeTextAnonUser(login_status, login_button);
+
+                    }
+                    else { //should never happen..
+                        fbLogin.changeDefaultText(login_status, login_button);
+                    }
+                });
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu);
+        //init Firebase
+        mAuth = FirebaseAuth.getInstance();
+        //check if we're logged in and save current user / non-user
+        currentUser = mAuth.getCurrentUser();
+        fbLogin = new FirebaseLoginHandler(this, mAuth, currentUser);
 
         // Spiel im Vollbild ausführen
         Window w = getWindow();
@@ -164,9 +224,6 @@ public class MenuActivity extends AppCompatActivity {
 
 
 
-
-
-
         /*// Imageview Zahnrad als Button anclickbar-> Optionen im Menü -> Weiterleitung zu Optionen
         ImageView zahnrad= findViewById(R.id.zahnrad);
         zahnrad.setOnClickListener(new View.OnClickListener() {
@@ -187,7 +244,7 @@ public class MenuActivity extends AppCompatActivity {
         button_login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (fbLogin.isLoggedIn() && !fbLogin.isAnonSignIn()){ //logged in & not anon -> logging out
+                if (fbLogin.getUserName() != "" && fbLogin.getUserName() != null){ //logged in & not anon -> logging out
                     try{
                         System.out.println("triggering logout");
                         final Context c = v.getContext();
@@ -201,7 +258,6 @@ public class MenuActivity extends AppCompatActivity {
                 else{
                     try {
                         signInLauncher.launch(fbLogin.login());
-
                         // statisticsHandler.updateLocalPlayerDataWithFbData();
                     } catch (Exception e){
                         System.out.println("Meh, login didn't start?: " + e);
@@ -215,19 +271,15 @@ public class MenuActivity extends AppCompatActivity {
         //updateUserAndUI();
     }
 
-
-
     //Method to update UI according to login status
     public void updateUserAndUI(){
-        boolean loggedIn = this.fbLogin.isLoggedIn();
-        boolean anonSignIn = this.fbLogin.isAnonSignIn();
 
-        if (!loggedIn){
+        if (mAuth.getCurrentUser() == null){
             System.out.println("Well, no User\n");
-            fbLogin.signInAnon(findViewById(R.id.login_status), findViewById(R.id.button_login)); //Starte Anonymous user login
+            this.signInAnon(findViewById(R.id.login_status), findViewById(R.id.button_login)); //Starte Anonymous user login
         }
         else {
-            if(anonSignIn){
+            if(fbLogin.getUserName() == ""){
                 //login is anon, nothing to do
                 System.out.println("leaving things as is");
             }
@@ -249,6 +301,9 @@ public class MenuActivity extends AppCompatActivity {
     //Use onResume to always check for login when we come back and updateUserAndUI accordingly
     protected void onResume(){
         super.onResume();
+        System.out.println("resuming menu..");
+        System.out.println(mAuth.getCurrentUser().getDisplayName());
+        System.out.println(fbLogin.getUserName());
         updateUserAndUI();
     }
 
