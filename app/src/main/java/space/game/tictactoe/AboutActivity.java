@@ -25,7 +25,8 @@ public class AboutActivity extends AppCompatActivity {
     public void onBackPressed() {
         try {
             Intent intent = new Intent(AboutActivity.this, MenuActivity.class);
-            startActivity(intent);finish();
+            startActivity(intent);
+            finish();
         }catch (Exception e) {
 
         }

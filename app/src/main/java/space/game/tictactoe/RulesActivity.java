@@ -22,7 +22,7 @@ public class RulesActivity extends AppCompatActivity {
                 try {
                     Intent intent = new Intent(RulesActivity.this, MenuActivity.class);
                     startActivity(intent);
-                    //finish();
+                    finish();
                 } catch (Exception e) {
 
                 }
@@ -37,7 +37,7 @@ public class RulesActivity extends AppCompatActivity {
         try {
             Intent intent = new Intent(RulesActivity.this, MenuActivity.class);
             startActivity(intent);
-            //finish();
+            finish();
         }catch (Exception e) {
 
         }

@@ -182,10 +182,11 @@ public class MenuActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 try {
+                    System.out.println("Button About clicked");
                     Intent intent = new Intent(MenuActivity.this, AboutActivity.class);
                     startActivity(intent);
                 } catch(Exception e) {
-
+                    System.out.println("Button About clicked but got error: " + e);
                 }
             }
         });
@@ -204,20 +205,20 @@ public class MenuActivity extends AppCompatActivity {
             }
         });
 
-        // Button 4 button_showAbout -> Weiterleitung zur Projektbeschreibung
-        Button button_quit = (Button)findViewById(R.id.button_quit);
-        button_showAbout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                try {
-                    // store last PlayerData at FireStore
-                    StatisticsHandler.getStatisticsHandler().setPlayerData();
-                    System.out.println("Trying to store local and updated PlayerData (if logged in) at FireStore.");
-                } catch(Exception e) {
-
-                }
-            }
-        });
+//        // Button 4 button_showAbout -> Weiterleitung zur Projektbeschreibung
+//        Button button_quit = (Button)findViewById(R.id.button_quit);
+//        button_showAbout.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                try {
+//                    // store last PlayerData at FireStore
+//                    //StatisticsHandler.getStatisticsHandler().setPlayerData();
+//                    System.out.println("Trying to store local and updated PlayerData (if logged in) at FireStore.");
+//                } catch(Exception e) {
+//
+//                }
+//            }
+//        });
 
 
 
