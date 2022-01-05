@@ -10,6 +10,7 @@ import androidx.fragment.app.FragmentManager;
 import java.net.URI;
 import java.nio.ByteBuffer;
 import java.text.ParseException;
+import java.util.Map;
 
 import org.java_websocket.client.WebSocketClient;
 import org.java_websocket.handshake.ServerHandshake;
@@ -63,8 +64,8 @@ public class TttWebsocketClient extends WebSocketClient{
     }
 
 
-    public TttWebsocketClient(URI serverURI, Context context) {
-        super(serverURI);
+    public TttWebsocketClient(URI serverURI, Map<String, String> headers, Context context) {
+        super(serverURI, headers);
         this.context = context;
         this.listHandler = new PlayerListHandler(context);
 
