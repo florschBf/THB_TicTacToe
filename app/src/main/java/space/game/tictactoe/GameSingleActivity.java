@@ -1,5 +1,8 @@
 package space.game.tictactoe;
 
+import static space.game.tictactoe.Block.CROSS;
+import static space.game.tictactoe.Block.NOUGHT;
+
 import android.app.AlertDialog;
 
 import android.app.Dialog;
@@ -7,8 +10,8 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 
 import android.content.Intent;
-import android.media.MediaPlayer;
 import android.graphics.Color;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -21,6 +24,7 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
+
 import java.util.Random;
 
 import space.game.tictactoe.dialogs.DrawDialog;
@@ -46,13 +50,14 @@ public class GameSingleActivity extends AppCompatActivity {
     Dialog dialog;
 
     private GameSingleActivityLogic minimax;
+    private GameSingleActivityLogic getWinnerRow;
 
     private ImageView mBoardImageView[];
     private CharSequence[] items = new CharSequence[]{"Ich", "Android"};
     private int first = 0; // 1 = beginnt Spieler, 2 beginnt Android
 
-    public int HUMAN = 1;
-    public int COMPUTER = 2;
+    public Block HUMAN = CROSS;
+    public Block COMPUTER = NOUGHT;
     Random random = new Random();
     private boolean gameActiv = true;
 
@@ -62,6 +67,22 @@ public class GameSingleActivity extends AppCompatActivity {
     Button ton;
     boolean isTonOn = Player.getPlayer().getIsTonOn();
     int i = 1; // 1 = ton on, 0 = ton off
+
+
+    //board imageviews für die erleucheten Felder
+
+    // Dies sind die ImageViews vom Board
+   /* ImageView block0 = findViewById(R.id.block0);
+    ImageView block1 = findViewById(R.id.block1);
+    ImageView block2 = findViewById(R.id.block2);
+    ImageView block3 = findViewById(R.id.block3);
+    ImageView block4 = findViewById(R.id.block4);
+    ImageView block5 = findViewById(R.id.block5);
+    ImageView block6 = findViewById(R.id.block6);
+    ImageView block7 = findViewById(R.id.block7);
+    ImageView block8 = findViewById(R.id.block8);
+    // das gameboard abstrakt um die Felder markieren zu können, Feldzuordnung dann über die blöcke = block0 etc
+    private Integer[] gameboard = {0,0,0,0,0,0,0,0,0};*/
 
 
     @Override
@@ -150,7 +171,7 @@ public class GameSingleActivity extends AppCompatActivity {
                 }
                 dialog.dismiss();
 
-                minimax = new GameSingleActivityLogic(GameSingleActivity.this);
+                minimax = new GameSingleActivityLogic();
                 startNewGame();
             }
         });
@@ -200,9 +221,9 @@ public class GameSingleActivity extends AppCompatActivity {
         gameActiv = true;
     }
 
-    public void setMove(int x, int player) {
+    public void setMove(int x, Block player) {
         minimax.placeMove(x, player);
-        if (player == 1) {
+        if (player == CROSS) {
             mBoardImageView[x].setImageResource(icon);
             soundPlay(sound1);
         } else {
@@ -214,7 +235,7 @@ public class GameSingleActivity extends AppCompatActivity {
                     mBoardImageView[x].setImageResource(R.drawable.herz_90);
                     unblockAllFields();
                 }
-            }, 450);
+            }, 550);
         }
         mBoardImageView[x].setEnabled(false);
     }
@@ -243,7 +264,8 @@ public class GameSingleActivity extends AppCompatActivity {
             mBoardImageView[i].setImageResource(0);
             mBoardImageView[i].setEnabled(true);
             mBoardImageView[i].setOnClickListener(new ButtonClickListener(i));
-            mBoardImageView[i].setBackgroundColor(Color.argb(100, 11, 11, 59 ));
+            //setze alle Feldfarben wieder auf blau zurück
+           mBoardImageView[i].setBackgroundColor(Color.argb(100, 11, 11, 59 ));
         }
     }
     private void unblockAllFields() {
@@ -267,17 +289,21 @@ public class GameSingleActivity extends AppCompatActivity {
         }
 
         // verwendet den Schwierigkeitsgrad, um zu bestimmen, welchen Algorithmus der Computer verwenden soll
+
+        // aber was genau macht die Funktion?
+        // Der Name "onClick" ist nicht aussagekräftig, Die Funktion sieht so aus, als täte sie folgendes:
+        // sie stellt sicher, dass das board gerade aktiv ist, setzt einen Zug, und blockiert dann die Restfelder,
+        // prüft auf einen Gewinner anhand der Funktionen minimax und checkGameStatus, wenn noch kein Gewinner gefunden
+        // wurde, wird der Spielstatus auf playing gesetzt und ein Zug des Computers wird initiert, am ende wird nochmal auf den winner geprüft
         @Override
         public void onClick(View v) {
             // easy level, Spiel aktiv, Felder frei
             if (diffLevel == 0 && gameActiv && mBoardImageView[x].isEnabled()) {
                 setMove(x, HUMAN); // Mensch macht einen Schritt KREUZ
                 blockAllFields();
-                int winner = minimax.checkGameStatus();
-                if (winner == minimax.PLAYING) { // immer noch spielen
+                if (minimax.checkGameStatus().isPlaying()) {
                     int[] result = minimax.easyMove();
                     setMove(result[0], COMPUTER);
-                    winner = minimax.checkGameStatus();
                 }
                 checkWinner();
             }
@@ -285,11 +311,9 @@ public class GameSingleActivity extends AppCompatActivity {
             if (diffLevel == 1 && gameActiv && mBoardImageView[x].isEnabled()) {
                 setMove(x, HUMAN); // Mensch macht einen Schritt KREUZ
                 blockAllFields(); // Spielfeld blockieren
-                int winner = minimax.checkGameStatus();
-                if (winner == minimax.PLAYING) { // immer noch spielen
+                if (minimax.checkGameStatus().isPlaying()) { // immer noch spielen
                     int[] result = minimax.mediumMove();
                     setMove(result[0], COMPUTER);
-                    winner = minimax.checkGameStatus();
                 }
                 checkWinner();
             }
@@ -297,22 +321,22 @@ public class GameSingleActivity extends AppCompatActivity {
             if (diffLevel == 2 && gameActiv && mBoardImageView[x].isEnabled()) {
                 setMove(x, HUMAN); // Mensch macht einen Schritt KREUZ
                 blockAllFields();
-                int winner = minimax.checkGameStatus();
-                if (winner == minimax.PLAYING) { // immer noch spielen
+                if (minimax.checkGameStatus().isPlaying()) { // immer noch spielen
                     int[] result = minimax.hardMove();
                     setMove(result[0], COMPUTER);
-                    winner = minimax.checkGameStatus();
                 }
                 checkWinner();
             }
         }
 
-
-
         // prüft Spielergebnis, stellt etsprechenden Dialogfenster dar
         private void checkWinner() {
-            int winner = minimax.checkGameStatus();
-            if (winner == minimax.DRAW) { // unentschieden
+            GameStatus status = minimax.checkGameStatus();
+            System.out.println(status);
+            if (status.isPlaying()) {
+                return;
+            }
+            if (status.getResult() == GameStatus.GameResult.DRAW) {
                 soundPlay(soundDraw);
                 gameActiv = false;
                 new Handler().postDelayed(new Runnable() { // Zeitverzug
@@ -322,8 +346,9 @@ public class GameSingleActivity extends AppCompatActivity {
                     }
                 }, 700);
 
-            } else if (winner == minimax.CROSS_WON) { // X gewonnen
+            } else if (status.getResult() == GameStatus.GameResult.CROSS_WON) {
                 gameActiv = false;
+                colorWinningRow(status.getWinningRow());
                 soundPlay(soundWin);
                 new Handler().postDelayed(new Runnable() { // Zeitverzug
                     @Override
@@ -332,8 +357,9 @@ public class GameSingleActivity extends AppCompatActivity {
                     }
                 }, 700);
 
-            } else if (winner == minimax.NOUGHT_WON) { // O gewonnen, X verloren
+            } else if (status.getResult() == GameStatus.GameResult.NOUGHT_WON) {
                 gameActiv = false;
+                colorWinningRow(status.getWinningRow());
                 soundPlay(soundLose);
                 new Handler().postDelayed(new Runnable() { // Zeitverzug
                     @Override
@@ -362,5 +388,18 @@ public class GameSingleActivity extends AppCompatActivity {
             winDialog.show();
         }
 
+    }
+
+    private void colorWinningRow(int[] winningRow) {
+        int[] blockIDs = {
+                R.id.block0, R.id.block1, R.id.block2, R.id.block3, R.id.block4,
+                R.id.block5, R.id.block6, R.id.block7, R.id.block8
+        };
+
+        for (int field: winningRow) {
+            int blockID = blockIDs[field];
+            ImageView imageView = (ImageView) findViewById(blockID);
+            imageView.setBackgroundColor(Color.argb(50,0,229,230));
+        }
     }
 }

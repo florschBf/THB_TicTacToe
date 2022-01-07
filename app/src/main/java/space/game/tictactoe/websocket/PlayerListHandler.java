@@ -18,7 +18,6 @@ import java.util.stream.Collectors;
 import space.game.tictactoe.R;
 import space.game.tictactoe.models.Player;
 
-
 public class PlayerListHandler {
     //DEFINING A STRING ADAPTER WHICH WILL HANDLE THE DATA OF THE LISTVIEW
     //who knew it could be so complicated to add a string to a list...

@@ -1,44 +1,31 @@
 package space.game.tictactoe;
 
-import android.graphics.Color;
 import android.util.Log;
-import android.widget.ImageView;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-import android.view.View;
-
-import androidx.annotation.ColorInt;
+import static space.game.tictactoe.Block.*;
 
 public class GameSingleActivityLogic {
-    //blöcke imageview zum Farbe tauschen
-
-
-    // Namenskonstanten zur Darstellung der Blockinhalt
-    public final int EMPTY = 0; // Leer
-    public final int CROSS = 1; // Kreuz
-    public final int NOUGHT = 2; // Zero
+    private static final int[][] ROWS = {
+            { 0, 1, 2 }, { 3, 4, 5 }, { 6, 7, 8 }, { 0, 3, 6 }, { 1, 4, 7 }, { 2, 5, 8 },
+            { 0, 4, 8 }, { 2, 4, 6 }
+    };
 
     // Namenskonstanten zur Darstellung der verschiedenen Spielzustände
-    public final int PLAYING = 0; // Spiel läuft
-    public final int CROSS_WON = 1; // Kreuz (Spieler) hat gewonnen
-    public final int NOUGHT_WON = 2; // Zero (Android) hat gewonnen
-    public final int DRAW = 3; // Unentschieden
+    public static final int PLAYING = 0; // Spiel läuft
+    public static final int CROSS_WON = 1; // Kreuz (Spieler) hat gewonnen
+    public static  final int NOUGHT_WON = 2; // Zero (Android) hat gewonnen
+    public static final int DRAW = 3; // Unentschieden
 
     // Das Spielbrett und der Spielstatus
-    public static final int BOARSDIZE = 9; // Anzahl der Blocks
-    public static int[] board = new int[BOARSDIZE]; // Spielbrett in Array-Anordnung
-
-    GameSingleActivity gameActivitySingleActivity;
-
-    public GameSingleActivityLogic(GameSingleActivity gameActivitySingleActivity) {
-        this.gameActivitySingleActivity = gameActivitySingleActivity;
-    }
+    private static final int BOARDSIZE = 9; // Anzahl der Blocks
+    private Block[] board = new Block[BOARDSIZE]; // Spielbrett in Array-Anordnung
 
     public void resetBoard() {
-        for (int i = 0; i < BOARSDIZE; ++i) {
-            board[i] = 0;
+        for (int i = 0; i < BOARDSIZE; ++i) {
+            board[i] = EMPTY;
         }
     }
 
@@ -47,6 +34,7 @@ public class GameSingleActivityLogic {
         int[] result = minimax(2, NOUGHT); // depth - depth - gewuenschteTiefe, gibt Max (für 0) zurück
         return new int[] {result[1]};   // Blockposition
     }
+
     // Gibt den nächsten freien Zug für den Computer zurück.
     public int[] easyMove() {
         int[] result = findEasyMove(2, NOUGHT); // depth - gewuenschteTiefe, gibt Max (für 0) zurück
@@ -61,7 +49,7 @@ public class GameSingleActivityLogic {
 
     // Führt abwechselnd easy und medium Schritte aus
     int count = 1;
-    public int[] alternatelyMove(int depth, int player){
+    public int[] alternatelyMove(int depth, Block player){
         Log.d("count", String.valueOf(count));
 
         // speichert mögliche nächste Züge in der Liste
@@ -110,7 +98,7 @@ public class GameSingleActivityLogic {
     }
 
 
-    public int[] findEasyMove(int depth, int player){
+    public int[] findEasyMove(int depth, Block player){
         //  speichert mögliche nächste Züge in der Liste
         List<int[]> nextMoves = generateMoves();
         // wählt ein zufälliges Element aus Liste aus
@@ -123,7 +111,7 @@ public class GameSingleActivityLogic {
 
     // Minimiere Gewinnmöglichkeiten für den Gegner
     // Maximiere eigene Gewinnmöglichkeiten
-    public int[] minimax(int depth, int player){
+    public int[] minimax(int depth, Block player){
         // Generiert mögliche nächste Züge in einer Liste.
         List<int[]> nextMoves = generateMoves();
 
@@ -160,225 +148,81 @@ public class GameSingleActivityLogic {
     private int evaluate() {
         int score = 0;
         // Evaluate score for each of the 8 lines (3 rows, 3 columns, 2 diagonals)
-        score += evaluateLine(0, 1, 2);  // zeile 0
-        score += evaluateLine(3, 4, 5);  // zeile 1
-        score += evaluateLine(6, 7, 8);  // zeile 2
-        score += evaluateLine(0, 3, 6);  // spalte 0
-        score += evaluateLine(1, 4, 7);  // spalte 1
-        score += evaluateLine(2, 5, 8);  // spalte 2
-        score += evaluateLine(0, 4, 8);  // diagonal 1
-        score += evaluateLine(2, 4, 6);  // diagonal 1
+        for (int[] row : ROWS) {
+            score += evaluateLine(row);  // zeile 0
+        }
         return score;
     }
 
+    public GameStatus checkGameStatus() {
+        GameStatus.GameResult result = GameStatus.GameResult.DRAW;
+        int[] winningRow = null;
+        for (int[] row : ROWS) {
+            int eval = evaluateLine(row);
+            if (eval == 100) { // nought has won
+                result = GameStatus.GameResult.NOUGHT_WON;
+                winningRow = row;
+                break;
+            } else if (eval == -100) {
+                result = GameStatus.GameResult.CROSS_WON;
+                winningRow = row;
+                break;
+            }
+        }
+
+        return new GameStatus(!isBoardFull() && result == GameStatus.GameResult.DRAW, result, winningRow);
+    }
+
+    private boolean isBoardFull() {
+        for (Block block: board) {
+            if (block == EMPTY) {
+                return false;
+            }
+        }
+        return true;
+    }
 
     /** Heuristische Funktion zur Bewertung der Nützlichkeit des Spielzustands
      @Return +100, +10, +1 für 3-, 2-, 1 -in jeder Linie für Android.
      @Return -100, -10, -1 for 3-, 2-, 1 -in jeder Linie für Opponent.
      @Return 0 sonst bzw. wenn Linie X und 0 enthält
      */
-    private int evaluateLine(int row, int row1, int row2) {
-        int score = 0;
+    private int evaluateLine(int[] row) {
+        final int[] scores =  { 0, 1, 10, 100 };
 
-        // Nach Linien für X- oder O-Sieg suchen.
-
-        if (board[row] == NOUGHT) {
-            score = 1;
-        } else if (board[row] == CROSS) {
-            score = -1;
-        }
-
-        if (board[row1] == NOUGHT) {
-            if (score == 1) {   // android 0
-                score = 10;
-            } else if (score == -1) {  // gegner X
-                return 0;
-            } else {  // leer
-                score = 1;
-            }
-        } else if (board[row1] == CROSS) {
-            if (score == -1) { // gegner X
-                score = -10;
-            } else if (score == 1) { // android 0
-                return 0;
-            } else {  // ist leer
-                score = -1;
+        int crosses = 0;
+        int noughts = 0;
+        for (int field: row) {
+            if (board[field] == CROSS) {
+                crosses++;
+            } else if (board[field] == NOUGHT) {
+                noughts++;
             }
         }
-
-        if (board[row2] == NOUGHT) {
-            if (score > 0) {  // einmal und/oder zweimal android 0
-                score *= 10;
-            } else if (score < 0) {  // einmal und/oder zweimal gegner X
-                return 0;
-            } else {  // einmal und/oder zweimal leer
-                score = 1;
-            }
-        } else if (board[row2] == CROSS) {
-            if (score < 0) {  // einmal und/oder zweimal gegner X
-                score *= 10;
-            } else if (score > 1) {  // einmal und/oder zweimal android 0
-                return 0;
-            } else {  // einmal und/oder zweimal leer
-                score = -1;
-            }
+        if (crosses > 0 && noughts > 0) {
+            return 0;
+        } else {
+            return scores[noughts] - scores[crosses];
         }
-        return score;
     }
 
     //  gibt mögliche nächste Züge in der Liste
     private List<int[]> generateMoves() {
         List<int[]> nextMoves = new ArrayList<int[]>();
 
-        int state = checkGameStatus(); // 1= X gewonnen, 2= 0 gewonnen, 3= unentschieden
-        if (state == 1 || state == 2 || state == 3) {
-            return nextMoves;   // gibt leere Liste zurück
-        }
-
-        // Sucht nach leeren Blocks und fügt diese der Liste hinzu
-        for (int i = 0; i < BOARSDIZE; ++i) {
-            if (board[i] == EMPTY) {
-                nextMoves.add(new int[] {i});
+        if (checkGameStatus().isPlaying()) {
+            // Sucht nach leeren Blocks und fügt diese der Liste hinzu
+            for (int i = 0; i < BOARDSIZE; ++i) {
+                if (board[i] == EMPTY) {
+                    nextMoves.add(new int[]{i});
+                }
             }
         }
+
         return nextMoves;
     }
 
-    public void placeMove(int x, int player) {
+    public void placeMove(int x, Block player) {
         board[x] = player;
-    }
-
-
-    public int checkGameStatus() {
-        /** CROSS_WON - X (Person) hat gewonnen
-         *  NOUGHT_WON -  0 (Android) hat gewonnen
-         *  DRAW - Unentschieden
-         *  PLAYING - Spiel leuft
-         *
-         */
-        // Dies sind die ImageViews vom Board und danach wird in der Zeilen und Spalten und DiagonalenPrüfung der Background geändert, je nach Gewinnzeile
-        ImageView block0 = (ImageView) gameActivitySingleActivity.findViewById(R.id.block0);
-        ImageView block1 = (ImageView) gameActivitySingleActivity.findViewById(R.id.block1);
-        ImageView block2 = (ImageView) gameActivitySingleActivity.findViewById(R.id.block2);
-        ImageView block3 = (ImageView) gameActivitySingleActivity.findViewById(R.id.block3);
-        ImageView block4 = (ImageView) gameActivitySingleActivity.findViewById(R.id.block4);
-        ImageView block5 = (ImageView) gameActivitySingleActivity.findViewById(R.id.block5);
-        ImageView block6 = (ImageView) gameActivitySingleActivity.findViewById(R.id.block6);
-        ImageView block7 = (ImageView) gameActivitySingleActivity.findViewById(R.id.block7);
-        ImageView block8 = (ImageView) gameActivitySingleActivity.findViewById(R.id.block8);
-
-
-        // Zeilen prüfen
-        if ((board[0] == CROSS && board[1] == CROSS && board[2] == CROSS) ||
-                (board[3] == CROSS && board[4] == CROSS && board[5] == CROSS) ||
-                (board[6] == CROSS && board[7] == CROSS && board[8] == CROSS)) {
-                    if((board[0] == CROSS && board[1] == CROSS && board[2] == CROSS)){
-                        block0.setBackgroundColor(Color.argb(50,0,229,230));
-                        block1.setBackgroundColor(Color.argb(50,0,229,230));
-                        block2.setBackgroundColor(Color.argb(50,0,229,230));
-                        }if((board[3] == CROSS && board[4] == CROSS && board[5] == CROSS)){
-                        block3.setBackgroundColor(Color.argb(50,0,229,230));
-                        block4.setBackgroundColor(Color.argb(50,0,229,230));
-                        block5.setBackgroundColor(Color.argb(50,0,229,230));
-                        }if((board[6] == CROSS && board[7] == CROSS && board[8] == CROSS)){
-                        block6.setBackgroundColor(Color.argb(50,0,229,230));
-                        block7.setBackgroundColor(Color.argb(50,0,229,230));
-                        block8.setBackgroundColor(Color.argb(50,0,229,230));
-                        }
-            return CROSS_WON;
-        }
-        if ((board[0] == NOUGHT && board[1] == NOUGHT && board[2] == NOUGHT) ||
-                (board[3] == NOUGHT && board[4] == NOUGHT && board[5] == NOUGHT) ||
-                (board[6] == NOUGHT && board[7] == NOUGHT && board[8] == NOUGHT)) {
-                    if((board[0] == NOUGHT && board[1] == NOUGHT && board[2] == NOUGHT)){
-                        block0.setBackgroundColor(Color.argb(50,0,229,230));
-                        block1.setBackgroundColor(Color.argb(50,0,229,230));
-                        block2.setBackgroundColor(Color.argb(50,0,229,230));
-                    }if((board[3] == NOUGHT && board[4] == NOUGHT && board[5] == NOUGHT)){
-                        block3.setBackgroundColor(Color.argb(50,0,229,230));
-                        block4.setBackgroundColor(Color.argb(50,0,229,230));
-                        block5.setBackgroundColor(Color.argb(50,0,229,230));
-                    }if((board[6] == NOUGHT && board[7] == NOUGHT && board[8] == NOUGHT)){
-                        block6.setBackgroundColor(Color.argb(50,0,229,230));
-                        block7.setBackgroundColor(Color.argb(50,0,229,230));
-                        block8.setBackgroundColor(Color.argb(50,0,229,230));
-                    }
-            return NOUGHT_WON;
-        }
-
-        // Spalten prüfen
-        if ((board[0] == CROSS && board[3] == CROSS && board[6] == CROSS) ||
-                (board[1] == CROSS && board[4] == CROSS && board[7] == CROSS) ||
-                (board[2] == CROSS && board[5] == CROSS && board[8] == CROSS)) {
-                if((board[0] == CROSS && board[3] == CROSS && board[6] == CROSS)){
-                    block0.setBackgroundColor(Color.argb(50,0,229,230));
-                    block3.setBackgroundColor(Color.argb(50,0,229,230));
-                    block6.setBackgroundColor(Color.argb(50,0,229,230));
-                }if((board[1] == CROSS && board[4] == CROSS && board[7] == CROSS)){
-                    block1.setBackgroundColor(Color.argb(50,0,229,230));
-                    block4.setBackgroundColor(Color.argb(50,0,229,230));
-                    block7.setBackgroundColor(Color.argb(50,0,229,230));
-                }if((board[2] == CROSS && board[5] == CROSS && board[8] == CROSS)){
-                    block2.setBackgroundColor(Color.argb(50,0,229,230));
-                    block5.setBackgroundColor(Color.argb(50,0,229,230));
-                    block8.setBackgroundColor(Color.argb(50,0,229,230));
-                }
-            return CROSS_WON;
-        }
-        if ((board[0] == NOUGHT && board[3] == NOUGHT && board[6] == NOUGHT) ||
-                (board[1] == NOUGHT && board[4] == NOUGHT && board[7] == NOUGHT) ||
-                (board[2] == NOUGHT && board[5] == NOUGHT && board[8] == NOUGHT)) {
-                    if((board[0] == NOUGHT && board[3] == NOUGHT && board[6] == NOUGHT)){
-                        block0.setBackgroundColor(Color.argb(50,0,229,230));
-                        block3.setBackgroundColor(Color.argb(50,0,229,230));
-                        block6.setBackgroundColor(Color.argb(50,0,229,230));
-                    }if((board[1] == NOUGHT && board[4] == NOUGHT && board[7] == NOUGHT)){
-                        block1.setBackgroundColor(Color.argb(50,0,229,230));
-                        block4.setBackgroundColor(Color.argb(50,0,229,230));
-                        block7.setBackgroundColor(Color.argb(50,0,229,230));
-                    }if((board[2] == NOUGHT && board[5] == NOUGHT && board[8] == NOUGHT)){
-                        block2.setBackgroundColor(Color.argb(50,0,229,230));
-                        block5.setBackgroundColor(Color.argb(50,0,229,230));
-                        block8.setBackgroundColor(Color.argb(50,0,229,230));
-                    }
-            return NOUGHT_WON;
-        }
-
-        // Diagonale prüfen
-        if ((board[0] == CROSS && board[4] == CROSS && board[8] == CROSS) ||
-                (board[2] == CROSS && board[4] == CROSS && board[6] == CROSS)) {
-                if((board[0] == CROSS && board[4] == CROSS && board[8] == CROSS)){
-                    block0.setBackgroundColor(Color.argb(50,0,229,230));
-                    block4.setBackgroundColor(Color.argb(50,0,229,230));
-                    block8.setBackgroundColor(Color.argb(50,0,229,230));
-                }if((board[2] == CROSS && board[4] == CROSS && board[6] == CROSS)){
-                    block2.setBackgroundColor(Color.argb(50,0,229,230));
-                    block4.setBackgroundColor(Color.argb(50,0,229,230));
-                    block6.setBackgroundColor(Color.argb(50,0,229,230));
-                }
-
-            return CROSS_WON;
-        }
-        if ((board[0] == NOUGHT && board[4] == NOUGHT && board[8] == NOUGHT) ||
-                (board[2] == NOUGHT && board[4] == NOUGHT && board[6] == NOUGHT)) {
-                    if((board[0] == NOUGHT && board[4] == NOUGHT && board[8] == NOUGHT)){
-                        block0.setBackgroundColor(Color.argb(50,0,229,230));
-                        block4.setBackgroundColor(Color.argb(50,0,229,230));
-                        block8.setBackgroundColor(Color.argb(50,0,229,230));
-                    }if((board[2] == NOUGHT && board[4] == NOUGHT && board[6] == NOUGHT)){
-                        block2.setBackgroundColor(Color.argb(50,0,229,230));
-                        block4.setBackgroundColor(Color.argb(50,0,229,230));
-                        block6.setBackgroundColor(Color.argb(50,0,229,230));
-                    }
-            return NOUGHT_WON;
-        }
-
-        // Spiel läuft
-        for (int i = 0; i < BOARSDIZE; i++) {
-            if (board[i] != CROSS && board[i] != NOUGHT) {
-                return PLAYING;
-            }
-        }
-        return DRAW;
     }
 }
