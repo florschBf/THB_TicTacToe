@@ -31,6 +31,7 @@ import space.game.tictactoe.dialogs.DrawDialog;
 import space.game.tictactoe.dialogs.LoseDialog;
 import space.game.tictactoe.dialogs.WinDialog;
 import space.game.tictactoe.models.Player;
+import space.game.tictactoe.models.Sound;
 
 
 public class GameSingleActivity extends AppCompatActivity {
@@ -44,8 +45,7 @@ public class GameSingleActivity extends AppCompatActivity {
     // private static final int iconDefault = R.drawable.stern_90;
 
 
-    // Schwierigkeitsgrad
-    private int diffLevel; // 0 -easy, 1 -medium, 2-hard
+    private int diffLevel; // Drei Schwierigkeitsstufen: 0 -easy, 1 -medium, 2-hard
 
     Dialog dialog;
 
@@ -63,9 +63,7 @@ public class GameSingleActivity extends AppCompatActivity {
 
     // Sound
     private MediaPlayer sound1, sound2, soundWin, soundLose, soundDraw;
-
     Button ton;
-    boolean isTonOn = Player.getPlayer().getIsTonOn();
     int i = 1; // 1 = ton on, 0 = ton off
 
 
@@ -90,14 +88,17 @@ public class GameSingleActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
 
-        // Sound für Android ein- und ausschalten
+        // Sound-Icon für Ton wiedergabe referenzieren
         ton = (Button)findViewById(R.id.ton);
         if(player.getIsTonOn()) {
-            ton.setBackgroundResource(R.drawable.ic_baseline_music_note_24);
+            ton.setBackgroundResource(R.drawable.ic_baseline_music_note_24); // Icon-Darstellung: Ton eingeschaltet
         } else {
-            ton.setBackgroundResource(R.drawable.ic_baseline_music_off_24);
+            ton.setBackgroundResource(R.drawable.ic_baseline_music_off_24); // Icon-Darstellung: Ton ausgeschaltet
         }
 
+        /**
+         * TouchListener-Methode, um Sound ein- und -ausschalten
+         */
         ton.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
@@ -147,19 +148,16 @@ public class GameSingleActivity extends AppCompatActivity {
         });
 */
 
-        // Dialogfenster für Spielstatus: gewonnen, verloren, unentschieden
-
-        dialog = new Dialog(this);
+        dialog = new Dialog(this);         // Dialogfenster für Spielstatus: gewonnen, verloren, unentschieden
 
         mBoardImageView = new ImageView [9];
         for (int i = 0; i < mBoardImageView.length; i++) {
             mBoardImageView[i] = (ImageView) findViewById(getResources().getIdentifier("block" + i, "id", this.getPackageName()));
         }
 
-
+        // AlertDialog zur Abfrage, wer soll das Spiel als erster beginnen
         final AlertDialog.Builder alertDialog = new AlertDialog.Builder(this, AlertDialog.THEME_HOLO_DARK);
-        // false -> Dialog kann nicht mit der BACK-Taste abgebrochen werden.
-        alertDialog.setCancelable(false);
+        alertDialog.setCancelable(false); // false -> Dialog kann nicht mit der BACK-Taste abgebrochen werden
         alertDialog.setTitle("Wer geht zuerst?");
         alertDialog.setSingleChoiceItems(items, -1, new DialogInterface.OnClickListener() {
             @Override
@@ -178,20 +176,23 @@ public class GameSingleActivity extends AppCompatActivity {
         alertDialog.show();
 
 
-        // Radiobutton Gruppe für 3 Schwierigkeitsgrade: easy, medium, hard
+        // Radiobutton Gruppe erzeugt 3 Radiobuttons für 3 Schwierigkeitsgrade: easy, medium, hard
         RadioGroup difficultyLevel = (RadioGroup) this.findViewById(R.id.difficultyLevel);
         RadioButton radioButtonEasy = (RadioButton) this.findViewById(R.id.easy);
-//        RadioButton radioButtonMedium = (RadioButton) this.findViewById(R.id.medium);
-//        RadioButton radioButtonHard = (RadioButton) this.findViewById(R.id.hard);
-        // Defaultwert für Schwierigkeitsgrad - easy
-        radioButtonEasy.setChecked(true);
+        radioButtonEasy.setChecked(true); // Defaultwert für Schwierigkeitsgrad - easy
 
-        // Ermöglicht Schwierigkeitsgrad zu ändern
+        /**
+         * // Ermöglicht auf Änderungen (Schwierigkeitsstufe ändern) zu reagieren
+         */
         difficultyLevel.setOnCheckedChangeListener((group, checkedId) -> doOnDifficultyLevelChanged(group, checkedId));
 
     }
 
-    // Schwierigkeitsgrad wurde geändert
+    /**
+     * Methode um Schwierigkeitsstufe zu ändern
+     * @param group Radio-Button Gruppe für drei Schwierigkeitsgrade
+     * @param checkedId Radio-Button Id, der in der Radiogruppe aktiviert
+     */
     private void doOnDifficultyLevelChanged(RadioGroup group, int checkedId) {
         int checkedRadioId = group.getCheckedRadioButtonId();
         if(checkedRadioId == R.id.easy) {
@@ -212,22 +213,31 @@ public class GameSingleActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Methode setzt der Spielstatus auf aktiv
+     * Setzt ersten Schritt random, falls Android zuerst geht
+     */
     public void startNewGame() {
         resetGame();
-        // wenn Android geht zuert, macht erster Schritt random
-        if (first == 2) {  // Android geht zuerst
+        if (first == 2) {
             setMove(random.nextInt(9), COMPUTER);
         }
         gameActiv = true;
     }
 
+    /**
+     * Methode um Felder mit Icons zu markieren
+     * Sorgt dafür, dass die Spielzüge nur in noch freie Felder gesetzt werden können
+     * @param x Nummer des Feldes
+     * @param player 1 für den Spieler, != 1 Android
+     */
     public void setMove(int x, Block player) {
         minimax.placeMove(x, player);
         if (player == CROSS) {
             mBoardImageView[x].setImageResource(icon);
-            soundPlay(sound1);
+            Sound.soundPlay(sound1);
         } else {
-            soundPlay(sound2);
+            Sound.soundPlay(sound2);
             // Zeitverzug für Android Schritte
             new Handler().postDelayed(new Runnable() {
                 @Override
@@ -240,12 +250,10 @@ public class GameSingleActivity extends AppCompatActivity {
         mBoardImageView[x].setEnabled(false);
     }
 
-    public void soundPlay(MediaPlayer sound) {
-        if(Player.getPlayer().getIsTonOn()) { // wenn Sound unter Optionen aktiviert
-            sound.start();
-        }
-    }
-
+    /**
+     * Methode erlaubt Spiel neu anfangen
+     * @param view - Offline-Game Ansicht
+     */
     public void restartGame(View view) {
         Toast restart = Toast.makeText(this, "Spiel neu starten", Toast.LENGTH_SHORT);
         restart.setGravity(Gravity.CENTER, 0, 0);
@@ -258,6 +266,9 @@ public class GameSingleActivity extends AppCompatActivity {
         clearAllBlocks();
     }
 
+    /**
+     * Methode um alle Spielfelder auf leer und klickbar zu setzen
+     */
     public void clearAllBlocks() {
         minimax.resetBoard();
         for (int i = 0; i < 9; i++) {
@@ -268,8 +279,11 @@ public class GameSingleActivity extends AppCompatActivity {
            mBoardImageView[i].setBackgroundColor(Color.argb(100, 11, 11, 59 ));
         }
     }
+
+    /**
+     * Methode setzt alle Spielfelder in anklickbarem Status
+     */
     private void unblockAllFields() {
-        // alle Spielfelder für Mensch blockieren
         for (int i = 0; i < 9; i++) {
             mBoardImageView[i].setClickable(true);
         }
@@ -281,8 +295,10 @@ public class GameSingleActivity extends AppCompatActivity {
             this.x = i;
         }
 
+        /**
+         *  Methode um alle Spieldfelder nicht anklickbar machen
+         */
         private void blockAllFields() {
-            // alle Spielfelder für Mensch blockieren
             for (int i = 0; i < 9; i++) {
                 mBoardImageView[i].setClickable(false);
             }
@@ -329,7 +345,9 @@ public class GameSingleActivity extends AppCompatActivity {
             }
         }
 
-        // prüft Spielergebnis, stellt etsprechenden Dialogfenster dar
+        /**
+         * Methode prüft Spielergebnis und ruft etsprechende Methode mit Dialogfenster auf
+         */
         private void checkWinner() {
             GameStatus status = minimax.checkGameStatus();
             System.out.println(status);
@@ -337,7 +355,7 @@ public class GameSingleActivity extends AppCompatActivity {
                 return;
             }
             if (status.getResult() == GameStatus.GameResult.DRAW) {
-                soundPlay(soundDraw);
+                Sound.soundPlay(soundDraw);
                 gameActiv = false;
                 new Handler().postDelayed(new Runnable() { // Zeitverzug
                     @Override
@@ -349,7 +367,7 @@ public class GameSingleActivity extends AppCompatActivity {
             } else if (status.getResult() == GameStatus.GameResult.CROSS_WON) {
                 gameActiv = false;
                 colorWinningRow(status.getWinningRow());
-                soundPlay(soundWin);
+                Sound.soundPlay(soundWin);
                 new Handler().postDelayed(new Runnable() { // Zeitverzug
                     @Override
                     public void run() {
@@ -360,7 +378,7 @@ public class GameSingleActivity extends AppCompatActivity {
             } else if (status.getResult() == GameStatus.GameResult.NOUGHT_WON) {
                 gameActiv = false;
                 colorWinningRow(status.getWinningRow());
-                soundPlay(soundLose);
+                Sound.soundPlay(soundLose);
                 new Handler().postDelayed(new Runnable() { // Zeitverzug
                     @Override
                     public void run() {
@@ -370,18 +388,27 @@ public class GameSingleActivity extends AppCompatActivity {
             }
         }
 
-        // Dialogfenster für Spielergebniss
+        /**
+         * Methode stellt "Lose" Dialogfenster dar
+         */
         private void showLoseDialog() {
             player.increaseLosses();
             LoseDialog loseDialog = new LoseDialog(GameSingleActivity.this, GameSingleActivity.this);
             loseDialog.show();
         }
+
+        /**
+         * Methode stellt "Draw" Dialogfenster dar
+         */
         private void showDrawDialog() {
             player.increaseDraws();
             DrawDialog drawDialog = new DrawDialog(GameSingleActivity.this, GameSingleActivity.this);
             drawDialog.show();
         }
 
+        /**
+         * Methode stellt "win" Dialogfenster dar
+         */
         private void showWinDialog() {
             player.increaseWins();
             WinDialog winDialog = new WinDialog(GameSingleActivity.this, GameSingleActivity.this);

@@ -9,8 +9,10 @@ import androidx.fragment.app.FragmentManager;
 
 
 import android.content.Intent;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -37,10 +39,8 @@ import space.game.tictactoe.handlers.GameBoardHandler;
 import space.game.tictactoe.models.Player;
 import space.game.tictactoe.websocket.TttWebsocketClient;
 /* Liste der zu lösenden Schwierigkeiten im Online Spiel (neben den Spielzügen):
-
 1. Die Playerlist geht immer im oncreate auf, egal woher man kommt → sollte nur stattfinden,
  wenn man vom Hauptmenü kommt → kann man das irgendwie per Fallunterscheidungen lösen in Android?
-
 2. Wenn der Playbutton gedrückt wurde, startet das Spiel.
 5. Wenn ein Spiel gestartet wurde, dürfen keine Optionen mehr anclickbar sein,
 und auch keine Playerliste etc. → Möglichkeit Imageviews auszublenden oder auszugrauen? (Android prüfen)
@@ -61,6 +61,12 @@ public class OnlinespielActivity extends AppCompatActivity {
     private ImageView mBoardImageView[];
     private GameBoardHandler gameBoard;
 
+    private final Player player = Player.getPlayer();
+    // Sound
+    private MediaPlayer sound1, sound2, soundWin, soundLose, soundDraw;
+    Button ton;
+    int i = 1; // 1 = ton on, 0 = ton off
+
     public OnlinespielActivity() throws URISyntaxException {
     }
 
@@ -70,6 +76,35 @@ public class OnlinespielActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_onlinespiel);
+
+        // Sound-Icon für Ton wiedergabe referenzieren
+        ton = (Button)findViewById(R.id.ton);
+        if(player.getIsTonOn()) {
+            ton.setBackgroundResource(R.drawable.ic_baseline_music_note_24); // Icon-Darstellung: Ton eingeschaltet
+        } else {
+            ton.setBackgroundResource(R.drawable.ic_baseline_music_off_24); // Icon-Darstellung: Ton ausgeschaltet
+        }
+
+        /**
+         * TouchListener-Methode, um Sound ein- und -ausschalten
+         */
+        ton.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if(event.getAction() == MotionEvent.ACTION_DOWN) {
+                    if(i == 1) {
+                        ton.setBackgroundResource(R.drawable.ic_baseline_music_note_24);
+                        Player.getPlayer().setIsTonOn(true);
+                        i = 0;
+                    } else if (i == 0){
+                        ton.setBackgroundResource(R.drawable.ic_baseline_music_off_24);
+                        Player.getPlayer().setIsTonOn(false);
+                        i = 1;
+                    }
+                }
+                return false;
+            }
+        });
 
         //Activate websocket connection
         OnlinespielActivity.this.startConnection();
@@ -169,7 +204,6 @@ public class OnlinespielActivity extends AppCompatActivity {
                     Intent intent = new Intent(OnlinespielActivity.this, OptionenActivity.class);
                     startActivity(intent);
                 } catch (Exception e) {
-
                 }
             }
         });*/
