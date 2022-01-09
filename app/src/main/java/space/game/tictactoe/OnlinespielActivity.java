@@ -22,12 +22,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
-import org.java_websocket.client.WebSocketClient;
-
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.HashMap;
-import java.util.LinkedHashMap;
 import java.util.Map;
 
 import space.game.tictactoe.dialogs.DrawDialog;
@@ -37,10 +34,9 @@ import space.game.tictactoe.dialogs.WaitingForOpponentDialogFragment;
 import space.game.tictactoe.dialogs.WinDialog;
 import space.game.tictactoe.handlers.GameBoardHandler;
 import space.game.tictactoe.models.Player;
+import space.game.tictactoe.models.Sound;
 import space.game.tictactoe.websocket.TttWebsocketClient;
-/* Liste der zu lösenden Schwierigkeiten im Online Spiel (neben den Spielzügen):
-1. Die Playerlist geht immer im oncreate auf, egal woher man kommt → sollte nur stattfinden,
- wenn man vom Hauptmenü kommt → kann man das irgendwie per Fallunterscheidungen lösen in Android?
+/* Liste der zu lösenden Schwierigkeiten im Online Spiel:
 2. Wenn der Playbutton gedrückt wurde, startet das Spiel.
 5. Wenn ein Spiel gestartet wurde, dürfen keine Optionen mehr anclickbar sein,
 und auch keine Playerliste etc. → Möglichkeit Imageviews auszublenden oder auszugrauen? (Android prüfen)
@@ -57,7 +53,7 @@ public class OnlinespielActivity extends AppCompatActivity {
 
     // private static int iconDefault = R.drawable.stern_90;
     private Map<String, String> headers = new HashMap<>();
-    private TttWebsocketClient client = new TttWebsocketClient(new URI("wss://ttt-server-gizejztnta-ew.a.run.app"), headers, this);;
+    private TttWebsocketClient client = new TttWebsocketClient(new URI("ws://192.168.178.52:8080"), headers, this);;
     private ImageView mBoardImageView[];
     private GameBoardHandler gameBoard;
 
@@ -106,21 +102,15 @@ public class OnlinespielActivity extends AppCompatActivity {
             }
         });
 
+        soundWin = MediaPlayer.create(this, R.raw.win);
+        soundLose = MediaPlayer.create(this, R.raw.lose);
+        soundDraw = MediaPlayer.create(this, R.raw.draw);
+
         //Activate websocket connection
         OnlinespielActivity.this.startConnection();
         View playerListOverlay = findViewById(R.id.overlay);
 
-        //TODO Variable an Activity übergeben (bspw. von MenuActivity kommend), "showlist":true oder so ähnlich und hier prüfen
-        //disabling playerList on load for now - favoring random matchmaking approach
-/*        System.out.println("Setting playerList visible");
-        try {
-            playerListOverlay.setVisibility(View.VISIBLE);
-        } catch (Exception e) {
-            System.out.println(e);
-        }*/
-
-        //Click listener to open Playerlist-View -> Fallunerscheidungen möglich? Je nachdem aus welcher Activity man kommt? TODO
-        // Die Fallunterscheidung muss weiter oben stattfinden. Der Button hier dient ja nur dem Debugging, damit man die Liste jederzeit ein- u ausschalten kann
+        //Click listener to open Playerlist-View
         TextView playerListToggle = (TextView) findViewById(R.id.listStatus);
         playerListToggle.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -312,15 +302,18 @@ public class OnlinespielActivity extends AppCompatActivity {
     // Dialogfenster für Spielergebniss
     public void showLoseDialog() {
         LoseDialog loseDialog = new LoseDialog(this, OnlinespielActivity.this);
+        Sound.soundPlay(soundLose);
         loseDialog.show();
     }
     public void showDrawDialog() {
         DrawDialog drawDialog = new DrawDialog(this, OnlinespielActivity.this);
+        Sound.soundPlay(soundDraw);
         drawDialog.show();
     }
 
     public void showWinDialog() {
         WinDialog winDialog = new WinDialog(this, OnlinespielActivity.this);
+        Sound.soundPlay(soundWin);
         winDialog.show();
     }
 

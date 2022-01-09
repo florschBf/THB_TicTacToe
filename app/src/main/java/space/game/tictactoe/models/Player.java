@@ -175,16 +175,7 @@ public class Player {
         isPlayerAlreadyUpdatedByFirestoreData = playerAlreadyUpdatedByFirestoreData;
     }
 
-
     public void updateTotalGames(long totalGamesFromFireStore) {
         this.totalGames += totalGamesFromFireStore;
     }
-
-
-
-
-
-
-
-
-    }
+}

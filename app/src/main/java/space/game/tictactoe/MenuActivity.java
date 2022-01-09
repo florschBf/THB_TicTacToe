@@ -57,17 +57,7 @@ public class MenuActivity extends AppCompatActivity {
         IdpResponse response = result.getIdpResponse();
         if (result.getResultCode() == RESULT_OK) {
             // Successfully signed in
-            FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-
-            this.player = Player.getPlayer();
-
-            player.setName(fbLogin.getUserName());
-            player.setEmail(fbLogin.getEmail());
-            player.setFirebaseId(fbLogin.getFirebaseId());
-            System.out.println("Firebase-User " + user + " Player: " + player);
-
-            statisticsHandler.updateLocalPlayerDataWithFbData();
-
+            updatePlayerFirebaseStatus();
         } else {
             // Sign in failed. If response is null the user canceled the
             // sign-in flow using the back button. Otherwise check
@@ -89,7 +79,6 @@ public class MenuActivity extends AppCompatActivity {
                         System.out.println("finally anon");
                         //There's an anon user authenticated via Firebase
                         fbLogin.changeTextAnonUser(login_status, login_button);
-
                     }
                     else { //should never happen..
                         fbLogin.changeDefaultText(login_status, login_button);
@@ -106,6 +95,8 @@ public class MenuActivity extends AppCompatActivity {
         //check if we're logged in and save current user / non-user
         currentUser = mAuth.getCurrentUser();
         fbLogin = new FirebaseLoginHandler(this, mAuth, currentUser);
+        this.player = Player.getPlayer();
+        updatePlayerFirebaseStatus();
 
         // Spiel im Vollbild ausführen
         Window w = getWindow();
@@ -304,7 +295,23 @@ public class MenuActivity extends AppCompatActivity {
         System.out.println("resuming menu..");
         System.out.println(mAuth.getCurrentUser().getDisplayName());
         System.out.println(fbLogin.getUserName());
+        System.out.println("firebase uid: " + mAuth.getUid());
+        System.out.println("player object firebase uid: " + player.getFirebaseId());
+        updatePlayerFirebaseStatus();
         updateUserAndUI();
+    }
+
+    private void updatePlayerFirebaseStatus(){
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        player.setName(fbLogin.getUserName());
+        player.setEmail(fbLogin.getEmail());
+        player.setFirebaseId(fbLogin.getFirebaseId());
+        System.out.println("Firebase-User " + user + " Player: " + player);
+        try {
+            statisticsHandler.updateLocalPlayerDataWithFbData();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
 

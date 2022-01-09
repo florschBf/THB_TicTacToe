@@ -62,6 +62,7 @@ public class LoseDialog extends Dialog {
             });
         }
         else if (this.onlinespielActivity != null){
+            //TODO properly close and handle dialogs and dialog buttons
             this.setCancelable(false); // weggeklickte Dialoge werden in OnlinespielActivity nicht ordentlich verarbeitet, deshalb disabled
             btnPlay.setOnClickListener(v -> {
                 // Dialogfenstar schliessen, Spielfelder zurücksetzen
