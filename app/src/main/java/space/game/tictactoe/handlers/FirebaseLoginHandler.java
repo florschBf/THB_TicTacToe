@@ -5,18 +5,15 @@ import android.content.Intent;
 import android.widget.Button;
 import android.widget.TextView;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import com.firebase.ui.auth.AuthUI;
-import com.firebase.ui.auth.IdpResponse;
-import com.firebase.ui.auth.data.model.FirebaseAuthUIAuthenticationResult;
-import com.google.firebase.auth.AuthResult; //Might still use, leaving for now
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicBoolean;
 
+import space.game.tictactoe.MenuActivity;
 import space.game.tictactoe.R;
 import space.game.tictactoe.models.Player;
 
@@ -49,11 +46,28 @@ public class FirebaseLoginHandler {
      * Methode zum Ausloggen aus Firebase
      * -> nicht eingeloggt => triggert anonymous login in MenuActivity
      */
-    public void logout(Context c) throws Exception {
+    public void logout(Context c, MenuActivity menu) throws Exception {
         statisticsHandler.setPlayerData();
-        AuthUI.getInstance()
-                .signOut(c)
-                /*.addOnCompleteListener(task -> setLoggedIn(false))*/;
+        try {
+            AuthUI.getInstance()
+                    .signOut(c)
+                    .addOnCompleteListener(task -> {
+                        if (task.isSuccessful()) {
+                            System.out.println("successful logout");
+                            menu.signInAnon(menu.findViewById(R.id.login_status), menu.findViewById(R.id.button_login));
+                            try {
+                                menu.updateUserAndUI();
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                            menu.updatePlayerFirebaseStatus();
+                        }
+                    });
+        }
+        catch (Exception e){
+            System.out.println("logout-error");
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -88,6 +102,8 @@ public class FirebaseLoginHandler {
         String anonLoginStatus = menuContext.getString(R.string.login_status_anon);
         status.setText(anonLoginStatus);
         button.setText(loginTxt);
+        status.invalidate();
+        button.invalidate();
     }
 
     /**
@@ -113,7 +129,15 @@ public class FirebaseLoginHandler {
      * @return Current user name if logged in
      */
     public String getUserName(){
-        return this.currentUser.getDisplayName();
+        try{
+            return this.currentUser.getDisplayName();
+        }
+        catch (Exception e){
+            System.out.println("uhoh");
+            e.printStackTrace();
+            return null;
+        }
+
     }
 
     public String getFirebaseId(){
@@ -121,4 +145,12 @@ public class FirebaseLoginHandler {
     }
 
     public String getEmail() { return  this.currentUser.getEmail(); }
+
+    public void setmAuth(FirebaseAuth mAuth) {
+        this.mAuth = mAuth;
+    }
+
+    public void setCurrentUser(FirebaseUser user) {
+        this.currentUser = user;
+    }
 }

@@ -68,7 +68,14 @@ public class OnlinespielActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        this.icon = Player.getPlayer().getIcon();
+        try {
+            this.icon = Player.getPlayer().getIcon();
+        }
+        catch (Exception e){
+            e.printStackTrace();
+            this.icon = R.drawable.stern_90;
+        }
+
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_onlinespiel);
