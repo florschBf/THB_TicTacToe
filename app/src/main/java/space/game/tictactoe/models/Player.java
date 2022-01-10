@@ -99,7 +99,7 @@ public class Player {
         return serverId;
     }
 
-    private String randomName() {
+    public String randomName() {
         Random rnd = new Random();
         char letter = (char) ('A' + rnd.nextInt(26));
         String randomName = "Player-" + letter;;

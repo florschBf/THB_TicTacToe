@@ -34,6 +34,40 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.004" />
 
+        <TextView
+            android:id="@+id/oppo_name_label"
+            android:fontFamily="@font/facon"
+            android:padding="2pt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="12dp"
+            android:layout_marginTop="12dp"
+            android:text="@string/label_opponent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/listStatus" />
+
+        <TextView
+            android:id="@+id/oppo_name"
+            android:fontFamily="@font/facon"
+            android:padding="2pt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="12dp"
+            android:text="@string/no_game_yet"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/oppo_name_label" />
+
+        <TextView
+            android:id="@+id/turn_info"
+            android:fontFamily="@font/facon"
+            android:padding="2pt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="12dp"
+            android:text="@string/placeholder_turn"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/oppo_name" />
+
         <Button
             android:id="@+id/ton"
             android:layout_width="40dp"

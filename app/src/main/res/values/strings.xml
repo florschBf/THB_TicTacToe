@@ -35,6 +35,13 @@
 
     <!--    ActivityGame End-->
 
+    <!-- OnlineGame -->
+    <string name="label_opponent">Dein Gegenspieler:</string>
+    <string name="no_game_yet">Noch kein Spiel gestartet...</string>
+    <string name="placeholder_turn">Einfach Play drücken!</string>
+    <string name="your_turn">Du bist am Zug!</string>
+    <string name="oppo_turn">Dein Gegenspieler ist dran!\nEtwas Geduld... :-)</string>
+
 
     <string name="project_description">
         Lorem pixel dolor sirt amet

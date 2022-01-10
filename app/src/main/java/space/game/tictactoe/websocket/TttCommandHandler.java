@@ -2,7 +2,10 @@ package space.game.tictactoe.websocket;
 
 import android.app.LauncherActivity;
 
+import space.game.tictactoe.models.Player;
+
 public class TttCommandHandler {
+    private Player player = Player.getPlayer();
 
     /**
      * Methode um Spiel mit ausgewähltem Spieler zu starten
@@ -10,6 +13,7 @@ public class TttCommandHandler {
      * @return String um an den Server gesendet zu werden
      */
     public String startGame(Object selectedPlayer){
+        //TODO fix playerId selection / save playerID somewhere on list broadcast
         String player = selectedPlayer.toString();
         String[] info = player.split(" ");
         System.out.println(info);
@@ -25,7 +29,8 @@ public class TttCommandHandler {
      */
     public String startRandom(){
         System.out.println("Joining random game queue");
-        String command = "{\"topic\":\"gameSession\",\"command\":\"startRandom\"}";
+        System.out.println("Sending icon: " + this.player.getIcon());
+        String command = "{\"topic\":\"gameSession\",\"command\":\"startRandom\",\"playerIcon\":\"" + this.player.getIcon() + "\"}";
         return command;
     }
 

@@ -23,7 +23,9 @@ import space.game.tictactoe.handlers.FirebaseLoginHandler;
 import space.game.tictactoe.handlers.StatisticsHandler;
 import space.game.tictactoe.models.Player;
 
-
+/**
+ * Hauptmenü Android Activity
+ */
 public class MenuActivity extends AppCompatActivity {
 
     //handle login status
@@ -70,7 +72,7 @@ public class MenuActivity extends AppCompatActivity {
     }
 
     /**
-     * Methode für anonymous login Firebase
+     * Methode für anonymous login Firebase --> immer dann, wenn es keinen echten login gibt
      */
     public void signInAnon(TextView login_status, Button login_button){
         System.out.println("Trying anon sign-in");
@@ -80,6 +82,7 @@ public class MenuActivity extends AppCompatActivity {
                         //Logged in as Anon
                         System.out.println("finally anon");
                         //There's an anon user authenticated via Firebase
+                        player.setName(player.randomName());
                         fbLogin.changeTextAnonUser(login_status, login_button);
                         currentUser = mAuth.getCurrentUser();
                         fbLogin.setmAuth(mAuth);
@@ -110,6 +113,13 @@ public class MenuActivity extends AppCompatActivity {
         }
         catch (Exception e){
             e.printStackTrace();
+        }
+        if (currentUser.getDisplayName() == null){
+            try {
+                fbLogin.logout(this, (MenuActivity) this);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
 
 
@@ -220,7 +230,10 @@ public class MenuActivity extends AppCompatActivity {
         //updateUserAndUI();
     }
 
-    //Method to update UI according to login status
+    /**
+     * Method to update UI according to login status
+     * @throws Exception
+     */
     public void updateUserAndUI() throws Exception {
 
         if (mAuth.getCurrentUser() == null){
@@ -269,6 +282,13 @@ public class MenuActivity extends AppCompatActivity {
             e.printStackTrace();
             System.out.println("absolutely no one here, sign in anon");
             signInAnon(findViewById(R.id.login_status), findViewById(R.id.button_login));
+        }
+        if (currentUser.getDisplayName() == null){
+            try {
+                fbLogin.logout(this, (MenuActivity) this);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
     }
 
