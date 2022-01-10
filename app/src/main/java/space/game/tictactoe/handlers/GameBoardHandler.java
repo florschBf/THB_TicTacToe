@@ -5,6 +5,7 @@ import android.content.Context;
 import android.os.Looper;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import space.game.tictactoe.OnlinespielActivity;
@@ -15,6 +16,8 @@ public class GameBoardHandler {
     //TAKEN AND MODIFIED FROM GAME ACTIVITY TO CONTROL PLACING SIGNS
     private ImageView[] mBoardImageView;
     private int icon;
+    private String opponentName;
+    private int opponentIcon;
     private TttWebsocketClient client;
     private Context context;
 
@@ -92,7 +95,20 @@ public class GameBoardHandler {
                 @Override
                 public void run() {
                     System.out.println("runnable running mark of tile!");
-                    mBoardImageView[x].setImageResource(R.drawable.zero);
+                    System.out.println(opponentIcon);
+                    try{
+                        if (opponentIcon != icon && opponentIcon != 0){
+                            mBoardImageView[x].setImageResource(opponentIcon);
+                        }
+                        else {
+                            mBoardImageView[x].setImageResource(R.drawable.zero);
+                        }
+
+                    }
+                    catch (Exception e){
+                        e.printStackTrace();
+                        mBoardImageView[x].setImageResource(R.drawable.zero);
+                    }
                 }
             });
         }
@@ -108,6 +124,10 @@ public class GameBoardHandler {
         setMove(feld, 2);
     }
 
+    /**
+     * Methode zum Darstellen von Benachrichtigungen in der Onlinespiel-Activity
+     * @param reason String zur Auswahl der Benachrichtigung
+     */
     public void showNotification(String reason) {
         OnlinespielActivity here = (OnlinespielActivity) context;
         here.runOnUiThread(new Runnable() {
@@ -149,6 +169,71 @@ public class GameBoardHandler {
         });
     }
 
+    /**
+     * Methode zum Setzen des Gegenspieler-Namens
+     */
+    public void renderOpponentName() {
+        ((Activity)context).runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                System.out.println("setting oppo name: " +  opponentName);
+                TextView oppoName = ((Activity) context).findViewById(R.id.oppo_name);
+                try{
+                    oppoName.setText(opponentName);
+                }
+                catch (Exception e){
+                    e.printStackTrace();
+                    oppoName.setText("Freund-X");
+                }
+            }
+        });
+    }
+
+    /**
+     * Methode zum Zurücksetzen der Spielinfos
+     */
+    public void clearOppoName(){
+        ((Activity)context).runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                System.out.println("clearing opponent name");
+                TextView oppoName = ((Activity)context).findViewById(R.id.oppo_name);
+                oppoName.setText(R.string.no_game_yet);
+                System.out.println("resetting turn info");
+                TextView turnInfo = ((Activity)context).findViewById(R.id.turn_info);
+                turnInfo.setText(R.string.placeholder_turn);
+            }
+        });
+    }
+
+    /**
+     * Method to set turn info on gameboard
+     * @param whoseTurn int to signify whose turn it is
+     *                  0 -> reset, no game
+     *                  1 -> player turn
+     *                  2 -> opponent turn
+     */
+    public void setTurnInfo(int whoseTurn){
+        ((Activity)context).runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                System.out.println("setting turn info");
+                TextView turnInfo = ((Activity)context).findViewById(R.id.turn_info);
+                switch (whoseTurn){
+                    case (0):
+                        turnInfo.setText(R.string.placeholder_turn);
+                        break;
+                    case(1):
+                        turnInfo.setText(R.string.your_turn);
+                        break;
+                    case(2):
+                        turnInfo.setText(R.string.oppo_turn);
+                        break;
+                }
+            }
+        });
+    }
+
 
     private class ButtonClickListener implements View.OnClickListener {
         int x;
@@ -183,5 +268,22 @@ public class GameBoardHandler {
                 //
             }
         }
+    }
+    public String getOpponentName() {
+        return opponentName;
+    }
+
+    public void setOpponentName(String opponentName) {
+        this.opponentName = opponentName;
+
+    }
+
+    public int getOpponentIcon() {
+        return opponentIcon;
+    }
+
+    public void setOpponentIcon(String opponentIcon) {
+        System.out.println("Setting opponent icon: " + Integer.parseInt(opponentIcon));
+        this.opponentIcon = Integer.parseInt(opponentIcon);
     }
 }

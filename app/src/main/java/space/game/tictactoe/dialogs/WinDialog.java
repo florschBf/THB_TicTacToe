@@ -71,7 +71,6 @@ public class WinDialog extends Dialog {
             btnPlay.setOnClickListener(v -> {
                 //gameSingleActivity.startNewGame();
                 dismiss();
-
             });
             btnMenu.setOnClickListener(v -> {
                 Intent intent = new Intent(this.onlinespielActivity, MenuActivity.class);

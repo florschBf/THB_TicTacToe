@@ -121,6 +121,8 @@ public class TttWebsocketClient extends WebSocketClient{
                 setInRandomQueue(false);
                 setInChallengeOrChallenging(false);
                 setInGame(true);
+                String oppoName = msgHandler.getOpponentNameFromMessage(message);
+                String oppoIconId = msgHandler.getOpponentIconIdFromMessage(message);
 
                 //need to disable dialog from here if there is one, kinda messy..
                 try{
@@ -128,12 +130,15 @@ public class TttWebsocketClient extends WebSocketClient{
                     FragmentManager myManager = here.getSupportFragmentManager();
                     DialogFragment queueDialog = (DialogFragment) myManager.getFragments().get(0);
                     queueDialog.dismiss();
+                    //TODO confirmation dialog when game starts or sth similar
                 }
                 catch (Exception e){
                     System.out.print("no dialog present after all: " + e);
                 }
 
                 //get a GameSessionHandler going, set turn false for now, GameSessionHandler knows what to do with the board
+                this.gameBoard.setOpponentIcon(oppoIconId);
+                this.gameBoard.setOpponentName(oppoName);
                 this.session = new GameSessionHandler(gameBoard);
                 this.session.setMyTurn(false);
                 break;

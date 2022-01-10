@@ -68,14 +68,7 @@ public class OnlinespielActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        try {
-            this.icon = Player.getPlayer().getIcon();
-        }
-        catch (Exception e){
-            e.printStackTrace();
-            this.icon = R.drawable.stern_90;
-        }
-
+        updatePlayerIcon();
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_onlinespiel);
@@ -285,6 +278,7 @@ public class OnlinespielActivity extends AppCompatActivity {
             System.out.println("reconnecting...");
             this.client.reconnect();
         }
+        updatePlayerIcon();
     }
 
     //Overriding all System methods that disable the activity to also disconnect the websocket
@@ -322,6 +316,16 @@ public class OnlinespielActivity extends AppCompatActivity {
         WinDialog winDialog = new WinDialog(this, OnlinespielActivity.this);
         Sound.soundPlay(soundWin);
         winDialog.show();
+    }
+
+    private void updatePlayerIcon(){
+        try {
+            this.icon = player.getIcon();
+        }
+        catch (Exception e){
+            e.printStackTrace();
+            this.icon = R.drawable.stern_90;
+        }
     }
 
 }

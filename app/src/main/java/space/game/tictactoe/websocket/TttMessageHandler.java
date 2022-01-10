@@ -47,4 +47,42 @@ public class TttMessageHandler {
         JsonObject payload = (JsonObject) obj;
         return payload;
     }
+
+    /**
+     * Methode zum Auslesen des Gegenspielernamens bei Spielstart
+     * @param message Die Spielstart-Nachricht des Servers nach TTT-Protokoll 2.0
+     * @return Der Name des Gegenspielers als String
+     */
+    public String getOpponentNameFromMessage (String message){
+        JsonObject payload = (JsonObject) JsonParser.parseString(message);
+        String oppoName;
+        try {
+            oppoName = payload.get("opponent").getAsString();
+            return oppoName;
+        }
+        catch (Exception e){
+            e.printStackTrace();
+            oppoName = null;
+            return oppoName;
+        }
+    }
+
+    /**
+     * Method to read opponent icon from game started message, ttt-protocol 2.0
+     * @param message The game started message sent by the ttt-server
+     * @return opponent icon id as String
+     */
+    public String getOpponentIconIdFromMessage (String message){
+        JsonObject payload = (JsonObject) JsonParser.parseString(message);
+        String oppoIconId;
+        try {
+            oppoIconId = payload.get("opponentIcon").getAsString();
+            return oppoIconId;
+        }
+        catch (Exception e){
+            e.printStackTrace();
+            oppoIconId = null;
+            return oppoIconId;
+        }
+    }
 }

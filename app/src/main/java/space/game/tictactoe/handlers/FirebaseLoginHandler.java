@@ -37,6 +37,7 @@ public class FirebaseLoginHandler {
         this.menuContext = menuContext; // Context benötigt für UI Änderungen je nach Login -> potentiell in eigene Klasse bei Gelegenheit
         this.mAuth = mAuth;
         this.currentUser = currentUser;
+        this.player = Player.getPlayer();
     }
 
 
