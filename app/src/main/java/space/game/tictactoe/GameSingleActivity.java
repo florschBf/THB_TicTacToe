@@ -2,6 +2,8 @@ package space.game.tictactoe;
 
 import static space.game.tictactoe.Block.CROSS;
 import static space.game.tictactoe.Block.NOUGHT;
+import static space.game.tictactoe.R.id.icontransport;
+import static space.game.tictactoe.R.id.icontransport_single;
 
 import android.app.AlertDialog;
 
@@ -123,6 +125,20 @@ public class GameSingleActivity extends AppCompatActivity {
         soundLose = MediaPlayer.create(this, R.raw.lose);
         soundDraw = MediaPlayer.create(this, R.raw.draw);
 
+
+        ImageView imagechange = findViewById(R.id.icontransport_single);
+        imagechange.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                try {
+                    Intent intent = new Intent(GameSingleActivity.this, IconwahlActivity.class);
+                    startActivity(intent);
+                } catch (Exception e) {
+
+                }
+            }
+        });
+
         //Datatransfair from IconwahlActivity -> chosen Icon kommt in die OnlinespielActivity aus der Iconactivity woher auch immer diese aufgerufen wird
         final Intent intent = getIntent();
         //Test ob auch wirklich ein playericon geschickt wurde, just in case...sonst wird eines default gesetzt
@@ -131,6 +147,9 @@ public class GameSingleActivity extends AppCompatActivity {
             Log.d(TAG, "player icon" + playerIcon);
             icon = playerIcon;
         }
+        //overwrite default Icon in the ImageView of the onlinespielactivity with the chosen one from the IconWahlActivity, that was transfered above
+        ImageView image = (ImageView) findViewById(icontransport_single);
+        image.setImageResource(icon);
 
 /* ZAHNRAD
         // Imageview Zahnrad als Button anclickbar-> Optionen im Menü -> Weiterleitung zu Optionen->Icons->Statistiken
@@ -146,7 +165,10 @@ public class GameSingleActivity extends AppCompatActivity {
                 }
             }
         });
+
 */
+
+
 
         dialog = new Dialog(this);         // Dialogfenster für Spielstatus: gewonnen, verloren, unentschieden
 

@@ -9,10 +9,8 @@ import androidx.fragment.app.FragmentManager;
 
 
 import android.content.Intent;
-import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -22,9 +20,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
+import org.java_websocket.client.WebSocketClient;
+
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 import space.game.tictactoe.dialogs.DrawDialog;
@@ -34,9 +35,12 @@ import space.game.tictactoe.dialogs.WaitingForOpponentDialogFragment;
 import space.game.tictactoe.dialogs.WinDialog;
 import space.game.tictactoe.handlers.GameBoardHandler;
 import space.game.tictactoe.models.Player;
-import space.game.tictactoe.models.Sound;
 import space.game.tictactoe.websocket.TttWebsocketClient;
-/* Liste der zu lösenden Schwierigkeiten im Online Spiel:
+/* Liste der zu lösenden Schwierigkeiten im Online Spiel (neben den Spielzügen):
+
+1. Die Playerlist geht immer im oncreate auf, egal woher man kommt → sollte nur stattfinden,
+ wenn man vom Hauptmenü kommt → kann man das irgendwie per Fallunterscheidungen lösen in Android?
+
 2. Wenn der Playbutton gedrückt wurde, startet das Spiel.
 5. Wenn ein Spiel gestartet wurde, dürfen keine Optionen mehr anclickbar sein,
 und auch keine Playerliste etc. → Möglichkeit Imageviews auszublenden oder auszugrauen? (Android prüfen)
@@ -53,64 +57,35 @@ public class OnlinespielActivity extends AppCompatActivity {
 
     // private static int iconDefault = R.drawable.stern_90;
     private Map<String, String> headers = new HashMap<>();
-    private TttWebsocketClient client = new TttWebsocketClient(new URI("ws://192.168.178.52:8080"), headers, this);;
+    private TttWebsocketClient client = new TttWebsocketClient(new URI("wss://ttt-server-gizejztnta-ew.a.run.app"), headers, this);;
     private ImageView mBoardImageView[];
     private GameBoardHandler gameBoard;
-
-    private final Player player = Player.getPlayer();
-    // Sound
-    private MediaPlayer sound1, sound2, soundWin, soundLose, soundDraw;
-    Button ton;
-    int i = 1; // 1 = ton on, 0 = ton off
 
     public OnlinespielActivity() throws URISyntaxException {
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        updatePlayerIcon();
+        this.icon = Player.getPlayer().getIcon();
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_onlinespiel);
-
-        // Sound-Icon für Ton wiedergabe referenzieren
-        ton = (Button)findViewById(R.id.ton);
-        if(player.getIsTonOn()) {
-            ton.setBackgroundResource(R.drawable.ic_baseline_music_note_24); // Icon-Darstellung: Ton eingeschaltet
-        } else {
-            ton.setBackgroundResource(R.drawable.ic_baseline_music_off_24); // Icon-Darstellung: Ton ausgeschaltet
-        }
-
-        /**
-         * TouchListener-Methode, um Sound ein- und -ausschalten
-         */
-        ton.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                if(event.getAction() == MotionEvent.ACTION_DOWN) {
-                    if(i == 1) {
-                        ton.setBackgroundResource(R.drawable.ic_baseline_music_note_24);
-                        Player.getPlayer().setIsTonOn(true);
-                        i = 0;
-                    } else if (i == 0){
-                        ton.setBackgroundResource(R.drawable.ic_baseline_music_off_24);
-                        Player.getPlayer().setIsTonOn(false);
-                        i = 1;
-                    }
-                }
-                return false;
-            }
-        });
-
-        soundWin = MediaPlayer.create(this, R.raw.win);
-        soundLose = MediaPlayer.create(this, R.raw.lose);
-        soundDraw = MediaPlayer.create(this, R.raw.draw);
 
         //Activate websocket connection
         OnlinespielActivity.this.startConnection();
         View playerListOverlay = findViewById(R.id.overlay);
 
-        //Click listener to open Playerlist-View
+        //TODO Variable an Activity übergeben (bspw. von MenuActivity kommend), "showlist":true oder so ähnlich und hier prüfen
+        //disabling playerList on load for now - favoring random matchmaking approach
+/*        System.out.println("Setting playerList visible");
+        try {
+            playerListOverlay.setVisibility(View.VISIBLE);
+        } catch (Exception e) {
+            System.out.println(e);
+        }*/
+
+        //Click listener to open Playerlist-View -> Fallunerscheidungen möglich? Je nachdem aus welcher Activity man kommt? TODO
+        // Die Fallunterscheidung muss weiter oben stattfinden. Der Button hier dient ja nur dem Debugging, damit man die Liste jederzeit ein- u ausschalten kann
         TextView playerListToggle = (TextView) findViewById(R.id.listStatus);
         playerListToggle.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -194,9 +169,12 @@ public class OnlinespielActivity extends AppCompatActivity {
                     Intent intent = new Intent(OnlinespielActivity.this, OptionenActivity.class);
                     startActivity(intent);
                 } catch (Exception e) {
+
                 }
             }
         });*/
+        //imageview, welche in der onlinespiel Activity mit einem default icon angezeigt wird und
+        //eine Weiterleitung zur Iconauswahl beinhaltet - das gewählte Icon wird wiederum dann angezeigt
         ImageView imagechange = findViewById(R.id.icontransport);
         imagechange.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -278,7 +256,6 @@ public class OnlinespielActivity extends AppCompatActivity {
             System.out.println("reconnecting...");
             this.client.reconnect();
         }
-        updatePlayerIcon();
     }
 
     //Overriding all System methods that disable the activity to also disconnect the websocket
@@ -303,29 +280,16 @@ public class OnlinespielActivity extends AppCompatActivity {
     // Dialogfenster für Spielergebniss
     public void showLoseDialog() {
         LoseDialog loseDialog = new LoseDialog(this, OnlinespielActivity.this);
-        Sound.soundPlay(soundLose);
         loseDialog.show();
     }
     public void showDrawDialog() {
         DrawDialog drawDialog = new DrawDialog(this, OnlinespielActivity.this);
-        Sound.soundPlay(soundDraw);
         drawDialog.show();
     }
 
     public void showWinDialog() {
         WinDialog winDialog = new WinDialog(this, OnlinespielActivity.this);
-        Sound.soundPlay(soundWin);
         winDialog.show();
-    }
-
-    private void updatePlayerIcon(){
-        try {
-            this.icon = player.getIcon();
-        }
-        catch (Exception e){
-            e.printStackTrace();
-            this.icon = R.drawable.stern_90;
-        }
     }
 
 }
