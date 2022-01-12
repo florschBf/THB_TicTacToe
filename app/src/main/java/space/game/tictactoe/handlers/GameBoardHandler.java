@@ -8,8 +8,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.fragment.app.DialogFragment;
+
 import space.game.tictactoe.OnlinespielActivity;
 import space.game.tictactoe.R;
+import space.game.tictactoe.dialogs.WaitingForOpponentDialogFragment;
+import space.game.tictactoe.models.Player;
 import space.game.tictactoe.websocket.TttWebsocketClient;
 
 public class GameBoardHandler {
@@ -130,8 +134,19 @@ public class GameBoardHandler {
      */
     public void showNotification(String reason) {
         OnlinespielActivity here = (OnlinespielActivity) context;
+
         here.runOnUiThread(new Runnable() {
             public void run() {
+                if (client.isInChallengeOrChallenging()){
+                    try{
+                        System.out.println("dismissing dialog..");
+                        WaitingForOpponentDialogFragment dialog = (WaitingForOpponentDialogFragment) here.fragMan.getFragments().get(0);
+                        dialog.dismiss();
+                    }
+                    catch (Exception e){
+                        System.out.println("no dialog to dismiss after all..");
+                    }
+                }
                 System.out.println("being called to display notification toast");
                 switch (reason) {
                     case ("disconnect"):

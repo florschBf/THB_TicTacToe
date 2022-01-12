@@ -16,6 +16,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import space.game.tictactoe.R;
+import space.game.tictactoe.models.Opponent;
 import space.game.tictactoe.models.Player;
 
 public class PlayerListHandler {
@@ -23,7 +24,8 @@ public class PlayerListHandler {
     //who knew it could be so complicated to add a string to a list...
     private ArrayAdapter<String> adapter;
     //LIST OF ARRAY STRINGS WHICH WILL SERVE AS LIST ITEMS
-    private final ArrayList<String> playerListItems=new ArrayList<String>();
+    private final ArrayList<String> playerListItems = new ArrayList<String>();
+    private final ArrayList<Opponent> opponents = new ArrayList<Opponent>();
     private ListView playerList;
     private final Context context;
 
@@ -32,6 +34,7 @@ public class PlayerListHandler {
     public PlayerListHandler(Context context) {
         this.context = context;
     }
+
     /**
      * Method to render the received playerList to the given context (OnlinespielActivity)
      * @param message String from websocket server including playerlist objects
@@ -58,14 +61,12 @@ public class PlayerListHandler {
             public void run() {
                 //empty playerlist to refill from data later
                 playerListItems.clear();
-
-                /** @Todo get player self */
-
-
+                opponents.clear();
 
                 adapter = new ArrayAdapter<String>(context, android.R.layout.simple_list_item_1, playerListItems);
                 playerList = ((Activity) context).findViewById(R.id.playerList);
                 playerList.setAdapter(adapter);
+                int i = 0;
                 //using key list to get all player objects with their names and uids - putting them into playerList ListView with adapter
                 for (String key : keys) {
                     if (!key.equals("topic") && !key.equals("players") &&!key.equals("command")) { //excluding keys we know are not player strings
@@ -75,24 +76,32 @@ public class PlayerListHandler {
                             JsonObject listPlayer = (JsonObject) payload.get(key);
                             String playerName = listPlayer.get("name").getAsString();
                             String playerUID = listPlayer.get("playerUID").getAsString();
-                            //String listEntry = playerName; // + " " + playerUID;
-                            //@TODO playerUIDs müssen gespeichert werden für spätere Nutzung, ohne in der Liste sichtbar zu sein
-                            //Vorschlag wäre eine Klasse 'listitem' oder auch 'listplayer', die hier in der ArrayList gespeichert wird
-                            //von der wird dann hier nur die Methode "getName" auf die Liste gerendert
+                            Opponent listEntry = new Opponent(playerName, playerUID);
+
 
                             //filtering for own serverID here
                             if (!playerUID.equals(player.getServerId())){
                                 adapter.add(playerName);
+                                opponents.add(listEntry); // saving opponents to find later
+                                listEntry.setListPosition(i);
+                                i++;
                             }
-
                         } catch (Exception e) {
                             System.out.println(e);
                         }
-
                     }
                 }
             }
         });
+    }
+
+    public String getOppoFromListPos(int listPosition){
+        for (Opponent oppo : opponents){
+            if (oppo.getListPosition() == listPosition){
+                return oppo.getFirebaseId();
+            }
+        }
+        return null;
     }
 
     private JsonObject parseMessage(String message){

@@ -2,7 +2,6 @@ package space.game.tictactoe;
 
 import static space.game.tictactoe.R.id.icontransport;
 
-
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.FragmentManager;
@@ -25,6 +24,8 @@ import java.net.URISyntaxException;
 import java.util.HashMap;
 import java.util.Map;
 
+import space.game.tictactoe.dialogs.AnnehmDialogFragment;
+import space.game.tictactoe.dialogs.ChallengeDialogFragment;
 import space.game.tictactoe.dialogs.DrawDialog;
 import space.game.tictactoe.dialogs.InvitationOnlineGameDialog;
 import space.game.tictactoe.dialogs.LoseDialog;
@@ -51,9 +52,10 @@ public class OnlinespielActivity extends AppCompatActivity {
 
     // private static int iconDefault = R.drawable.stern_90;
     private Map<String, String> headers = new HashMap<>();
-    private TttWebsocketClient client = new TttWebsocketClient(new URI("wss://ttt-server-gizejztnta-ew.a.run.app"), headers, this);;
+    private TttWebsocketClient client = new TttWebsocketClient(new URI("ws://192.168.178.52:8080"), headers, this);
     private ImageView mBoardImageView[];
     private GameBoardHandler gameBoard;
+    public FragmentManager fragMan = getSupportFragmentManager();
 
     private final Player player = Player.getPlayer();
     // Sound
@@ -105,7 +107,8 @@ public class OnlinespielActivity extends AppCompatActivity {
         soundDraw = MediaPlayer.create(this, R.raw.draw);
 
         //Activate websocket connection
-        OnlinespielActivity.this.startConnection();
+
+        this.startConnection();
         View playerListOverlay = findViewById(R.id.overlay);
 
         //Click listener to open Playerlist-View
@@ -140,11 +143,27 @@ public class OnlinespielActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 //intent
-                System.out.println("clicked item" + parent + view + id);
-                String opponentName = playerList.getItemAtPosition(position).toString();
-                Toast selectedOpponent = Toast.makeText(getApplicationContext(), "Du kannst die Liste schließen.Du fragst ein Spiel an. Bitte warte auf Bestätigung von:  " + opponentName, Toast.LENGTH_SHORT);
-                selectedOpponent.show();
-                client.send(client.startGame(playerList.getItemAtPosition(position)));
+                if(!client.isInRandomQueue() && !client.isInGame() && !client.isInChallengeOrChallenging()) {
+                    System.out.println("clicked item" + parent + view + id);
+                    System.out.println("Position is: " + position + ", getting that opponent");
+                    String firebaseId = client.getPlayerFromList(position);
+                    System.out.println("Oppos firebase & server ID: " + firebaseId);
+                    String opponentName = playerList.getItemAtPosition(position).toString();
+
+                    //sende Spielanfrage, schließe Spielerliste
+                    client.send(client.startGame(firebaseId));
+                    playerListOverlay.setVisibility(View.GONE);
+
+                    //Erstelle einen Dialog zum Warten auf den Gegner und den dazugehörigen Fragmentmanager
+                    DialogFragment waitForOpponent = new WaitingForOpponentDialogFragment(client); //Dialog benötigt Client-Zugriff für Abbruch
+                    FragmentManager fragMan = getSupportFragmentManager();
+                    waitForOpponent.setCancelable(false);
+                    waitForOpponent.show(fragMan, "waitOpponent");
+                }
+                else {
+                    Toast cantChallenge = Toast.makeText(getApplicationContext(), "Du kannst gerade keine Challenge schicken. Es läuft bereits etwas mit Dir", Toast.LENGTH_SHORT);
+                    cantChallenge.show();
+                }
             }
         });
 
@@ -158,7 +177,6 @@ public class OnlinespielActivity extends AppCompatActivity {
                     try {
                         //Erstelle einen Dialog zum Warten auf den Gegner und den dazugehörigen Fragmentmanager
                         DialogFragment waitForOpponent = new WaitingForOpponentDialogFragment(client); //Dialog benötigt Client-Zugriff für Abbruch
-                        FragmentManager fragMan = getSupportFragmentManager();
                         waitForOpponent.setCancelable(false);
                         waitForOpponent.show(fragMan, "waitOpponent");
 
@@ -200,10 +218,12 @@ public class OnlinespielActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 try {
+                    client.endGameNow();
+                    client.cleanSlate();
                     Intent intent = new Intent(OnlinespielActivity.this, IconwahlActivity.class);
                     startActivity(intent);
                 } catch (Exception e) {
-
+                    e.printStackTrace();
                 }
             }
         });
@@ -313,6 +333,13 @@ public class OnlinespielActivity extends AppCompatActivity {
         WinDialog winDialog = new WinDialog(this, OnlinespielActivity.this);
         Sound.soundPlay(soundWin);
         winDialog.show();
+    }
+
+    public void startChallengeProcess(String oppoName){
+        System.out.println("challenge started!");
+        AnnehmDialogFragment challenged = new AnnehmDialogFragment(client, oppoName);
+        challenged.setCancelable(false);
+        challenged.show(fragMan, "challenge");
     }
 
     private void updatePlayerIcon(){
