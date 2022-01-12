@@ -7,7 +7,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.FragmentManager;
 
-
 import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.Bundle;
@@ -20,7 +19,6 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -53,7 +51,7 @@ public class OnlinespielActivity extends AppCompatActivity {
 
     // private static int iconDefault = R.drawable.stern_90;
     private Map<String, String> headers = new HashMap<>();
-    private TttWebsocketClient client = new TttWebsocketClient(new URI("ws://192.168.178.52:8080"), headers, this);;
+    private TttWebsocketClient client = new TttWebsocketClient(new URI("wss://ttt-server-gizejztnta-ew.a.run.app"), headers, this);;
     private ImageView mBoardImageView[];
     private GameBoardHandler gameBoard;
 
@@ -270,7 +268,6 @@ public class OnlinespielActivity extends AppCompatActivity {
     }
 
     //Use onResume to always check for connection when we come back
-    //TODO implement reconnection if coming back from suspension - crashes the app like this
     @Override
     protected void onResume() {
         super.onResume();
