@@ -1,7 +1,5 @@
 package space.game.tictactoe.handlers;
 
-import android.app.Activity;
-
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
@@ -40,17 +38,14 @@ public class GameSessionHandler {
                 hardReset();
                 break;
             case ("youWin"):
-                //TODO show win dialog
                 gameBoard.showNotification("youWin");
                 hardReset();
                 break;
             case ("youLose"):
-                //TODO show lose dialog
                 gameBoard.showNotification("youLose");
                 hardReset();
                 break;
             case ("draw"):
-                //TODO show draw dialog
                 gameBoard.showNotification("draw");
                 hardReset();
                 break;
