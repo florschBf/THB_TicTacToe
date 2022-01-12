@@ -2,11 +2,9 @@ package space.game.tictactoe;
 
 import static space.game.tictactoe.R.id.icontransport;
 
-
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.FragmentManager;
-
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -19,15 +17,14 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-
-import org.java_websocket.client.WebSocketClient;
-
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+import space.game.tictactoe.dialogs.AnnehmDialogFragment;
+import space.game.tictactoe.dialogs.ChallengeDialogFragment;
 import space.game.tictactoe.dialogs.DrawDialog;
 import space.game.tictactoe.dialogs.InvitationOnlineGameDialog;
 import space.game.tictactoe.dialogs.LoseDialog;
@@ -57,9 +54,12 @@ public class OnlinespielActivity extends AppCompatActivity {
 
     // private static int iconDefault = R.drawable.stern_90;
     private Map<String, String> headers = new HashMap<>();
+
     private TttWebsocketClient client = new TttWebsocketClient(new URI("wss://ttt-server-gizejztnta-ew.a.run.app"), headers, this);;
+
     private ImageView mBoardImageView[];
     private GameBoardHandler gameBoard;
+    public FragmentManager fragMan = getSupportFragmentManager();
 
     public OnlinespielActivity() throws URISyntaxException {
     }
@@ -72,7 +72,8 @@ public class OnlinespielActivity extends AppCompatActivity {
         setContentView(R.layout.activity_onlinespiel);
 
         //Activate websocket connection
-        OnlinespielActivity.this.startConnection();
+
+        this.startConnection();
         View playerListOverlay = findViewById(R.id.overlay);
 
         //TODO Variable an Activity übergeben (bspw. von MenuActivity kommend), "showlist":true oder so ähnlich und hier prüfen
@@ -117,11 +118,27 @@ public class OnlinespielActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 //intent
-                System.out.println("clicked item" + parent + view + id);
-                String opponentName = playerList.getItemAtPosition(position).toString();
-                Toast selectedOpponent = Toast.makeText(getApplicationContext(), "Du kannst die Liste schließen.Du fragst ein Spiel an. Bitte warte auf Bestätigung von:  " + opponentName, Toast.LENGTH_SHORT);
-                selectedOpponent.show();
-                client.send(client.startGame(playerList.getItemAtPosition(position)));
+                if(!client.isInRandomQueue() && !client.isInGame() && !client.isInChallengeOrChallenging()) {
+                    System.out.println("clicked item" + parent + view + id);
+                    System.out.println("Position is: " + position + ", getting that opponent");
+                    String firebaseId = client.getPlayerFromList(position);
+                    System.out.println("Oppos firebase & server ID: " + firebaseId);
+                    String opponentName = playerList.getItemAtPosition(position).toString();
+
+                    //sende Spielanfrage, schließe Spielerliste
+                    client.send(client.startGame(firebaseId));
+                    playerListOverlay.setVisibility(View.GONE);
+
+                    //Erstelle einen Dialog zum Warten auf den Gegner und den dazugehörigen Fragmentmanager
+                    DialogFragment waitForOpponent = new WaitingForOpponentDialogFragment(client); //Dialog benötigt Client-Zugriff für Abbruch
+                    FragmentManager fragMan = getSupportFragmentManager();
+                    waitForOpponent.setCancelable(false);
+                    waitForOpponent.show(fragMan, "waitOpponent");
+                }
+                else {
+                    Toast cantChallenge = Toast.makeText(getApplicationContext(), "Du kannst gerade keine Challenge schicken. Es läuft bereits etwas mit Dir", Toast.LENGTH_SHORT);
+                    cantChallenge.show();
+                }
             }
         });
 
@@ -135,7 +152,6 @@ public class OnlinespielActivity extends AppCompatActivity {
                     try {
                         //Erstelle einen Dialog zum Warten auf den Gegner und den dazugehörigen Fragmentmanager
                         DialogFragment waitForOpponent = new WaitingForOpponentDialogFragment(client); //Dialog benötigt Client-Zugriff für Abbruch
-                        FragmentManager fragMan = getSupportFragmentManager();
                         waitForOpponent.setCancelable(false);
                         waitForOpponent.show(fragMan, "waitOpponent");
 
@@ -180,10 +196,12 @@ public class OnlinespielActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 try {
+                    client.endGameNow();
+                    client.cleanSlate();
                     Intent intent = new Intent(OnlinespielActivity.this, IconwahlActivity.class);
                     startActivity(intent);
                 } catch (Exception e) {
-
+                    e.printStackTrace();
                 }
             }
         });
@@ -248,7 +266,6 @@ public class OnlinespielActivity extends AppCompatActivity {
     }
 
     //Use onResume to always check for connection when we come back
-    //TODO implement reconnection if coming back from suspension - crashes the app like this
     @Override
     protected void onResume() {
         super.onResume();
@@ -292,4 +309,20 @@ public class OnlinespielActivity extends AppCompatActivity {
         winDialog.show();
     }
 
+    public void startChallengeProcess(String oppoName){
+        System.out.println("challenge started!");
+        AnnehmDialogFragment challenged = new AnnehmDialogFragment(client, oppoName);
+        challenged.setCancelable(false);
+        challenged.show(fragMan, "challenge");
+    }
+
+    private void updatePlayerIcon(){
+        try {
+            this.icon = player.getIcon();
+        }
+        catch (Exception e){
+            e.printStackTrace();
+            this.icon = R.drawable.stern_90;
+        }
+    }
 }

@@ -11,7 +11,6 @@ import com.google.firebase.auth.FirebaseUser;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicBoolean;
 
 import space.game.tictactoe.MenuActivity;
 import space.game.tictactoe.R;
@@ -42,7 +41,6 @@ public class FirebaseLoginHandler {
 
 
     //methods to kick off logout or login process
-
     /**
      * Methode zum Ausloggen aus Firebase
      * -> nicht eingeloggt => triggert anonymous login in MenuActivity
@@ -109,7 +107,7 @@ public class FirebaseLoginHandler {
 
     /**
      * Methode für Textanpassung an gar kein login -> Fehler, darf nicht sein
-     * @param status Login Status aus MenuActivity erhalten
+     * @param status Login Status TextView aus MenuActivity erhalten
      * @param button Login Button aus MenuActivity erhalten
      */
     public void changeDefaultText(TextView status, Button button){

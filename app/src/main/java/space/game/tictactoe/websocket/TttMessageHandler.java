@@ -58,6 +58,7 @@ public class TttMessageHandler {
         String oppoName;
         try {
             oppoName = payload.get("opponent").getAsString();
+            System.out.println(oppoName);
             return oppoName;
         }
         catch (Exception e){
