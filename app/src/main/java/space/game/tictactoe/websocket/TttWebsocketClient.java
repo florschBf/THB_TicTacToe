@@ -1,5 +1,6 @@
 package space.game.tictactoe.websocket;
 
+import android.app.Activity;
 import android.content.Context;
 
 
@@ -16,6 +17,7 @@ import org.java_websocket.client.WebSocketClient;
 import org.java_websocket.handshake.ServerHandshake;
 import org.json.JSONException;
 
+import space.game.tictactoe.OnlinespielActivity;
 import space.game.tictactoe.handlers.GameBoardHandler;
 import space.game.tictactoe.handlers.GameSessionHandler;
 import space.game.tictactoe.models.Player;
@@ -117,6 +119,12 @@ public class TttWebsocketClient extends WebSocketClient{
             case ("Set playerUID already"):
                 //nothing more to do here, UID is set through messageHandler already
                 break;
+            case ("challenged!"):
+                setInChallengeOrChallenging(true);
+                OnlinespielActivity gameActivity = (OnlinespielActivity)context;
+                System.out.println("starting challenge process");
+                gameActivity.startChallengeProcess(msgHandler.getOpponentNameFromMessage(message));
+                break;
             case ("gameStarted!"):
                 setInRandomQueue(false);
                 setInChallengeOrChallenging(false);
@@ -125,16 +133,8 @@ public class TttWebsocketClient extends WebSocketClient{
                 String oppoIconId = msgHandler.getOpponentIconIdFromMessage(message);
 
                 //need to disable dialog from here if there is one, kinda messy..
-                try{
-                    AppCompatActivity here = (AppCompatActivity)context;
-                    FragmentManager myManager = here.getSupportFragmentManager();
-                    DialogFragment queueDialog = (DialogFragment) myManager.getFragments().get(0);
-                    queueDialog.dismiss();
-                    //TODO confirmation dialog when game starts or sth similar
-                }
-                catch (Exception e){
-                    System.out.print("no dialog present after all: " + e);
-                }
+                killDialog();
+                //TODO new confirm dialog?
 
                 //get a GameSessionHandler going, set turn false for now, GameSessionHandler knows what to do with the board
                 this.gameBoard.setOpponentIcon(oppoIconId);
@@ -142,6 +142,10 @@ public class TttWebsocketClient extends WebSocketClient{
                 this.session = new GameSessionHandler(gameBoard);
                 this.session.setMyTurn(false);
                 break;
+            case ("game denied"):
+                cleanSlate();
+                killDialog();
+                gameBoard.showNotification("oppoQuit");
             case ("youwin"):
                 this.player.increaseWins();
                 //TODO handle winning the game!
@@ -237,8 +241,8 @@ public class TttWebsocketClient extends WebSocketClient{
         System.err.println("an error occurred:" + ex);
     }
 
-    public String startGame(Object selectedPlayer) {
-        return cmdHandler.startGame(selectedPlayer);
+    public String startGame(String selectedOppoId) {
+        return cmdHandler.startGame(selectedOppoId);
     }
 
     public boolean sendMoveToServer(Integer feld){
@@ -249,11 +253,29 @@ public class TttWebsocketClient extends WebSocketClient{
         return moveValid;
     }
 
-    private void cleanSlate(){
+    /**
+     * Method to clear all player game flags
+     */
+    public void cleanSlate(){
         System.out.println("removing all ingame, inqueue, inchallenge flags");
         setInRandomQueue(false);
         setInGame(false);
         setInChallengeOrChallenging(false);
+    }
+
+    /**
+     * Method to kill the first dialog on Activity
+     */
+    public void killDialog(){
+        try{
+            AppCompatActivity here = (AppCompatActivity)context;
+            FragmentManager myManager = here.getSupportFragmentManager();
+            DialogFragment queueDialog = (DialogFragment) myManager.getFragments().get(0);
+            queueDialog.dismiss();
+        }
+        catch (Exception e){
+            System.out.print("no dialog present after all: " + e);
+        }
     }
 
 
@@ -274,6 +296,33 @@ public class TttWebsocketClient extends WebSocketClient{
             default:
                 System.out.println("Error, random queue implementation is Start|Stop, nothing else");
         }
+    }
 
+    /**
+     * Method to get opponent IDs after click on list items
+     * @param listPos the position in the list that was clicked
+     * @return String of the firebase/server UID of the player to challenge
+     */
+    public String getPlayerFromList(int listPos){
+        return listHandler.getOppoFromListPos(listPos);
+    }
+
+    /**
+     * Method to answer game challenges
+     * @param answer String desired answer for server&opponent
+     */
+    public void answerChallenge(String answer){
+        switch(answer){
+            case "accept":
+                send(this.cmdHandler.acceptGame());
+                break;
+            case "deny":
+                send(this.cmdHandler.denyGame());
+                break;
+        }
+    }
+
+    public void endGameNow(){
+        send(this.cmdHandler.endGame());
     }
 }

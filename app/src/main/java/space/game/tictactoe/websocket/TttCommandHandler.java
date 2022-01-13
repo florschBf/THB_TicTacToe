@@ -9,17 +9,11 @@ public class TttCommandHandler {
 
     /**
      * Methode um Spiel mit ausgewähltem Spieler zu starten
-     * @param selectedPlayer Spieler aus der Liste, aktuelles Format "Name Uid"
+     * @param playerId String: Spieler-Id aus der opponents Liste
      * @return String um an den Server gesendet zu werden
      */
-    public String startGame(Object selectedPlayer){
-        //TODO fix playerId selection / save playerID somewhere on list broadcast
-        String player = selectedPlayer.toString();
-        String[] info = player.split(" ");
-        System.out.println(info);
-        String playerID = info[1];
-        System.out.println(playerID);
-        String command = "{\"topic\":\"gameSession\",\"command\":\"startgame\",\"playerId\":\""+playerID+"\"}";
+    public String startGame(String playerId){
+        String command = "{\"topic\":\"gameSession\",\"command\":\"startgame\",\"playerId\":\""+playerId+"\"}";
         return command;
     }
 
@@ -51,6 +45,21 @@ public class TttCommandHandler {
      */
     public String sendMove(String field){
         String command = "{\"topic\":\"gameMove\",\"command\":\"mark\",\"field\":\""+field+"\"}";
+        return command;
+    }
+
+    public String acceptGame(){
+        String command = "{\"topic\":\"gameSession\",\"command\":\"startgame\",\"answer\":\"confirm\"}";
+        return command;
+    }
+
+    public String denyGame(){
+        String command = "{\"topic\":\"gameSession\",\"command\":\"startgame\",\"answer\":\"deny\"}";
+        return command;
+    }
+
+    public String endGame(){
+        String command = "{\"topic\":\"gameSession\",\"command\":\"quitgame\",\"state\":\"initiate\"}";
         return command;
     }
 }

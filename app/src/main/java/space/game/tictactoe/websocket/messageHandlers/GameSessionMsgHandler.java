@@ -22,8 +22,15 @@ public class GameSessionMsgHandler implements MsgHandler {
                 cmd = payload.get("command").getAsString();
                 switch (cmd){
                     case ("startgame"):
-                        if (payload.get("state").getAsString().equals("confirmed"))
-                        handledMsg = "gameStarted!";
+                        if (payload.get("state").getAsString().equals("confirmed")){
+                            handledMsg = "gameStarted!";
+                        }
+                        else if (payload.get("state").getAsString().equals("challenged")){
+                            handledMsg = "challenged!";
+                        }
+                        else if (payload.get("state").getAsString().equals("denied")){
+                            handledMsg = "game denied";
+                        }
                         break;
                     case ("gameState"):
                         String info = payload.get("info").getAsString();

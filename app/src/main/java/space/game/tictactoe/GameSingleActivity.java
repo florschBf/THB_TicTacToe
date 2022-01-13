@@ -3,7 +3,7 @@ package space.game.tictactoe;
 import static space.game.tictactoe.Block.CROSS;
 import static space.game.tictactoe.Block.NOUGHT;
 import static space.game.tictactoe.R.id.icontransport;
-import static space.game.tictactoe.R.id.icontransport_single;
+import static space.game.tictactoe.R.id.icontransportsingle;
 
 import android.app.AlertDialog;
 
@@ -126,7 +126,7 @@ public class GameSingleActivity extends AppCompatActivity {
         soundDraw = MediaPlayer.create(this, R.raw.draw);
 
 
-        ImageView imagechange = findViewById(R.id.icontransport_single);
+        ImageView imagechange = findViewById(R.id.icontransportsingle);
         imagechange.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -148,7 +148,7 @@ public class GameSingleActivity extends AppCompatActivity {
             icon = playerIcon;
         }
         //overwrite default Icon in the ImageView of the onlinespielactivity with the chosen one from the IconWahlActivity, that was transfered above
-        ImageView image = (ImageView) findViewById(icontransport_single);
+        ImageView image = (ImageView) findViewById(icontransportsingle);
         image.setImageResource(icon);
 
 /* ZAHNRAD
