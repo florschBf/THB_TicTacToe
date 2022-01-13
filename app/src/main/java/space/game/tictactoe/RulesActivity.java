@@ -36,7 +36,8 @@ public class RulesActivity extends AppCompatActivity {
     public void onBackPressed() {
         try {
             Intent intent = new Intent(RulesActivity.this, MenuActivity.class);
-            startActivity(intent);finish();
+            startActivity(intent);
+            finish();
         }catch (Exception e) {
 
         }

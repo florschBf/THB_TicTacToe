@@ -8,15 +8,23 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 
+import space.game.tictactoe.models.Player;
+
 //@author Peggy Kleinert
 
 public class IconwahlActivity extends AppCompatActivity {
-    private int icon = R.drawable.stern_90;
+    private int icon;
+    /*private int icon = R.drawable.stern_90;*/
+
+    public Player player;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_iconwahl);
+        /*this.icon = Player.getPlayer().getIcon();*/
 
         // Button1 button_icons_pcspiel -> Weiterleitung zum Spiel per PC
         Button button_icons_pcspiel = (Button) findViewById(R.id.button_icons_pcspiel);
@@ -109,7 +117,11 @@ public class IconwahlActivity extends AppCompatActivity {
 
     private void selectIcon(int icon, View view) {
         this.icon = icon;
+
+        this.player = Player.getPlayer();
+
+        player.setIcon(icon);
         ImageView image = (ImageView) findViewById(R.id.icontransport);
-        image.setImageResource(icon);
+        image.setImageResource(player.getIcon());
     }
 }

@@ -8,14 +8,14 @@ import org.json.JSONException;
 
 import java.text.ParseException;
 
-import space.game.tictactoe.websocket.commandHandlers.GameSessionMsgHandler;
-import space.game.tictactoe.websocket.commandHandlers.MoveMsgHandler;
-import space.game.tictactoe.websocket.commandHandlers.SignUpMsgHandler;
+import space.game.tictactoe.websocket.messageHandlers.GameSessionMsgHandler;
+import space.game.tictactoe.websocket.messageHandlers.MoveMsgHandler;
+import space.game.tictactoe.websocket.messageHandlers.SignUpMsgHandler;
 
 public class TttMessageHandler {
     private SignUpMsgHandler signUp = new SignUpMsgHandler();
-    private GameSessionMsgHandler sessionCmd = new GameSessionMsgHandler();
-    private MoveMsgHandler moveCmd = new MoveMsgHandler();
+    private GameSessionMsgHandler sessionMsg = new GameSessionMsgHandler();
+    private MoveMsgHandler moveMsg = new MoveMsgHandler();
 
     public String handle(String message) throws ParseException, JSONException {
 
@@ -31,10 +31,10 @@ public class TttMessageHandler {
                 return this.signUp.handle(payload);
             case "gameSession":
                 System.out.println("gameSession topic -> calling GameSessionMsgHandler");
-                return this.sessionCmd.handle(payload);
+                return this.sessionMsg.handle(payload);
             case "gameMove":
                 System.out.println("gameMove topic -> calling MoveMsgHandler");
-                return this.moveCmd.handle(payload);
+                return this.moveMsg.handle(payload);
             default:
                 System.out.println("found no useful message..");
                 return "You said" + payload;
@@ -46,5 +46,44 @@ public class TttMessageHandler {
         Object obj = parser.parse(message);
         JsonObject payload = (JsonObject) obj;
         return payload;
+    }
+
+    /**
+     * Methode zum Auslesen des Gegenspielernamens bei Spielstart
+     * @param message Die Spielstart-Nachricht des Servers nach TTT-Protokoll 2.0
+     * @return Der Name des Gegenspielers als String
+     */
+    public String getOpponentNameFromMessage (String message){
+        JsonObject payload = (JsonObject) JsonParser.parseString(message);
+        String oppoName;
+        try {
+            oppoName = payload.get("opponent").getAsString();
+            System.out.println(oppoName);
+            return oppoName;
+        }
+        catch (Exception e){
+            e.printStackTrace();
+            oppoName = null;
+            return oppoName;
+        }
+    }
+
+    /**
+     * Method to read opponent icon from game started message, ttt-protocol 2.0
+     * @param message The game started message sent by the ttt-server
+     * @return opponent icon id as String
+     */
+    public String getOpponentIconIdFromMessage (String message){
+        JsonObject payload = (JsonObject) JsonParser.parseString(message);
+        String oppoIconId;
+        try {
+            oppoIconId = payload.get("opponentIcon").getAsString();
+            return oppoIconId;
+        }
+        catch (Exception e){
+            e.printStackTrace();
+            oppoIconId = null;
+            return oppoIconId;
+        }
     }
 }

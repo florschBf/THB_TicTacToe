@@ -2,20 +2,18 @@ package space.game.tictactoe.websocket;
 
 import android.app.LauncherActivity;
 
+import space.game.tictactoe.models.Player;
+
 public class TttCommandHandler {
+    private Player player = Player.getPlayer();
 
     /**
      * Methode um Spiel mit ausgewähltem Spieler zu starten
-     * @param selectedPlayer Spieler aus der Liste, aktuelles Format "Name Uid"
+     * @param playerId String: Spieler-Id aus der opponents Liste
      * @return String um an den Server gesendet zu werden
      */
-    public String startGame(Object selectedPlayer){
-        String player = selectedPlayer.toString();
-        String[] info = player.split(" ");
-        System.out.println(info);
-        String playerID = info[1];
-        System.out.println(playerID);
-        String command = "{\"topic\":\"gameSession\",\"command\":\"startgame\",\"playerId\":\""+playerID+"\"}";
+    public String startGame(String playerId){
+        String command = "{\"topic\":\"gameSession\",\"command\":\"startgame\",\"playerId\":\""+playerId+"\"}";
         return command;
     }
 
@@ -25,7 +23,8 @@ public class TttCommandHandler {
      */
     public String startRandom(){
         System.out.println("Joining random game queue");
-        String command = "{\"topic\":\"gameSession\",\"command\":\"startRandom\"}";
+        System.out.println("Sending icon: " + this.player.getIcon());
+        String command = "{\"topic\":\"gameSession\",\"command\":\"startRandom\",\"playerIcon\":\"" + this.player.getIcon() + "\"}";
         return command;
     }
 
@@ -46,6 +45,21 @@ public class TttCommandHandler {
      */
     public String sendMove(String field){
         String command = "{\"topic\":\"gameMove\",\"command\":\"mark\",\"field\":\""+field+"\"}";
+        return command;
+    }
+
+    public String acceptGame(){
+        String command = "{\"topic\":\"gameSession\",\"command\":\"startgame\",\"answer\":\"confirm\"}";
+        return command;
+    }
+
+    public String denyGame(){
+        String command = "{\"topic\":\"gameSession\",\"command\":\"startgame\",\"answer\":\"deny\"}";
+        return command;
+    }
+
+    public String endGame(){
+        String command = "{\"topic\":\"gameSession\",\"command\":\"quitgame\",\"state\":\"initiate\"}";
         return command;
     }
 }

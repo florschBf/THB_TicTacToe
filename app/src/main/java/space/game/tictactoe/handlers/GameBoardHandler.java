@@ -2,17 +2,26 @@ package space.game.tictactoe.handlers;
 
 import android.app.Activity;
 import android.content.Context;
+import android.os.Looper;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.fragment.app.DialogFragment;
+
+import space.game.tictactoe.OnlinespielActivity;
 import space.game.tictactoe.R;
+import space.game.tictactoe.dialogs.WaitingForOpponentDialogFragment;
+import space.game.tictactoe.models.Player;
 import space.game.tictactoe.websocket.TttWebsocketClient;
 
 public class GameBoardHandler {
     //TAKEN AND MODIFIED FROM GAME ACTIVITY TO CONTROL PLACING SIGNS
     private ImageView[] mBoardImageView;
     private int icon;
+    private String opponentName;
+    private int opponentIcon;
     private TttWebsocketClient client;
     private Context context;
 
@@ -33,7 +42,6 @@ public class GameBoardHandler {
             public void run() {
                 System.out.println("clearing all blocks");
                 for (int i = 0; i < 9; i++) {
-                    System.out.println("iterating through ImageViews: " + mBoardImageView[i] + " placing listener");
                     mBoardImageView[i].setImageResource(0);
                     mBoardImageView[i].setEnabled(true);
                     mBoardImageView[i].setOnClickListener(new ButtonClickListener(i));
@@ -52,7 +60,6 @@ public class GameBoardHandler {
             @Override
             public void run() {
                 for (int i = 0; i < 9; i++) {
-                    System.out.println("Unblocking for: " + mBoardImageView[i]);
                     mBoardImageView[i].setClickable(true);
                 }
             }
@@ -69,7 +76,6 @@ public class GameBoardHandler {
             @Override
             public void run() {
                 for (int i = 0; i < 9; i++) {
-                    System.out.println("Setting block for: " + mBoardImageView[i]);
                     mBoardImageView[i].setClickable(false);
                 }
             }
@@ -85,16 +91,28 @@ public class GameBoardHandler {
 
         if (player == 1) {
             System.out.println("Player did this " + player );
-
             mBoardImageView[x].setImageResource(icon);
         } else {
             System.out.println("Remote move received!");
-            // TODO implement this on websocket client
+            // TODO get opponent icon
             ((Activity)context).runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
                     System.out.println("runnable running mark of tile!");
-                    mBoardImageView[x].setImageResource(R.drawable.zero);
+                    System.out.println(opponentIcon);
+                    try{
+                        if (opponentIcon != icon && opponentIcon != 0){
+                            mBoardImageView[x].setImageResource(opponentIcon);
+                        }
+                        else {
+                            mBoardImageView[x].setImageResource(R.drawable.zero);
+                        }
+
+                    }
+                    catch (Exception e){
+                        e.printStackTrace();
+                        mBoardImageView[x].setImageResource(R.drawable.zero);
+                    }
                 }
             });
         }
@@ -108,6 +126,127 @@ public class GameBoardHandler {
         //find field and mark it for opponent
         System.out.println("renderMove called");
         setMove(feld, 2);
+    }
+
+    /**
+     * Methode zum Darstellen von Benachrichtigungen in der Onlinespiel-Activity
+     * @param reason String zur Auswahl der Benachrichtigung
+     */
+    public void showNotification(String reason) {
+        OnlinespielActivity here = (OnlinespielActivity) context;
+
+        here.runOnUiThread(new Runnable() {
+            public void run() {
+                if (client.isInChallengeOrChallenging()){
+                    try{
+                        System.out.println("dismissing dialog..");
+                        WaitingForOpponentDialogFragment dialog = (WaitingForOpponentDialogFragment) here.fragMan.getFragments().get(0);
+                        dialog.dismiss();
+                    }
+                    catch (Exception e){
+                        System.out.println("no dialog to dismiss after all..");
+                    }
+                }
+                System.out.println("being called to display notification toast");
+                switch (reason) {
+                    case ("disconnect"):
+                        Toast oppoDisco = Toast.makeText(context, "Die Verbindung deines Mitspielers ist abgebrochen... sorry. Spiel beendet.", Toast.LENGTH_SHORT);
+                        oppoDisco.show();
+                        break;
+                    case ("oppoQuit"):
+                        Toast oppoQuit = Toast.makeText(context, "Dein Mitspieler hat das Spiel abgebrochen... sorry. Spiel beendet.", Toast.LENGTH_SHORT);
+                        oppoQuit.show();
+                        break;
+                    case ("youWin"):
+                        here.showWinDialog();
+                        Toast youWon = Toast.makeText(context, "Du hast gewonnen! Resette Activity.", Toast.LENGTH_SHORT);
+                        youWon.show();
+                        break;
+                    case ("youLose"):
+                        here.showLoseDialog();
+                        Toast youLose = Toast.makeText(context, "Du hast verloren! Resette Activity.", Toast.LENGTH_SHORT);
+                        youLose.show();
+                        break;
+                    case ("draw"):
+                        here.showDrawDialog();
+                        Toast draw = Toast.makeText(context, "Unentschieden! Resette Activity.", Toast.LENGTH_SHORT);
+                        draw.show();
+                        break;
+                    case ("endForNoReason"):
+                        Toast end = Toast.makeText(context, "Ich musste dein Spiel beenden, sorry. Resette Activity.", Toast.LENGTH_SHORT);
+                        end.show();
+                        break;
+                    default:
+                        Toast err = Toast.makeText(context, "Dunno what to say... sorry.", Toast.LENGTH_SHORT);
+                        err.show();
+                }
+            }
+        });
+    }
+
+    /**
+     * Methode zum Setzen des Gegenspieler-Namens
+     */
+    public void renderOpponentName() {
+        ((Activity)context).runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                System.out.println("setting oppo name: " +  opponentName);
+                TextView oppoName = ((Activity) context).findViewById(R.id.oppo_name);
+                try{
+                    oppoName.setText(opponentName);
+                }
+                catch (Exception e){
+                    e.printStackTrace();
+                    oppoName.setText("Freund-X");
+                }
+            }
+        });
+    }
+
+    /**
+     * Methode zum Zurücksetzen der Spielinfos
+     */
+    public void clearOppoName(){
+        ((Activity)context).runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                System.out.println("clearing opponent name");
+                TextView oppoName = ((Activity)context).findViewById(R.id.oppo_name);
+                oppoName.setText(R.string.no_game_yet);
+                System.out.println("resetting turn info");
+                TextView turnInfo = ((Activity)context).findViewById(R.id.turn_info);
+                turnInfo.setText(R.string.placeholder_turn);
+            }
+        });
+    }
+
+    /**
+     * Method to set turn info on gameboard
+     * @param whoseTurn int to signify whose turn it is
+     *                  0 -> reset, no game
+     *                  1 -> player turn
+     *                  2 -> opponent turn
+     */
+    public void setTurnInfo(int whoseTurn){
+        ((Activity)context).runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                System.out.println("setting turn info");
+                TextView turnInfo = ((Activity)context).findViewById(R.id.turn_info);
+                switch (whoseTurn){
+                    case (0):
+                        turnInfo.setText(R.string.placeholder_turn);
+                        break;
+                    case(1):
+                        turnInfo.setText(R.string.your_turn);
+                        break;
+                    case(2):
+                        turnInfo.setText(R.string.oppo_turn);
+                        break;
+                }
+            }
+        });
     }
 
 
@@ -144,5 +283,22 @@ public class GameBoardHandler {
                 //
             }
         }
+    }
+    public String getOpponentName() {
+        return opponentName;
+    }
+
+    public void setOpponentName(String opponentName) {
+        this.opponentName = opponentName;
+
+    }
+
+    public int getOpponentIcon() {
+        return opponentIcon;
+    }
+
+    public void setOpponentIcon(String opponentIcon) {
+        System.out.println("Setting opponent icon: " + Integer.parseInt(opponentIcon));
+        this.opponentIcon = Integer.parseInt(opponentIcon);
     }
 }

@@ -34,6 +34,54 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.004" />
 
+        <TextView
+            android:id="@+id/oppo_name_label"
+            android:fontFamily="@font/facon"
+            android:padding="2pt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="12dp"
+            android:layout_marginTop="12dp"
+            android:text="@string/label_opponent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/listStatus" />
+
+        <TextView
+            android:id="@+id/oppo_name"
+            android:fontFamily="@font/facon"
+            android:padding="2pt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="12dp"
+            android:text="@string/no_game_yet"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/oppo_name_label" />
+
+        <TextView
+            android:id="@+id/turn_info"
+            android:fontFamily="@font/facon"
+            android:padding="2pt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="12dp"
+            android:text="@string/placeholder_turn"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/oppo_name" />
+
+        <Button
+            android:id="@+id/ton"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentRight="true"
+            android:background="@drawable/ic_baseline_music_note_24"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.938"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.083" />
+
         <TableLayout
             android:id="@+id/tableLayout"
             android:layout_width="300dp"
@@ -52,29 +100,28 @@
             <TableRow
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginTop="8dp">
+                >
 
                 <ImageView
                     android:id="@+id/block0"
-                    android:layout_width="80dp"
-                    android:layout_height="80dp"
-                    android:layout_marginLeft="5dp"
+                    android:layout_width="85dp"
+                    android:layout_height="90dp"
 
                     />
 
                 <ImageView
                     android:id="@+id/block1"
-                    android:layout_width="80dp"
-                    android:layout_height="80dp"
-                    android:layout_marginLeft="24dp"
+                    android:layout_width="81dp"
+                    android:layout_height="90dp"
+                    android:layout_marginLeft="14dp"
 
                     />
 
                 <ImageView
                     android:id="@+id/block2"
-                    android:layout_width="80dp"
-                    android:layout_height="80dp"
-                    android:layout_marginLeft="22dp"
+                    android:layout_width="81dp"
+                    android:layout_height="90dp"
+                    android:layout_marginLeft="15dp"
 
                     />
             </TableRow>
@@ -82,31 +129,30 @@
             <TableRow
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginTop="18dp">
+                android:layout_marginTop="13dp">
 
                 <ImageView
                     android:id="@+id/block3"
-                    android:layout_width="80dp"
-                    android:layout_height="80dp"
-                    android:layout_marginTop="5dp"
+                    android:layout_width="85dp"
+                    android:layout_height="90dp"
+
 
                     />
 
                 <ImageView
                     android:id="@+id/block4"
-                    android:layout_width="80dp"
-                    android:layout_height="80dp"
-                    android:layout_marginLeft="25dp"
-                    android:layout_marginTop="5dp"
+                    android:layout_width="86dp"
+                    android:layout_height="88dp"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginTop="2dp"
 
                     />
 
                 <ImageView
                     android:id="@+id/block5"
                     android:layout_width="80dp"
-                    android:layout_height="80dp"
-                    android:layout_marginLeft="25dp"
-                    android:layout_marginTop="5dp"
+                    android:layout_height="90dp"
+                    android:layout_marginLeft="13dp"
 
                     />
             </TableRow>
@@ -115,34 +161,33 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
 
-                android:layout_marginTop="20dp"
-               >
+                android:layout_marginTop="14dp">
 
                 <ImageView
                     android:id="@+id/block6"
-                    android:layout_width="80dp"
-                    android:layout_height="80dp"
-                    android:layout_marginLeft="5dp"
+                    android:layout_width="90dp"
+                    android:layout_height="90dp"
+                    android:layout_marginLeft="2dp"
 
                     />
 
                 <ImageView
                     android:id="@+id/block7"
-                    android:layout_width="80dp"
-                    android:layout_height="80dp"
-                    android:layout_marginLeft="25dp"
+                    android:layout_width="90dp"
+                    android:layout_height="90dp"
+                    android:layout_marginLeft="11dp"
                     />
 
                 <ImageView
                     android:id="@+id/block8"
-                    android:layout_width="80dp"
-                    android:layout_height="80dp"
-                    android:layout_marginLeft="25dp"
+                    android:layout_width="90dp"
+                    android:layout_height="90dp"
+                    android:layout_marginLeft="15dp"
+
 
                     />
             </TableRow>
         </TableLayout>
-
         <!--<TextView
             android:id="@+id/selectOpponentMessage"
             android:layout_width="fill_parent"
@@ -175,8 +220,8 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.935" />
-    <!--"Optionenbutton" geht zu Icons und Statistiken-->
-        <ImageView
+        <!--"Optionenbutton" geht zu Icons und Statistiken-->
+        <!--<ImageView
             android:id="@+id/zahnrad_matchmaker"
             android:layout_width="60dp"
             android:layout_height="60dp"
@@ -189,7 +234,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.053"
-            app:srcCompat="@drawable/optionsonlinegame_2_90" />
+            app:srcCompat="@drawable/optionsonlinegame_2_90" />-->
         <!--"Matching complete Icon"
         <ImageView
             android:id="@+id/matching_complete"
@@ -213,7 +258,7 @@
             android:layout_height="70dp"
             android:layout_gravity="center"
             android:clickable="true"
-            android:contentDescription=""
+            android:contentDescription="button zurück zum menü"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.4"
@@ -232,7 +277,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.935"
-            app:srcCompat="@drawable/chosenicon_dummy_90" />
+            app:srcCompat="@drawable/stern_60" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

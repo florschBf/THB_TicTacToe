@@ -35,6 +35,15 @@
 
     <!--    ActivityGame End-->
 
+    <!-- OnlineGame -->
+    <string name="label_opponent">Dein Gegenspieler:</string>
+    <string name="no_game_yet">Noch kein Spiel gestartet...</string>
+    <string name="placeholder_turn">Einfach Play drücken!</string>
+    <string name="your_turn">Du bist am Zug!</string>
+    <string name="oppo_turn">Dein Gegenspieler ist dran!\nEtwas Geduld... :-)</string>
+    <string name="dialog_challenge_sent">Du sendest nun eine Spielaufforderung an den folgenden Spieler:</string>
+    <string name="dialog_challenge_online">möchte gern eine Runde Tic Tac Toe gegen Dich spielen. Bitte nimm die Anfrage an.</string>
+
 
     <string name="project_description">
         Lorem pixel dolor sirt amet
@@ -63,7 +72,7 @@
     <string name="button_icon_onlinespiel">Online spielen</string>
     <string name="icontransport">Your Icon</string>
     <string name="icontransport_matchmaker">muh</string>
-    <string name="spielanleitung1">Tic Tac Toe ist ein einfaches Strategiespiel. Es wird mit einem Partner gespielt.  In unserem Tic Tac Toe hast Du die Wahl zwischen einem Spiel gegen den Computer im "gegen PC spielen" Modus,  oder einen menschlichen Spieler im "online spielen" Modus. Die Buttons findest Du in  der Hauptansicht. Früher hieß das Spiel auch „Drei gewinnt“. Wer anfängt, wird zufällig ausgelost.
+    <string name="spielanleitung1">Tic Tac Toe ist ein einfaches Strategiespiel. Es wird mit einem Partner gespielt.  In unserem Tic Tac Toe hast Du die Wahl zwischen einem Spiel gegen den Computer im "gegen PC spielen" Modus,  oder einen menschlichen Spieler im "online spielen" Modus. Die Buttons findest Du in  der Hauptansicht. Früher hieß das Spiel auch „Drei gewinnt“.
 Abwechselnd werden die Spielicons in ein 9x9 Spielfeld gesetzt.
 Wer zuerst 3 Icons in einer waagerechten, senkrechten oder diagonalen Linie setzen kann, gewinnt.
 Wenn nach 9 Zügen keiner eine Reihe legen konnte, endet das Spiel unentschieden. Unter Optionen/Icons kannst Du ein Icon zum Spielen auswählen. Viel Spaß beim Spielen! </string>
@@ -77,6 +86,18 @@ Wenn nach 9 Zügen keiner eine Reihe legen konnte, endet das Spiel unentschieden
     <string name="spielmitmir">Du bist herzlich eingeladen mit mir zu spielen! Bitte clicke auf spielen.</string>
     <string name="btn_on_backTomenu">Menü</string>
     <string name="button_optionen_general">Optionen</string>
+    <string name="statistiken_table_head_col1">Category</string>
+    <string name="statistiken_table_head_col2">Result</string>
+    <string name="statistiken_table_col1">Total Games</string>
+    <string name="statistiken_table_col2">0</string>
+    <string name="statistiken_table_wins_key">Wins</string>
+    <string name="statistiken_table_wins_value">0</string>
+    <string name="statistiken_table_totalgames_key">Total Games</string>
+    <string name="statistiken_table_totalgames_value">0</string>
+    <string name="statistiken_table_losses_key">Losses</string>
+    <string name="statistiken_table_losses_value">0</string>
+    <string name="statistiken_table_draws_key">Draws</string>
+    <string name="statistiken_table_draws_value">0</string>
 
 
 </resources>

@@ -7,7 +7,11 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
+import space.game.tictactoe.handlers.StatisticsHandler;
+import space.game.tictactoe.models.Player;
+
 public class MainActivity extends AppCompatActivity {
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -17,8 +21,13 @@ public class MainActivity extends AppCompatActivity {
         Button buttonStart = (Button)findViewById(R.id.buttonStart);
 
         buttonStart.setOnClickListener(new View.OnClickListener() {
+
             @Override
             public void onClick(View v) {
+                // instantiate a player with default-values when app is started
+                Player player = new Player();
+                StatisticsHandler statisticsHandler = new StatisticsHandler();
+
                 try {
                     Intent intent = new Intent(MainActivity.this, MenuActivity.class);
                     startActivity(intent);finish();

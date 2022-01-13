@@ -17,29 +17,139 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.39">
 
+
+<!--        tablehead-->
         <TableRow
             android:layout_width="match_parent"
             android:layout_height="64dp">
 
             <TextView
-                android:id="@+id/statistiken_text1"
-                android:layout_width="wrap_content"
+                android:id="@+id/statistiken_table_head_col1"
+                android:layout_width="122dp"
                 android:layout_height="match_parent"
-                android:layout_gravity="center"
-                android:text="@string/statistiken_text1" />
-
-        </TableRow>
-
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" >
+                android:layout_gravity="start"
+                android:lineSpacingExtra="16sp"
+                android:text="@string/statistiken_table_head_col1"
+                android:textAlignment="viewStart"
+                android:textSize="16sp"
+                android:typeface="normal" />
 
             <TextView
-                android:id="@+id/statistiken_text2"
+                android:id="@+id/statistiken_table_head_col2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:lineSpacingExtra="16sp"
+                android:text="@string/statistiken_table_head_col2"
+                android:textSize="16sp"
+                android:typeface="normal" />
+
+        </TableRow>
+
+<!--        first row: total games-->
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="64dp">
+
+            <TextView
+                android:id="@+id/statistiken_table_totalgames_key"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="start"
+                android:lineSpacingExtra="16sp"
+                android:text="@string/statistiken_table_totalgames_key"
+                android:textSize="16sp"
+                android:typeface="normal" />
+
+            <TextView
+                android:id="@+id/statistiken_table_totalgames_value"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/statistiken_text2" />
+                android:lineSpacingExtra="16sp"
+                android:text="@string/statistiken_table_totalgames_value"
+                android:textSize="16sp"
+                android:typeface="normal" />
+
         </TableRow>
+
+        <!--        2. row: wins-->
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="64dp">
+
+            <TextView
+                android:id="@+id/statistiken_table_wins_key"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="start"
+                android:lineSpacingExtra="16sp"
+                android:text="@string/statistiken_table_wins_key"
+                android:textSize="16sp"
+                android:typeface="normal" />
+
+            <TextView
+                android:id="@+id/statistiken_table_wins_value"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:lineSpacingExtra="16sp"
+                android:text="@string/statistiken_table_wins_value"
+                android:textSize="16sp"
+                android:typeface="normal" />
+
+        </TableRow>
+
+        <!--        3. row: losses -->
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="64dp">
+
+            <TextView
+                android:id="@+id/statistiken_table_losses_key"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="start"
+                android:lineSpacingExtra="16sp"
+                android:text="@string/statistiken_table_losses_key"
+                android:textSize="16sp"
+                android:typeface="normal" />
+
+            <TextView
+                android:id="@+id/statistiken_table_losses_value"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:lineSpacingExtra="16sp"
+                android:text="@string/statistiken_table_losses_value"
+                android:textSize="16sp"
+                android:typeface="normal" />
+
+        </TableRow>
+
+        <!--        4. row: draws-->
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="64dp">
+
+            <TextView
+                android:id="@+id/statistiken_table_draws_key"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="start"
+                android:lineSpacingExtra="16sp"
+                android:text="@string/statistiken_table_draws_key"
+                android:textSize="16sp"
+                android:typeface="normal" />
+
+            <TextView
+                android:id="@+id/statistiken_table_draws_value"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:lineSpacingExtra="16sp"
+                android:text="@string/statistiken_table_draws_value"
+                android:textSize="16sp"
+                android:typeface="normal" />
+
+        </TableRow>
+
+
 
         <TableRow
             android:layout_width="match_parent"
