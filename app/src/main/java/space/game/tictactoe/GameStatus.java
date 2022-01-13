@@ -1,5 +1,8 @@
 package space.game.tictactoe;
 
+/** class to administer the gamestatus
+ *
+ */
 public class GameStatus {
     private final boolean playing;
     private final GameResult result;
