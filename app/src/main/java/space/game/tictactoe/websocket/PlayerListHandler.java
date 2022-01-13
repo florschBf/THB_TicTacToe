@@ -48,7 +48,7 @@ public class PlayerListHandler {
         //parsing playerlist
         JsonObject payload = parseMessage(message);
 
-        //getting keys out of the json...
+        /**getting keys out of the json...**/
         List<String> keys = payload.entrySet()
                 .stream()
                 .map(i -> i.getKey())
@@ -59,7 +59,7 @@ public class PlayerListHandler {
         ((Activity)context).runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                //empty playerlist to refill from data later
+                /**empty playerlist to refill from data later**/
                 playerListItems.clear();
                 opponents.clear();
 

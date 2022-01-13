@@ -10,13 +10,10 @@ import android.widget.ImageView;
 
 import space.game.tictactoe.models.Player;
 
-//@author Peggy Kleinert
 
 public class IconwahlActivity extends AppCompatActivity {
     private int icon;
-    /*private int icon = R.drawable.stern_90;*/
-
-    public Player player;
+     public Player player;
 
 
 
@@ -26,16 +23,22 @@ public class IconwahlActivity extends AppCompatActivity {
         setContentView(R.layout.activity_iconwahl);
         /*this.icon = Player.getPlayer().getIcon();*/
 
-        // Button1 button_icons_pcspiel -> Weiterleitung zum Spiel per PC
+        /** Button1 button_icons_pcspiel -> Weiterleitung zum Spiel per PC
+         *
+         */
         Button button_icons_pcspiel = (Button) findViewById(R.id.button_icons_pcspiel);
-        //listener auf dem Button
+        /**listener auf dem Button
+         *
+         */
         button_icons_pcspiel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 try {
 
                     Intent intent = new Intent(IconwahlActivity.this, GameSingleActivity.class);
-                    //Übergabe des Icon an die nächste Activity -> GameSingleActivity = Gegen PC spielen
+                    /**Übergabe des Icon an die nächste Activity -> GameSingleActivity = Gegen PC spielen
+                     *
+                     */
                     intent.putExtra("playerIcon", icon);
                     startActivity(intent);
                 } catch (Exception e) {
@@ -43,16 +46,22 @@ public class IconwahlActivity extends AppCompatActivity {
                 }
             }
         });
-        // Button2 button_icon_onlinespiel -> Weiterleitung zum Onlinespiel
+        /**Button2 button_icon_onlinespiel -> Weiterleitung zum Onlinespiel
+         *
+         */
         Button button_icon_onlinespiel = (Button) findViewById(R.id.button_icon_onlinespiel);
 
         button_icon_onlinespiel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 try {
-                    //int icontrans = checkedIcon;
+                    /**int icontrans = checkedIcon;
+                     *
+                     */
                     Intent intent = new Intent(IconwahlActivity.this, OnlinespielActivity.class);
-                    //Übergabe des Icon an die nächste Activity -> OnlinespielActivity
+                    /**Übergabe des Icon an die nächste Activity -> OnlinespielActivity
+                     *
+                     */
                     intent.putExtra("playerIcon", icon);
                     startActivity(intent);
                 } catch (Exception e) {
@@ -60,7 +69,9 @@ public class IconwahlActivity extends AppCompatActivity {
                 }
             }
         });
-        // Button3 btn_on_backTomenu -> Weiterleitung zum Menü von der Iconauswahl
+        /**Button3 btn_on_backTomenu -> Weiterleitung zum Menü von der Iconauswahl
+         *
+         */
         Button  btn_on_backTomenu= (Button) findViewById(R.id.btn_on_backTomenu);
 
         btn_on_backTomenu.setOnClickListener(new View.OnClickListener() {
@@ -78,7 +89,11 @@ public class IconwahlActivity extends AppCompatActivity {
             }
         });
     }
-    //verbesserter Code ;)
+
+    /**verbesserter Code um die Icons auszuwählen aus der Radiobuttonliste
+     *
+     * @param view
+     */
     public void onClickedIcon1(View view) {
         selectIcon(R.drawable.blume_eckig_3d_60, view);
     }

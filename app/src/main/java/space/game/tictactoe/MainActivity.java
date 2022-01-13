@@ -24,7 +24,9 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onClick(View v) {
-                // instantiate a player with default-values when app is started
+                /** instantiate a player with default-values when app is started
+                 *
+                 */
                 Player player = new Player();
                 StatisticsHandler statisticsHandler = new StatisticsHandler();
 

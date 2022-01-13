@@ -39,7 +39,7 @@ import space.game.tictactoe.models.Sound;
 public class GameSingleActivity extends AppCompatActivity {
 
 
-    //für die Iconauswahl
+    /**für die Iconauswahl**/
     private static final String TAG = "OnlineSpiel";
     private final Player player = Player.getPlayer();
     private int icon = player.getIcon();
@@ -139,15 +139,21 @@ public class GameSingleActivity extends AppCompatActivity {
             }
         });
 
-        //Datatransfair from IconwahlActivity -> chosen Icon kommt in die OnlinespielActivity aus der Iconactivity woher auch immer diese aufgerufen wird
+        /**Datatransfair from IconwahlActivity
+         * -> chosen Icon kommt in die OnlinespielActivity aus der Iconactivity woher auch immer diese aufgerufen wird
+         * */
         final Intent intent = getIntent();
-        //Test ob auch wirklich ein playericon geschickt wurde, just in case...sonst wird eines default gesetzt
+        /**Test ob auch wirklich ein playericon geschickt wurde, just in case...sonst wird eines default gesetzt*
+         *
+         * */
         if(intent.hasExtra("playerIcon")){
             int playerIcon = intent.getIntExtra("playerIcon", R.drawable.chosenicon_dummy_90);
             Log.d(TAG, "player icon" + playerIcon);
             icon = playerIcon;
         }
-        //overwrite default Icon in the ImageView of the onlinespielactivity with the chosen one from the IconWahlActivity, that was transfered above
+        /**overwrite default Icon in the ImageView of the onlinespielactivity
+         * with the chosen one from the IconWahlActivity, that was transfered above
+         * */
         ImageView image = (ImageView) findViewById(icontransportsingle);
         image.setImageResource(icon);
 
@@ -168,16 +174,20 @@ public class GameSingleActivity extends AppCompatActivity {
 
 */
 
+        /** Dialogfenster für Spielstatus: gewonnen, verloren, unentschieden
+         *
+         */
 
 
-        dialog = new Dialog(this);         // Dialogfenster für Spielstatus: gewonnen, verloren, unentschieden
-
+        dialog = new Dialog(this);
         mBoardImageView = new ImageView [9];
         for (int i = 0; i < mBoardImageView.length; i++) {
             mBoardImageView[i] = (ImageView) findViewById(getResources().getIdentifier("block" + i, "id", this.getPackageName()));
         }
 
-        // AlertDialog zur Abfrage, wer soll das Spiel als erster beginnen
+        /** AlertDialog zur Abfrage, wer soll das Spiel als erster beginnen
+         *
+         */
         final AlertDialog.Builder alertDialog = new AlertDialog.Builder(this, AlertDialog.THEME_HOLO_DARK);
         alertDialog.setCancelable(false); // false -> Dialog kann nicht mit der BACK-Taste abgebrochen werden
         alertDialog.setTitle("Wer geht zuerst?");
@@ -326,13 +336,11 @@ public class GameSingleActivity extends AppCompatActivity {
             }
         }
 
-        // verwendet den Schwierigkeitsgrad, um zu bestimmen, welchen Algorithmus der Computer verwenden soll
+        /** verwendet den Schwierigkeitsgrad, um zu bestimmen, welchen Algorithmus der Computer verwenden soll
+         *
+         *  */
 
-        // aber was genau macht die Funktion?
-        // Der Name "onClick" ist nicht aussagekräftig, Die Funktion sieht so aus, als täte sie folgendes:
-        // sie stellt sicher, dass das board gerade aktiv ist, setzt einen Zug, und blockiert dann die Restfelder,
-        // prüft auf einen Gewinner anhand der Funktionen minimax und checkGameStatus, wenn noch kein Gewinner gefunden
-        // wurde, wird der Spielstatus auf playing gesetzt und ein Zug des Computers wird initiert, am ende wird nochmal auf den winner geprüft
+
         @Override
         public void onClick(View v) {
             // easy level, Spiel aktiv, Felder frei
@@ -439,6 +447,10 @@ public class GameSingleActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * Methode bestimmt welche Reihe gewonnen hat, und ändert die Farbe der Gewinnfelder
+     * @param winningRow
+     */
     private void colorWinningRow(int[] winningRow) {
         int[] blockIDs = {
                 R.id.block0, R.id.block1, R.id.block2, R.id.block3, R.id.block4,

@@ -60,9 +60,12 @@ public class WinDialog extends Dialog {
                 dismiss();
             });
         }
+        /**weggeklickte Dialoge werden in OnlinespielActivity nicht ordentlich verarbeitet, deshalb disabled
+         *
+         */
         else if (onlinespielActivity != null){
             //TODO properly close and handle dialogs and dialog buttons
-            this.setCancelable(false); // weggeklickte Dialoge werden in OnlinespielActivity nicht ordentlich verarbeitet, deshalb disabled
+            this.setCancelable(false);
             imageViewClose.setOnClickListener(v -> {
 //          gameSingleActivity.startNewGame();
                 dismiss();

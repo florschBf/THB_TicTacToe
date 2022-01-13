@@ -28,15 +28,21 @@ import space.game.tictactoe.models.Player;
  */
 public class MenuActivity extends AppCompatActivity {
 
-    //handle login status
+    /**handle login status
+     *
+     */
     private static FirebaseLoginHandler fbLogin;
     private static FirebaseAuth mAuth;
     private static FirebaseUser currentUser;
     private static StatisticsHandler statisticsHandler = StatisticsHandler.getStatisticsHandler();
     public static Player player;
 
-    // See: https://developer.android.com/training/basics/intents/result
-    // launches new view when login is started
+    /** See: https://developer.android.com/training/basics/intents/result
+     *
+     */
+    /** launches new view when login is started
+     *
+     */
     private final ActivityResultLauncher<Intent> signInLauncher = registerForActivityResult(
             new FirebaseAuthUIActivityResultContract(),
             new ActivityResultCallback<FirebaseAuthUIAuthenticationResult>() {
@@ -58,14 +64,17 @@ public class MenuActivity extends AppCompatActivity {
     public void onSignInResult(FirebaseAuthUIAuthenticationResult result) throws Exception {
         IdpResponse response = result.getIdpResponse();
         if (result.getResultCode() == RESULT_OK) {
-            // Successfully signed in
+            /** Successfully signed in
+             *
+             */
             updateUserAndUI();
             updatePlayerFirebaseStatus();
         } else {
-            // Sign in failed. If response is null the user canceled the
-            // sign-in flow using the back button. Otherwise check
-            // response.getError().getErrorCode() and handle the error.
-            // ...
+            /** Sign in failed. If response is null the user canceled the
+             * sign-in flow using the back button. Otherwise check
+             *  response.getError().getErrorCode() and handle the error.
+             */
+
             System.out.println("no user after all");
             updateUserAndUI();
         }
@@ -123,11 +132,15 @@ public class MenuActivity extends AppCompatActivity {
         }
 
 
-        // Spiel im Vollbild ausführen
+        /** Spiel im Vollbild ausführen
+         *
+         */
         Window w = getWindow();
         w.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
-        // Button 1 btn_singleGame -> Weiterleitung zum Spiel mit PC GameSingleActivity
+        /** Button 1 btn_singleGame -> Weiterleitung zum Spiel mit PC GameSingleActivity
+         *
+         */
         Button btn_singleGame = (Button)findViewById(R.id.btn_singleGame);
         btn_singleGame.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -140,7 +153,9 @@ public class MenuActivity extends AppCompatActivity {
                 }
             }
         });
-        //Button 5 -> Weiterleitung zum Spiel Multiplayer Matchmaking
+        /**Button 5 -> Weiterleitung zum Spiel Multiplayer Matchmaking
+         *
+         */
         Button button_onlineGame = (Button)findViewById(R.id.button_onlineGame);
         button_onlineGame.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -154,7 +169,9 @@ public class MenuActivity extends AppCompatActivity {
             }
         });
 
-        // Button3 button_rules -> Weiterleitung zur Spielbeschreibung, Spielregel
+        /** Button3 button_rules -> Weiterleitung zur Spielbeschreibung, Spielregel
+         *
+         */
         Button button_rules = (Button)findViewById(R.id.button_rules);
         button_rules.setOnClickListener(v -> {
             try {
@@ -165,7 +182,9 @@ public class MenuActivity extends AppCompatActivity {
             }
         });
 
-        // Button 4 button_showAbout -> Weiterleitung zur Projektbeschreibung
+        /**Button 4 button_showAbout -> Weiterleitung zur Projektbeschreibung
+         *
+         */
         Button button_showAbout = (Button)findViewById(R.id.button_showAbout);
         button_showAbout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -180,7 +199,9 @@ public class MenuActivity extends AppCompatActivity {
             }
         });
 
-        // Button #3
+        /**Button #3
+         *
+         */
         Button button_optionen_general = (Button)findViewById(R.id.button_optionen_general);
         button_optionen_general.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -195,8 +216,12 @@ public class MenuActivity extends AppCompatActivity {
         });
 
 
-        // Button 8 button_login -> Weiterleitung zum LogIn
-        // Vorerst weiter drin als Login zu Testzwecken
+        /**Button 8 button_login -> Weiterleitung zum LogIn
+         *
+         */
+        /** Vorerst weiter drin als Login zu Testzwecken
+         *
+         */
         Button button_login = (Button)findViewById(R.id.button_login);
         button_login.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -256,8 +281,12 @@ public class MenuActivity extends AppCompatActivity {
                 String name = fbLogin.getUserName();
                 System.out.println("Seems to be a User: " + name);
 
-                // Changing login status and button, doing it right here, should use extra method somewhere
-                // other methods like this found in FirebaseLoginHandler
+                /** Changing login status and button, doing it right here, should use extra method somewhere
+                 *
+                 */
+                /**other methods like this found in FirebaseLoginHandler
+                 *
+                 */
                 final TextView login_status = findViewById(R.id.login_status);
                 login_status.setText("Du bist eingeloggt als " + name);
                 final Button loginBtn = findViewById(R.id.button_login);
@@ -266,7 +295,9 @@ public class MenuActivity extends AppCompatActivity {
         }
     }
 
-    //Use onResume to always check for login when we come back and updateUserAndUI accordingly
+    /**Use onResume to always check for login when we come back and updateUserAndUI accordingly
+     *
+     */
     protected void onResume(){
         System.out.println("resuming menu..");
         super.onResume();

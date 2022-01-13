@@ -23,7 +23,9 @@ public class OptionenActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_optionen);
 
-        //Button 1 -> Weiterleitung zur Icon Auswahl
+        /**Button 1 -> Weiterleitung zur Icon Auswahl
+         *
+         */
         Button button_icon_waehlen = (Button)findViewById(R.id.button_icon_waehlen);
         button_icon_waehlen.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -37,7 +39,9 @@ public class OptionenActivity extends AppCompatActivity {
             }
         });
 
-        //Button 2 -> Weiterleitung zu den Statistiken
+        /**Button 2 -> Weiterleitung zu den Statistiken
+         *
+         */
         Button button_statistiken = (Button)findViewById(R.id.button_statistiken);
         button_statistiken.setOnClickListener(new View.OnClickListener() {
             @Override

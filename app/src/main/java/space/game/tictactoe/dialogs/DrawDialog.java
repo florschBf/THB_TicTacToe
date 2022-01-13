@@ -61,8 +61,11 @@ public class DrawDialog extends Dialog {
                 dismiss();
             });
         }
+        /**weggeklickte Dialoge werden in OnlinespielActivity nicht ordentlich verarbeitet, deshalb disabled
+         *
+         */
         else if (onlinespielActivity != null){
-            this.setCancelable(false); // weggeklickte Dialoge werden in OnlinespielActivity nicht ordentlich verarbeitet, deshalb disabled
+            this.setCancelable(false);
             imageViewClose.setOnClickListener(v -> {
                 //TODO properly close and handle dialogs and dialog buttons
                 dismiss();

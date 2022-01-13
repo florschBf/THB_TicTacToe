@@ -29,7 +29,9 @@ public class WaitingForOpponentDialogFragment extends DialogFragment {
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        // Use the Builder class for convenient dialog construction
+        /**Use the Builder class for convenient dialog construction
+         *
+         */
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         LayoutInflater inflater = requireActivity().getLayoutInflater();
         View v = inflater.inflate(R.layout.layout_dialog_wait_for_game, null);
@@ -50,7 +52,9 @@ public class WaitingForOpponentDialogFragment extends DialogFragment {
             }
         });
 
-        // Create the AlertDialog object and return it
+        /** Create the AlertDialog object and return it
+         *
+         */
         return builder.create();
     }
 }

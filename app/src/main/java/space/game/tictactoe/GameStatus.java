@@ -1,5 +1,8 @@
 package space.game.tictactoe;
 
+/** eine Klasse um den Spielstatus zu definieren, nach " noch am spielen", Spielresultat, und zwecks der Gewinnreihe
+ *
+ */
 public class GameStatus {
     private final boolean playing;
     private final GameResult result;

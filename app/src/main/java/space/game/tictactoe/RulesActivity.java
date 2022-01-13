@@ -31,7 +31,9 @@ public class RulesActivity extends AppCompatActivity {
 
     }
 
-    // System-Button Back überschreiben
+    /** System-Button Back überschreiben
+     *
+     */
     @Override
     public void onBackPressed() {
         try {

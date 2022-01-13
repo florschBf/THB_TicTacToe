@@ -43,14 +43,18 @@ public class LoseDialog extends Dialog {
         final Button btnMenu = findViewById(R.id.btn_menu);
 
         imageViewClose.setOnClickListener(v -> {
-            //Dialogfenster schliessen, Felder inkl Zuege bleiben sichtbar
+            /**Dialogfenster schliessen, Felder inkl Zuege bleiben sichtbar
+             *
+             */
 //            gameSingleActivity.startNewGame();
             dismiss();
         });
 
         if (this.gameSingleActivity != null){
             btnPlay.setOnClickListener(v -> {
-                // Dialogfenstar schliessen, Spielfelder zurücksetzen
+                /** Dialogfenstar schliessen, Spielfelder zurücksetzen
+                 *
+                 */
                 gameSingleActivity.startNewGame();
                 dismiss();
             });
@@ -63,7 +67,10 @@ public class LoseDialog extends Dialog {
         }
         else if (this.onlinespielActivity != null){
             //TODO properly close and handle dialogs and dialog buttons
-            this.setCancelable(false); // weggeklickte Dialoge werden in OnlinespielActivity nicht ordentlich verarbeitet, deshalb disabled
+            /**weggeklickte Dialoge werden in OnlinespielActivity nicht ordentlich verarbeitet, deshalb disabled
+             *
+             */
+            this.setCancelable(false);
             imageViewClose.setOnClickListener(v -> {
 //          gameSingleActivity.startNewGame();
                 dismiss();
