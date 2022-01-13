@@ -1,26 +1,16 @@
 package space.game.tictactoe.dialogs;
 
-import static android.graphics.Color.TRANSPARENT;
-
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.app.Activity;
-import android.app.Dialog;
-import android.content.Context;
 import android.content.Intent;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageView;
 
-import space.game.tictactoe.GameSingleActivity;
-import space.game.tictactoe.MenuActivity;
-import space.game.tictactoe.OnlinespielActivity;
-import space.game.tictactoe.OptionenActivity;
+import space.game.tictactoe.menu.OnlinespielActivity;
 import space.game.tictactoe.R;
 
 //IM MOMENT IST DAS ALLES noch kein DIALOG!! Ist nur zum Testen und klar werden was und wie
@@ -144,8 +134,8 @@ public class InvitationOnlineGameDialog extends AppCompatActivity {
         import androidx.annotation.NonNull;
 
 
-        import space.game.tictactoe.MenuActivity;
-        import space.game.tictactoe.OnlinespielActivity;
+        import space.game.tictactoe.menu.MenuActivity;
+        import space.game.tictactoe.menu.OnlinespielActivity;
         import space.game.tictactoe.R;
 
 public class InvitationOnlineGameDialog extends Dialog {

@@ -1,10 +1,12 @@
-package space.game.tictactoe;
+package space.game.tictactoe.menu;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+
+import space.game.tictactoe.R;
 
 public class AboutActivity extends AppCompatActivity {
 

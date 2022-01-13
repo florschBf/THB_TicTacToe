@@ -12,7 +12,7 @@ import com.google.firebase.auth.FirebaseUser;
 import java.util.Arrays;
 import java.util.List;
 
-import space.game.tictactoe.MenuActivity;
+import space.game.tictactoe.menu.MenuActivity;
 import space.game.tictactoe.R;
 import space.game.tictactoe.models.Player;
 

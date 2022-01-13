@@ -1,4 +1,4 @@
-package space.game.tictactoe;
+package space.game.tictactoe.menu;
 
 import static space.game.tictactoe.R.id.icontransport;
 
@@ -24,12 +24,14 @@ import java.net.URISyntaxException;
 import java.util.HashMap;
 import java.util.Map;
 
+import space.game.tictactoe.R;
 import space.game.tictactoe.dialogs.AnnehmDialogFragment;
 import space.game.tictactoe.dialogs.DrawDialog;
 import space.game.tictactoe.dialogs.LoseDialog;
 import space.game.tictactoe.dialogs.WaitingForOpponentDialogFragment;
 import space.game.tictactoe.dialogs.WinDialog;
 import space.game.tictactoe.handlers.GameBoardHandler;
+import space.game.tictactoe.menu.options.IconwahlActivity;
 import space.game.tictactoe.models.Player;
 import space.game.tictactoe.models.Sound;
 import space.game.tictactoe.handlers.websocketHandler.TttWebsocketClient;

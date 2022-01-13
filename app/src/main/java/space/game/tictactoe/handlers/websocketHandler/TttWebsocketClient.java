@@ -16,7 +16,7 @@ import org.java_websocket.client.WebSocketClient;
 import org.java_websocket.handshake.ServerHandshake;
 import org.json.JSONException;
 
-import space.game.tictactoe.OnlinespielActivity;
+import space.game.tictactoe.menu.OnlinespielActivity;
 import space.game.tictactoe.handlers.GameBoardHandler;
 import space.game.tictactoe.handlers.GameSessionHandler;
 import space.game.tictactoe.models.Player;

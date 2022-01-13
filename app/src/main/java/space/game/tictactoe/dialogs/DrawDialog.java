@@ -6,16 +6,15 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
-import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 
-import space.game.tictactoe.GameSingleActivity;
-import space.game.tictactoe.MenuActivity;
-import space.game.tictactoe.OnlinespielActivity;
+import space.game.tictactoe.menu.GameSingleActivity;
+import space.game.tictactoe.menu.MenuActivity;
+import space.game.tictactoe.menu.OnlinespielActivity;
 import space.game.tictactoe.R;
 
 public class DrawDialog extends Dialog {

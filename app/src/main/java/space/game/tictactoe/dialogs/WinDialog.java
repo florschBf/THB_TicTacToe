@@ -12,9 +12,9 @@ import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 
-import space.game.tictactoe.GameSingleActivity;
-import space.game.tictactoe.MenuActivity;
-import space.game.tictactoe.OnlinespielActivity;
+import space.game.tictactoe.menu.GameSingleActivity;
+import space.game.tictactoe.menu.MenuActivity;
+import space.game.tictactoe.menu.OnlinespielActivity;
 import space.game.tictactoe.R;
 
 public class WinDialog extends Dialog {

@@ -1,4 +1,4 @@
-package space.game.tictactoe;
+package space.game.tictactoe.menu.options;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import space.game.tictactoe.R;
 import space.game.tictactoe.handlers.StatisticsHandler;
 import space.game.tictactoe.models.Player;
 

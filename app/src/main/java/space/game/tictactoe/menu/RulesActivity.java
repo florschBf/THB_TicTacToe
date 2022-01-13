@@ -1,4 +1,4 @@
-package space.game.tictactoe;
+package space.game.tictactoe.menu;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -6,6 +6,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+
+import space.game.tictactoe.R;
 
 public class RulesActivity extends AppCompatActivity {
 

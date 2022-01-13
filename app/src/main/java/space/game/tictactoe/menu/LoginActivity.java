@@ -1,8 +1,10 @@
-package space.game.tictactoe;
+package space.game.tictactoe.menu;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+
+import space.game.tictactoe.R;
 
 public class LoginActivity extends AppCompatActivity {
 

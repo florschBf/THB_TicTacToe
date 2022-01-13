@@ -1,17 +1,15 @@
-package space.game.tictactoe;
+package space.game.tictactoe.menu;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
-import android.widget.CompoundButton;
-import android.widget.Switch;
-import android.widget.Toast;
 
-import com.google.android.material.switchmaterial.SwitchMaterial;
+import space.game.tictactoe.menu.options.IconwahlActivity;
+import space.game.tictactoe.R;
+import space.game.tictactoe.menu.options.StatistikenActivity;
 
 public class OptionenActivity extends AppCompatActivity {
 

@@ -1,4 +1,4 @@
-package space.game.tictactoe;
+package space.game.tictactoe.menu.options;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -8,6 +8,10 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 
+import space.game.tictactoe.menu.GameSingleActivity;
+import space.game.tictactoe.menu.MenuActivity;
+import space.game.tictactoe.menu.OnlinespielActivity;
+import space.game.tictactoe.R;
 import space.game.tictactoe.models.Player;
 
 //@author Peggy Kleinert

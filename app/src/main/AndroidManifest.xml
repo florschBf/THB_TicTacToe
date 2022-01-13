@@ -13,28 +13,28 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.NoActionBar">
         <activity
-            android:name=".OptionenActivity"
+            android:name=".menu.OptionenActivity"
             android:exported="false" />
         <activity
             android:name=".dialogs.InvitationOnlineGameDialog"
             android:exported="false" />
         <activity
-            android:name=".LoginActivity"
+            android:name=".menu.LoginActivity"
             android:exported="false" />
         <activity
-            android:name=".OnlinespielActivity"
+            android:name=".menu.OnlinespielActivity"
             android:exported="false" />
         <activity
-            android:name=".RulesActivity"
+            android:name=".menu.RulesActivity"
             android:exported="true" />
         <activity
-            android:name=".AboutActivity"
+            android:name=".menu.AboutActivity"
             android:exported="true" />
         <activity
-            android:name=".IconwahlActivity"
+            android:name=".menu.options.IconwahlActivity"
             android:exported="true" />
         <activity
-            android:name=".StatistikenActivity"
+            android:name=".menu.options.StatistikenActivity"
             android:exported="true" /> <!-- <activity -->
         <!-- android:name=".GameSingleActivity" -->
         <!-- android:exported="true" /> -->
@@ -54,7 +54,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".MenuActivity"
+            android:name=".menu.MenuActivity"
             android:configChanges="orientation|keyboardHidden"
             android:exported="true"
             android:screenOrientation="portrait"
@@ -64,7 +64,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".GameSingleActivity"
+            android:name=".menu.GameSingleActivity"
             android:configChanges="orientation|keyboardHidden"
             android:exported="true"
             android:screenOrientation="portrait"

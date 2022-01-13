@@ -1,4 +1,4 @@
-package space.game.tictactoe;
+package space.game.tictactoe.menu;
 
 import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
@@ -19,6 +19,7 @@ import com.firebase.ui.auth.data.model.FirebaseAuthUIAuthenticationResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+import space.game.tictactoe.R;
 import space.game.tictactoe.handlers.FirebaseLoginHandler;
 import space.game.tictactoe.handlers.StatisticsHandler;
 import space.game.tictactoe.models.Player;
