@@ -98,6 +98,7 @@ Wenn nach 9 Zügen keiner eine Reihe legen konnte, endet das Spiel unentschieden
     <string name="statistiken_table_losses_value">0</string>
     <string name="statistiken_table_draws_key">Draws</string>
     <string name="statistiken_table_draws_value">0</string>
+    <string name="statistiken_title">"Your Games! "</string>
 
 
 </resources>
