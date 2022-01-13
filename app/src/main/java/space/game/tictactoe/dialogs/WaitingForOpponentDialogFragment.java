@@ -21,12 +21,27 @@ import space.game.tictactoe.R;
 import space.game.tictactoe.websocket.TttWebsocketClient;
 
 public class WaitingForOpponentDialogFragment extends DialogFragment {
+    /**
+     * declaration and initialation of the member variable client
+     */
     private TttWebsocketClient client = null;
 
+    /**
+     * constructor of class WaitingForOpponentDialogFragment
+     * @param client the websocket-connection of the client to the server
+     */
     public WaitingForOpponentDialogFragment(TttWebsocketClient client){
         this.client = client;
     }
 
+    /**
+     * create and show a dialog to inform the player about the waiting status when called online-game
+     * @param savedInstanceState saved state of a instance
+     * @return reate the AlertDialog object and return it
+     * @see Dialog
+     * @see android.app.DialogFragment
+     * @see WaitingForOpponentDialogFragment
+     */
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         // Use the Builder class for convenient dialog construction

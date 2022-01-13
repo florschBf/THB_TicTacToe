@@ -19,19 +19,39 @@ import space.game.tictactoe.OnlinespielActivity;
 import space.game.tictactoe.R;
 
 public class DrawDialog extends Dialog {
+
+    /**
+     *  Declaration and in itialization of membervariables
+     */
     private GameSingleActivity gameSingleActivity = null;
     private OnlinespielActivity onlinespielActivity = null;
 
+    /**
+     * display a draw-alert-dialog
+     * @param context Show the dialog in the context given
+     * @param gameSingleActivity if selected in the dialog go to a new activity for a single-player-game called GameSingleActivity
+     */
     public DrawDialog(@NonNull Context context, GameSingleActivity gameSingleActivity) {
         super(context);
         this.gameSingleActivity = gameSingleActivity;
     }
 
+    /**
+     * isplay a draw-alert-dialog
+     * @param context Show the dialog in the context given
+     * @param onlinespielActivity if selected in the dialog go to a new activity for a online-player-game called OnlinespielActivity
+     */
     public DrawDialog(@NonNull Context context, OnlinespielActivity onlinespielActivity) {
         super(context);
         this.onlinespielActivity = onlinespielActivity;
     }
 
+    /**
+     * create and show the draw-dialog with options how to continue
+     * @param savedInstanceState saved state of instance
+     * @see Dialog
+     * @see DrawDialog
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

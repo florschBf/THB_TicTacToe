@@ -139,16 +139,28 @@ public class FirebaseLoginHandler {
 
     }
 
+    /**
+     * @return Uid of the current firebase user
+     */
     public String getFirebaseId(){
         return this.currentUser.getUid();
     }
 
+    /**
+     * @return E-mail of the current firebase user
+     */
     public String getEmail() { return  this.currentUser.getEmail(); }
 
+    /**
+     * @param mAuth On signInAnon with FirebaseAuth set mAuth-Value for encapsulation
+     */
     public void setmAuth(FirebaseAuth mAuth) {
         this.mAuth = mAuth;
     }
 
+    /**
+     * @param user On signInAnon or onResume with FirebaseAuth (login) set ccurrent firebase user for encapsulation
+     */
     public void setCurrentUser(FirebaseUser user) {
         this.currentUser = user;
     }

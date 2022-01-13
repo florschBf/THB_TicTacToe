@@ -14,12 +14,25 @@ import space.game.tictactoe.websocket.TttWebsocketClient;
 
 
 public class ChallengeDialogFragment extends DialogFragment {
+    /**
+     * Declaration and in itialization of membervariable client
+     */
     private TttWebsocketClient client = null;
 
+    /**
+     * Constructor of class ChallengeDialogFragment
+     * @param client the websocket-connection of this client
+     */
     public ChallengeDialogFragment(TttWebsocketClient client){
         this.client = client;
     }
 
+    /**
+     * call a dialog to deny an invitation for a online-game
+     * but not used in project
+     * @param savedInstanceState a state of a passed instance
+     * @return Create the AlertDialog object and return it
+     */
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         // Use the Builder class for convenient dialog construction

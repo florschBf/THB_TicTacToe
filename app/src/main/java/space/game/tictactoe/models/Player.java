@@ -16,6 +16,7 @@ public class Player {
     private String name = "unknown";
     private String email = "unknown";
     private String firebaseId = "unknown";
+    private String uid = "unknown"; // given by server to identify the player
     private String serverId = "unknown"; // Wird vom Server aus der Connection gehashed
     private int icon = R.drawable.stern_90; // set icon as default from fireBase
 
@@ -84,12 +85,20 @@ public class Player {
         this.email = email;
     }
 
+
     /**
      * update default player-firebaseId by passed firebaseId
      * @param firebaseId The firebaseId of the player, given by firebase and retrieved from there after login
      */
     public void setFirebaseId(String firebaseId) {
         this.firebaseId=firebaseId;
+    }
+
+    /**
+     * @param uid Unique Player Id given from server to identify this player
+     */
+    public void setUid(String uid) {
+        this.uid = uid;
     }
 
     /**
