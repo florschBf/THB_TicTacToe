@@ -34,7 +34,6 @@ import space.game.tictactoe.models.Player;
 public class StatisticsHandler {
 
 
-    Player player = Player.getPlayer();
 
     private final FirebaseFirestore db = FirebaseFirestore.getInstance();
     // private final DocumentReference playerDataReference = db.collection("users").document(player.getFirebaseId());
@@ -67,6 +66,8 @@ public class StatisticsHandler {
     }
 
 
+    Player player = Player.getPlayer();
+
     /**
      * Store local playerdata in firebase database if the player is logged in.
      * If the Player is logged a firebase-Id is given by firebase and overrides the default-value "unknown"
@@ -96,8 +97,8 @@ public class StatisticsHandler {
 
     /**
      * Update der Attribute der Player-Klasse mit den entsprechenden in Firebase gespeicherten Daten
-     *  * Only on login get stored playerdata and add them to local playerdata -> that´s why check if a firebaseId is given
-     *      * When to store playerdata (write in firestore)?: on logout when logged in before
+     * Only on login get stored playerdata and add them to local playerdata -> that´s why check if a firebaseId is given
+     * When to store playerdata (write in firestore)?: on logout when logged in before
      * Aktualisierte Attribute:
      * wins
      * losses

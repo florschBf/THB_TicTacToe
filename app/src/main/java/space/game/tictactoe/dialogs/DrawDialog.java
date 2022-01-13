@@ -27,7 +27,7 @@ public class DrawDialog extends Dialog {
     private OnlinespielActivity onlinespielActivity = null;
 
     /**
-     * display a draw-alert-dialog
+     * constructor to display a draw-alert-dialog for singleplayer-mode
      * @param context Show the dialog in the context given
      * @param gameSingleActivity if selected in the dialog go to a new activity for a single-player-game called GameSingleActivity
      */
@@ -37,7 +37,7 @@ public class DrawDialog extends Dialog {
     }
 
     /**
-     * isplay a draw-alert-dialog
+     * constructor to display a draw-alert-dialog for online-game
      * @param context Show the dialog in the context given
      * @param onlinespielActivity if selected in the dialog go to a new activity for a online-player-game called OnlinespielActivity
      */

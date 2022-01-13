@@ -18,6 +18,9 @@ import space.game.tictactoe.websocket.TttWebsocketClient;
 
 public class GameBoardHandler {
     //TAKEN AND MODIFIED FROM GAME ACTIVITY TO CONTROL PLACING SIGNS
+    /**
+     * Declaration and in itialization of membervariables
+     */
     private ImageView[] mBoardImageView;
     private int icon;
     private String opponentName;
@@ -25,6 +28,14 @@ public class GameBoardHandler {
     private TttWebsocketClient client;
     private Context context;
 
+    /**
+     * constructor of class GameBoardHandler
+     * initialize membervariables with params
+     * @param mBoardImageView draws the gameboard where the icons are show
+     * @param icon icon to display in the board
+     * @param client websocketconnection of the client to the server
+     * @param context show the board in this context
+     */
     public GameBoardHandler(ImageView[] mBoardImageView, int icon, TttWebsocketClient client, Context context){
         this.mBoardImageView = mBoardImageView;
         this.context = context;

@@ -10,12 +10,22 @@ import java.text.ParseException;
  * Wer ist dran, wer gewinnt, Spielfeld aufräumen
  */
 public class GameSessionHandler {
+    /**
+     * Declaration and in itialization of membervariables
+     */
     private GameBoardHandler gameBoard;
     private boolean myTurn = false;
     private boolean gameOver = false;
 
-    public boolean isGameOver() {
-        return gameOver;
+    /**
+     * constructor of class GameBoardHandler
+     * updates membervariables
+     * @param gameBoard uses this gameboard, including icons, where the gamesession takes place
+     */
+    public GameSessionHandler (GameBoardHandler gameBoard){
+        this.gameBoard = gameBoard;
+        this.gameBoard.renderOpponentName();
+        System.out.println(gameBoard);
     }
 
     /**
@@ -57,6 +67,20 @@ public class GameSessionHandler {
         }
     }
 
+    /**
+     * find out the state of the gamesession
+     * @return <code>true</code> if gamesession is over
+     *         <code>false</code> if gamesession is not over yet
+     */
+    public boolean isGameOver() {
+        return gameOver;
+    }
+
+    /**
+     * find out who´s turn to set an draw it is
+     * @return <code>true</code> if it´s the turn of the local player
+     *         <code>false</code> if it´s the opponent´s turn
+     */
     public boolean isMyTurn() {
         return myTurn;
     }
@@ -80,11 +104,7 @@ public class GameSessionHandler {
         }
     }
 
-    public GameSessionHandler (GameBoardHandler gameBoard){
-        this.gameBoard = gameBoard;
-        this.gameBoard.renderOpponentName();
-        System.out.println(gameBoard);
-    }
+
 
     /**
      * Methode die Informationen zur Zugreihenfolge aus der Servernachricht ausliest

@@ -26,7 +26,7 @@ public class LoseDialog extends Dialog {
 
 
     /**
-     * Constructor of class LoseDialog
+     * Constructor of class LoseDialog for singleplayer-mode
      * @param context Show the dialog in the context given
      * @param gameSingleActivity if selected in the dialog go to a new activity for a single-player-game called GameSingleActivity
      */
@@ -36,7 +36,7 @@ public class LoseDialog extends Dialog {
     }
 
     /**
-     * Constructor of class LoseDialog
+     * Constructor of class LoseDialog for Onlinegame
      * @param context Show the dialog in the context given
      * @param onlinespielActivity f selected in the dialog go to a new activity for a online-game called OnlinespielActivity
      */
