@@ -13,7 +13,7 @@ public class TttCommandHandler {
      * @return String um an den Server gesendet zu werden
      */
     public String startGame(String playerId){
-        String command = "{\"topic\":\"gameSession\",\"command\":\"startgame\",\"playerId\":\""+playerId+"\",\"playerIcon\":\""+player.getIcon()+"\"}";
+        String command = "{\"topic\":\"gameSession\",\"command\":\"startgame\",\"playerId\":\""+playerId+"\"}";
         return command;
     }
 
@@ -49,7 +49,7 @@ public class TttCommandHandler {
     }
 
     public String acceptGame(){
-        String command = "{\"topic\":\"gameSession\",\"command\":\"startgame\",\"answer\":\"confirm\",\"playerIcon\":\"" + this.player.getIcon() + "\"}";
+        String command = "{\"topic\":\"gameSession\",\"command\":\"startgame\",\"answer\":\"confirm\"}";
         return command;
     }
 
@@ -60,11 +60,6 @@ public class TttCommandHandler {
 
     public String endGame(){
         String command = "{\"topic\":\"gameSession\",\"command\":\"quitgame\",\"state\":\"initiate\"}";
-        return command;
-    }
-
-    public String readyForGame() {
-        String command = "{\"topic\":\"gameSession\",\"command\":\"gameState\",\"info\":\"whoseTurn\"}";
         return command;
     }
 }

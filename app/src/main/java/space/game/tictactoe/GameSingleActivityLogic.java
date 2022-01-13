@@ -13,17 +13,13 @@ public class GameSingleActivityLogic {
             { 0, 4, 8 }, { 2, 4, 6 }
     };
 
-    /**Namenskonstanten zur Darstellung der verschiedenen Spielzustände - name constants to show different game conditions
-     *
-     */
+    // Namenskonstanten zur Darstellung der verschiedenen Spielzustände
     public static final int PLAYING = 0; // Spiel läuft
     public static final int CROSS_WON = 1; // Kreuz (Spieler) hat gewonnen
     public static  final int NOUGHT_WON = 2; // Zero (Android) hat gewonnen
     public static final int DRAW = 3; // Unentschieden
 
-    /**Das Spielbrett und der Spielstatus
-     *
-     */
+    // Das Spielbrett und der Spielstatus
     private static final int BOARDSIZE = 9; // Anzahl der Blocks
     private Block[] board = new Block[BOARDSIZE]; // Spielbrett in Array-Anordnung
 
@@ -33,19 +29,13 @@ public class GameSingleActivityLogic {
         }
     }
 
-    /** Gibt den nächsten besten Zug für den Computer zurück. - gives back next best move for computer
-     *
-     * @return
-     */
+    // Gibt den nächsten besten Zug für den Computer zurück.
     public int[] hardMove() {
         int[] result = minimax(2, NOUGHT); // depth - depth - gewuenschteTiefe, gibt Max (für 0) zurück
         return new int[] {result[1]};   // Blockposition
     }
 
-    /** Gibt den nächsten freien Zug für den Computer zurück. - gives back next free move for the computer
-     *
-     * @return
-     */
+    // Gibt den nächsten freien Zug für den Computer zurück.
     public int[] easyMove() {
         int[] result = findEasyMove(2, NOUGHT); // depth - gewuenschteTiefe, gibt Max (für 0) zurück
         return new int[] {result[1]};   // Blockposition
@@ -57,24 +47,18 @@ public class GameSingleActivityLogic {
     }
 
 
-    /** Führt abwechselnd easy und medium Schritte aus - in turns easy or medium moves
-     *
-     */
+    // Führt abwechselnd easy und medium Schritte aus
     int count = 1;
     public int[] alternatelyMove(int depth, Block player){
         Log.d("count", String.valueOf(count));
 
-        /** speichert mögliche nächste Züge in der Liste - saves possible next moves in a list
-         *
-         */
+        // speichert mögliche nächste Züge in der Liste
         List<int[]> nextMoves = generateMoves();
 
         int bestScore = (player == NOUGHT) ? Integer.MIN_VALUE : Integer.MAX_VALUE;
         int currentScore;
         int bestBlock = -1;
-        /** Easy - wählt erste von Ende position
-         *
-         */
+        // Easy - wählt erste von Ende position
         if (count % 2 == 0) {
             for (int[] move : nextMoves){
                 board[move[0]] = player;
@@ -82,9 +66,7 @@ public class GameSingleActivityLogic {
                 board[move[0]] = EMPTY;
             }
         }
-        /**Hard - Minimax-Algorithmus
-         *
-         */
+        //Hard - Minimax-Algorithmus
         if (count % 2 == 1) {
             if (depth == 0 || nextMoves.isEmpty()){
                 bestScore = evaluate();
@@ -117,13 +99,9 @@ public class GameSingleActivityLogic {
 
 
     public int[] findEasyMove(int depth, Block player){
-        /**speichert mögliche nächste Züge in der Liste - saves possible next moves in a list
-         *
-         */
+        //  speichert mögliche nächste Züge in der Liste
         List<int[]> nextMoves = generateMoves();
-        /**wählt ein zufälliges Element aus Liste aus - chooses random element from list
-         *
-         */
+        // wählt ein zufälliges Element aus Liste aus
         int[] move = nextMoves.get(new Random().nextInt(nextMoves.size()));
         int bestScore = (player == NOUGHT) ? Integer.MIN_VALUE : Integer.MAX_VALUE;
         int bestBlock = move[0];
@@ -131,27 +109,13 @@ public class GameSingleActivityLogic {
     }
 
 
-    /** Minimiere Gewinnmöglichkeiten für den Gegner - minimize winn possibilities
-     *
-     * @param depth
-     * @param player
-     * @return
-     */
-    /**Maximiere eigene Gewinnmöglichkeiten - maximize win possibilities
-     *
-     * @param depth
-     * @param player
-     * @return
-     */
+    // Minimiere Gewinnmöglichkeiten für den Gegner
+    // Maximiere eigene Gewinnmöglichkeiten
     public int[] minimax(int depth, Block player){
-        /** Generiert mögliche nächste Züge in einer Liste. - generates possible next turn in a list
-         *
-         */
+        // Generiert mögliche nächste Züge in einer Liste.
         List<int[]> nextMoves = generateMoves();
 
-        /**Android (0 NOUGHT) ist maximizing; Gegner (X CROSS) ist minimizing
-         *
-         */
+        // Android (0 NOUGHT) ist maximizing; Gegner (X CROSS) ist minimizing
         int bestScore = (player == NOUGHT) ? Integer.MIN_VALUE : Integer.MAX_VALUE;
         int currentScore;
         int bestBlock = -1;
@@ -180,15 +144,10 @@ public class GameSingleActivityLogic {
         return new int[] {bestScore, bestBlock};
     }
 
-    /** Wertung für jede der 8 Linien auswerten (3 Zeilen, 3 Spalten, 2 Diagonalen) - evaluate all 8 possible winner lines
-     *
-     * @return
-     */
+    //  Wertung für jede der 8 Linien auswerten (3 Zeilen, 3 Spalten, 2 Diagonalen)
     private int evaluate() {
         int score = 0;
-        /** Evaluate score for each of the 8 lines (3 rows, 3 columns, 2 diagonals)
-         *
-         */
+        // Evaluate score for each of the 8 lines (3 rows, 3 columns, 2 diagonals)
         for (int[] row : ROWS) {
             score += evaluateLine(row);  // zeile 0
         }
@@ -223,7 +182,7 @@ public class GameSingleActivityLogic {
         return true;
     }
 
-    /** Heuristische Funktion zur Bewertung der Nützlichkeit des Spielzustands - heuristic function to evaluate the gamestatus
+    /** Heuristische Funktion zur Bewertung der Nützlichkeit des Spielzustands
      @Return +100, +10, +1 für 3-, 2-, 1 -in jeder Linie für Android.
      @Return -100, -10, -1 for 3-, 2-, 1 -in jeder Linie für Opponent.
      @Return 0 sonst bzw. wenn Linie X und 0 enthält
@@ -247,16 +206,12 @@ public class GameSingleActivityLogic {
         }
     }
 
-    /**  gibt mögliche nächste Züge in der Liste - returns next possible moves in the list
-     *
-     * @return
-     */
+    //  gibt mögliche nächste Züge in der Liste
     private List<int[]> generateMoves() {
         List<int[]> nextMoves = new ArrayList<int[]>();
 
         if (checkGameStatus().isPlaying()) {
-            // Sucht nach leeren Blocks und fügt diese der Liste hinzu -  checks for empty blocks and adds them to the list
-
+            // Sucht nach leeren Blocks und fügt diese der Liste hinzu
             for (int i = 0; i < BOARDSIZE; ++i) {
                 if (board[i] == EMPTY) {
                     nextMoves.add(new int[]{i});
