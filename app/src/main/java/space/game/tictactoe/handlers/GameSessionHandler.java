@@ -60,6 +60,11 @@ public class GameSessionHandler {
     public boolean isMyTurn() {
         return myTurn;
     }
+
+    /**
+     * Methode zur Zug-Verwaltung auf dem Spielfeld im Online-Modus
+     * @param yourTurn boolean - bin ich dran oder nicht
+     */
     public void setMyTurn(boolean yourTurn) {
         System.out.println("switching turns");
         this.myTurn = yourTurn;
