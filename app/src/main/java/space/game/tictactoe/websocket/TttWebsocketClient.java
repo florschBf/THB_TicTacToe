@@ -137,18 +137,15 @@ public class TttWebsocketClient extends WebSocketClient{
                 //TODO new confirm dialog?
 
                 //get a GameSessionHandler going, set turn false for now, GameSessionHandler knows what to do with the board
-
                 this.gameBoard.setOpponentIcon(oppoIconId);
                 this.gameBoard.setOpponentName(oppoName);
                 this.session = new GameSessionHandler(gameBoard);
                 this.session.setMyTurn(false);
-                this.send(cmdHandler.readyForGame());
                 break;
             case ("game denied"):
                 cleanSlate();
                 killDialog();
                 gameBoard.showNotification("oppoQuit");
-                break;
             case ("youwin"):
                 this.player.increaseWins();
                 //TODO handle winning the game!

@@ -39,17 +39,15 @@ import space.game.tictactoe.models.Sound;
 public class GameSingleActivity extends AppCompatActivity {
 
 
-    /**für die Iconauswahl - for icon choosing
-     *
-     */
+    //für die Iconauswahl
     private static final String TAG = "OnlineSpiel";
     private final Player player = Player.getPlayer();
     private int icon = player.getIcon();
 
-    /** Drei Schwierigkeitsstufen: 0 -easy, 1 -medium, 2-hard - three difficulty levels, easy, medium, hard
-     *
-     */
-    private int diffLevel;
+    // private static final int iconDefault = R.drawable.stern_90;
+
+
+    private int diffLevel; // Drei Schwierigkeitsstufen: 0 -easy, 1 -medium, 2-hard
 
     Dialog dialog;
 
@@ -71,15 +69,28 @@ public class GameSingleActivity extends AppCompatActivity {
     int i = 1; // 1 = ton on, 0 = ton off
 
 
+    //board imageviews für die erleucheten Felder
+
+    // Dies sind die ImageViews vom Board
+   /* ImageView block0 = findViewById(R.id.block0);
+    ImageView block1 = findViewById(R.id.block1);
+    ImageView block2 = findViewById(R.id.block2);
+    ImageView block3 = findViewById(R.id.block3);
+    ImageView block4 = findViewById(R.id.block4);
+    ImageView block5 = findViewById(R.id.block5);
+    ImageView block6 = findViewById(R.id.block6);
+    ImageView block7 = findViewById(R.id.block7);
+    ImageView block8 = findViewById(R.id.block8);
+    // das gameboard abstrakt um die Felder markieren zu können, Feldzuordnung dann über die blöcke = block0 etc
+    private Integer[] gameboard = {0,0,0,0,0,0,0,0,0};*/
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
 
-        /** Sound-Icon für Ton wiedergabe referenzieren - sound icon to reference sound
-         *
-         */
+        // Sound-Icon für Ton wiedergabe referenzieren
         ton = (Button)findViewById(R.id.ton);
         if(player.getIsTonOn()) {
             ton.setBackgroundResource(R.drawable.ic_baseline_music_note_24); // Icon-Darstellung: Ton eingeschaltet
@@ -88,7 +99,7 @@ public class GameSingleActivity extends AppCompatActivity {
         }
 
         /**
-         * TouchListener-Methode, um Sound ein- und -ausschalten - touch listener method to switch on and of sound
+         * TouchListener-Methode, um Sound ein- und -ausschalten
          */
         ton.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -128,41 +139,45 @@ public class GameSingleActivity extends AppCompatActivity {
             }
         });
 
-        /**Datatransfair from IconwahlActivity -> chosen Icon kommt in die OnlinespielActivity
-         * aus der Iconactivity woher auch immer diese aufgerufen wird
-         * datatransfair from IconwahlActivity -> chosen Icon goes to OnlinespielActivity
-         * from Iconactivity, not minding, from where this is being called up
-         */
-
+        //Datatransfair from IconwahlActivity -> chosen Icon kommt in die OnlinespielActivity aus der Iconactivity woher auch immer diese aufgerufen wird
         final Intent intent = getIntent();
-        /**Test ob auch wirklich ein playericon geschickt wurde, just in case...sonst wird eines default gesetzt
-         * test ir player icon was really set
-         *
-         */
+        //Test ob auch wirklich ein playericon geschickt wurde, just in case...sonst wird eines default gesetzt
         if(intent.hasExtra("playerIcon")){
             int playerIcon = intent.getIntExtra("playerIcon", R.drawable.chosenicon_dummy_90);
             Log.d(TAG, "player icon" + playerIcon);
             icon = playerIcon;
         }
-        /**overwrite default Icon in the ImageView of the onlinespielactivity
-         * with the chosen one from the IconWahlActivity, that was transfered above
-         */
+        //overwrite default Icon in the ImageView of the onlinespielactivity with the chosen one from the IconWahlActivity, that was transfered above
         ImageView image = (ImageView) findViewById(icontransportsingle);
         image.setImageResource(icon);
 
-        /** Dialogfenster für Spielstatus: gewonnen, verloren, unentschieden - dialog window for game statusses won, lost, draw
-         *
-         */
-        dialog = new Dialog(this);
+/* ZAHNRAD
+        // Imageview Zahnrad als Button anclickbar-> Optionen im Menü -> Weiterleitung zu Optionen->Icons->Statistiken
+        ImageView zahnrad= findViewById(R.id.zahnrad_pcgame);
+        zahnrad.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                try {
+                    Intent intent = new Intent(GameSingleActivity.this, OptionenActivity.class);
+                    startActivity(intent);
+                } catch(Exception e) {
+
+                }
+            }
+        });
+
+*/
+
+
+
+        dialog = new Dialog(this);         // Dialogfenster für Spielstatus: gewonnen, verloren, unentschieden
 
         mBoardImageView = new ImageView [9];
         for (int i = 0; i < mBoardImageView.length; i++) {
             mBoardImageView[i] = (ImageView) findViewById(getResources().getIdentifier("block" + i, "id", this.getPackageName()));
         }
 
-        /** AlertDialog zur Abfrage, wer soll das Spiel als erster beginnen - alert dialog, to estimate who starts with the first move
-         *
-         */
+        // AlertDialog zur Abfrage, wer soll das Spiel als erster beginnen
         final AlertDialog.Builder alertDialog = new AlertDialog.Builder(this, AlertDialog.THEME_HOLO_DARK);
         alertDialog.setCancelable(false); // false -> Dialog kann nicht mit der BACK-Taste abgebrochen werden
         alertDialog.setTitle("Wer geht zuerst?");
@@ -183,24 +198,21 @@ public class GameSingleActivity extends AppCompatActivity {
         alertDialog.show();
 
 
-        /** Radiobutton Gruppe erzeugt 3 Radiobuttons für 3 Schwierigkeitsgrade: easy, medium, hard
-         * radiobutton group creates three radio buttons for three difficulty levels - easy, medium, hard
-         */
+        // Radiobutton Gruppe erzeugt 3 Radiobuttons für 3 Schwierigkeitsgrade: easy, medium, hard
         RadioGroup difficultyLevel = (RadioGroup) this.findViewById(R.id.difficultyLevel);
         RadioButton radioButtonEasy = (RadioButton) this.findViewById(R.id.easy);
         radioButtonEasy.setChecked(true); // Defaultwert für Schwierigkeitsgrad - easy
 
         /**
-         * Ermöglicht auf Änderungen (Schwierigkeitsstufe ändern) zu reagieren
-         * allows to react at changed difficulty level
+         * // Ermöglicht auf Änderungen (Schwierigkeitsstufe ändern) zu reagieren
          */
         difficultyLevel.setOnCheckedChangeListener((group, checkedId) -> doOnDifficultyLevelChanged(group, checkedId));
 
     }
 
     /**
-     * Methode um Schwierigkeitsstufe zu ändern - method to change difficulty
-     * @param group Radio-Button Gruppe für drei Schwierigkeitsgrade - radio buttons for three difficulty levels
+     * Methode um Schwierigkeitsstufe zu ändern
+     * @param group Radio-Button Gruppe für drei Schwierigkeitsgrade
      * @param checkedId Radio-Button Id, der in der Radiogruppe aktiviert
      */
     private void doOnDifficultyLevelChanged(RadioGroup group, int checkedId) {
@@ -224,8 +236,8 @@ public class GameSingleActivity extends AppCompatActivity {
     }
 
     /**
-     * Methode setzt den Spielstatus auf aktiv - method that sets game status to active
-     * Setzt ersten Schritt random, falls Android zuerst geht - sets first move to random, if android starts
+     * Methode setzt der Spielstatus auf aktiv
+     * Setzt ersten Schritt random, falls Android zuerst geht
      */
     public void startNewGame() {
         resetGame();
@@ -236,8 +248,8 @@ public class GameSingleActivity extends AppCompatActivity {
     }
 
     /**
-     * Methode um Felder mit Icons zu markieren - method to mark blocks with icons
-     * Sorgt dafür, dass die Spielzüge nur in noch freie Felder gesetzt werden können - secures that moves only can be applied to empty blocks
+     * Methode um Felder mit Icons zu markieren
+     * Sorgt dafür, dass die Spielzüge nur in noch freie Felder gesetzt werden können
      * @param x Nummer des Feldes
      * @param player 1 für den Spieler, != 1 Android
      */
@@ -261,7 +273,7 @@ public class GameSingleActivity extends AppCompatActivity {
     }
 
     /**
-     * Methode erlaubt Spiel neu anfangen - method allows to restart game anew
+     * Methode erlaubt Spiel neu anfangen
      * @param view - Offline-Game Ansicht
      */
     public void restartGame(View view) {
@@ -277,7 +289,7 @@ public class GameSingleActivity extends AppCompatActivity {
     }
 
     /**
-     * Methode um alle Spielfelder auf leer und klickbar zu setzen - method to set all game blocks to empty and clickable
+     * Methode um alle Spielfelder auf leer und klickbar zu setzen
      */
     public void clearAllBlocks() {
         minimax.resetBoard();
@@ -285,14 +297,13 @@ public class GameSingleActivity extends AppCompatActivity {
             mBoardImageView[i].setImageResource(0);
             mBoardImageView[i].setEnabled(true);
             mBoardImageView[i].setOnClickListener(new ButtonClickListener(i));
-            //setze alle Feldfarben wieder auf blau zurück - reset all blocks to blue
+            //setze alle Feldfarben wieder auf blau zurück
            mBoardImageView[i].setBackgroundColor(Color.argb(100, 11, 11, 59 ));
         }
     }
 
     /**
      * Methode setzt alle Spielfelder in anklickbarem Status
-     * set all board fields in clickable mode
      */
     private void unblockAllFields() {
         for (int i = 0; i < 9; i++) {
@@ -308,7 +319,6 @@ public class GameSingleActivity extends AppCompatActivity {
 
         /**
          *  Methode um alle Spieldfelder nicht anklickbar machen
-         *  method to block all game fields /blocks from being clicked
          */
         private void blockAllFields() {
             for (int i = 0; i < 9; i++) {
@@ -316,7 +326,13 @@ public class GameSingleActivity extends AppCompatActivity {
             }
         }
 
+        // verwendet den Schwierigkeitsgrad, um zu bestimmen, welchen Algorithmus der Computer verwenden soll
 
+        // aber was genau macht die Funktion?
+        // Der Name "onClick" ist nicht aussagekräftig, Die Funktion sieht so aus, als täte sie folgendes:
+        // sie stellt sicher, dass das board gerade aktiv ist, setzt einen Zug, und blockiert dann die Restfelder,
+        // prüft auf einen Gewinner anhand der Funktionen minimax und checkGameStatus, wenn noch kein Gewinner gefunden
+        // wurde, wird der Spielstatus auf playing gesetzt und ein Zug des Computers wird initiert, am ende wird nochmal auf den winner geprüft
         @Override
         public void onClick(View v) {
             // easy level, Spiel aktiv, Felder frei
@@ -353,7 +369,6 @@ public class GameSingleActivity extends AppCompatActivity {
 
         /**
          * Methode prüft Spielergebnis und ruft etsprechende Methode mit Dialogfenster auf
-         * - method  checks gamestatus and calls method that calls a dialog window
          */
         private void checkWinner() {
             GameStatus status = minimax.checkGameStatus();
@@ -405,7 +420,7 @@ public class GameSingleActivity extends AppCompatActivity {
         }
 
         /**
-         * Methode stellt "Draw" Dialogfenster dar - method shows "draw" dialog window
+         * Methode stellt "Draw" Dialogfenster dar
          */
         private void showDrawDialog() {
             player.increaseDraws();
@@ -414,7 +429,7 @@ public class GameSingleActivity extends AppCompatActivity {
         }
 
         /**
-         * Methode stellt "win" Dialogfenster dar - method shows "win" dialog window
+         * Methode stellt "win" Dialogfenster dar
          */
         private void showWinDialog() {
             player.increaseWins();
