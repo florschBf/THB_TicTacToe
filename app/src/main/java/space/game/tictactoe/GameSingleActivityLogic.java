@@ -5,7 +5,9 @@ import android.util.Log;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-import static space.game.tictactoe.Block.*;
+import static space.game.tictactoe.models.Block.*;
+
+import space.game.tictactoe.models.Block;
 
 public class GameSingleActivityLogic {
     private static final int[][] ROWS = {

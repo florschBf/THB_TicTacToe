@@ -2,19 +2,15 @@ package space.game.tictactoe.handlers;
 
 import android.app.Activity;
 import android.content.Context;
-import android.os.Looper;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.fragment.app.DialogFragment;
-
 import space.game.tictactoe.OnlinespielActivity;
 import space.game.tictactoe.R;
 import space.game.tictactoe.dialogs.WaitingForOpponentDialogFragment;
-import space.game.tictactoe.models.Player;
-import space.game.tictactoe.websocket.TttWebsocketClient;
+import space.game.tictactoe.handlers.websocketHandler.TttWebsocketClient;
 
 public class GameBoardHandler {
     //TAKEN AND MODIFIED FROM GAME ACTIVITY TO CONTROL PLACING SIGNS

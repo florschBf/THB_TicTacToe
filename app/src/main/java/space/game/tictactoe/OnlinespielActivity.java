@@ -25,16 +25,14 @@ import java.util.HashMap;
 import java.util.Map;
 
 import space.game.tictactoe.dialogs.AnnehmDialogFragment;
-import space.game.tictactoe.dialogs.ChallengeDialogFragment;
 import space.game.tictactoe.dialogs.DrawDialog;
-import space.game.tictactoe.dialogs.InvitationOnlineGameDialog;
 import space.game.tictactoe.dialogs.LoseDialog;
 import space.game.tictactoe.dialogs.WaitingForOpponentDialogFragment;
 import space.game.tictactoe.dialogs.WinDialog;
 import space.game.tictactoe.handlers.GameBoardHandler;
 import space.game.tictactoe.models.Player;
 import space.game.tictactoe.models.Sound;
-import space.game.tictactoe.websocket.TttWebsocketClient;
+import space.game.tictactoe.handlers.websocketHandler.TttWebsocketClient;
 /* Liste der zu lösenden Schwierigkeiten im Online Spiel:
 5. Wenn ein Spiel gestartet wurde, dürfen keine Optionen mehr anclickbar sein,
 und auch keine Playerliste etc. → Möglichkeit Imageviews auszublenden oder auszugrauen? (Android prüfen)

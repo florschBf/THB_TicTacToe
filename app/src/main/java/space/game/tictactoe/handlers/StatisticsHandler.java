@@ -34,20 +34,26 @@ import space.game.tictactoe.models.Player;
 public class StatisticsHandler {
 
 
-
+    /**
+     * Declaration and in intialization of membervariables
+     *
+     * declare db and initialize db with an instance of FirebaseFirestore-object
+     */
     private final FirebaseFirestore db = FirebaseFirestore.getInstance();
     // private final DocumentReference playerDataReference = db.collection("users").document(player.getFirebaseId());
 
+    /**
+     * declare and initialize a player with the only instance of the player-object
+     */
+    Player player = Player.getPlayer();
+
     public static StatisticsHandler statisticsHandler;
 
-    // private int db_wins;
     private static Long db_wins;
     private static Long db_losses;
     private static Long db_draws;
     private static int db_icon;
     private static int totalGames;
-    private Map<String, Object> playerFirestoreData = null;
-
 
     /**
      * Constructor of Class StatisticsHandler
@@ -59,14 +65,13 @@ public class StatisticsHandler {
 
 
     /**
-     * @return Object of instanciated Class StatiskicHandler
+     * @return Object of instanciated Class StatisicsHandler
      */
     public static StatisticsHandler getStatisticsHandler(){
         return statisticsHandler;
     }
 
 
-    Player player = Player.getPlayer();
 
     /**
      * Store local playerdata in firebase database if the player is logged in.

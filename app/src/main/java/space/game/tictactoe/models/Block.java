@@ -1,4 +1,4 @@
-package space.game.tictactoe;
+package space.game.tictactoe.models;
 
 /**
  * just for storing the three enums...

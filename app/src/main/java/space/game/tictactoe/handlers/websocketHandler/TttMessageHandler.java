@@ -1,4 +1,4 @@
-package space.game.tictactoe.websocket;
+package space.game.tictactoe.handlers.websocketHandler;
 
 
 import com.google.gson.JsonObject;
@@ -8,9 +8,9 @@ import org.json.JSONException;
 
 import java.text.ParseException;
 
-import space.game.tictactoe.websocket.messageHandlers.GameSessionMsgHandler;
-import space.game.tictactoe.websocket.messageHandlers.MoveMsgHandler;
-import space.game.tictactoe.websocket.messageHandlers.SignUpMsgHandler;
+import space.game.tictactoe.handlers.websocketHandler.messageHandlers.GameSessionMsgHandler;
+import space.game.tictactoe.handlers.websocketHandler.messageHandlers.MoveMsgHandler;
+import space.game.tictactoe.handlers.websocketHandler.messageHandlers.SignUpMsgHandler;
 
 public class TttMessageHandler {
     private SignUpMsgHandler signUp = new SignUpMsgHandler();

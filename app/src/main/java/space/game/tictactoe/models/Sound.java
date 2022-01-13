@@ -14,6 +14,10 @@ public class Sound {
         }
     }
 
+    /**
+     * Method to stop the sound
+     * @param sound of the MediaPlayer to stop when is playing
+     */
     public static void soundStop(MediaPlayer sound) {
         if(!sound.isPlaying()) {
             sound.release();

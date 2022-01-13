@@ -2,7 +2,6 @@ package space.game.tictactoe.dialogs;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.content.res.Resources;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,7 +11,7 @@ import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.FragmentManager;
 
 import space.game.tictactoe.R;
-import space.game.tictactoe.websocket.TttWebsocketClient;
+import space.game.tictactoe.handlers.websocketHandler.TttWebsocketClient;
 
 public class AnnehmDialogFragment extends DialogFragment {
     private TttWebsocketClient client = null;

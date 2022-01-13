@@ -8,7 +8,7 @@ import space.game.tictactoe.R;
 public class Player {
 
     /**
-     * Declaration and in itialization of membervariables
+     * Declaration and in intialization of membervariables
      * keys of the JSON - analog to Player @Server
      * Set on start of app or triggered by user
      * Used on signIn to Websocketserver (Playerobject in OnlinespielActivity)

@@ -10,7 +10,7 @@ import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.FragmentManager;
 
 import space.game.tictactoe.R;
-import space.game.tictactoe.websocket.TttWebsocketClient;
+import space.game.tictactoe.handlers.websocketHandler.TttWebsocketClient;
 
 
 public class ChallengeDialogFragment extends DialogFragment {

@@ -1,6 +1,5 @@
-package space.game.tictactoe.websocket;
+package space.game.tictactoe.handlers.websocketHandler;
 
-import android.app.Activity;
 import android.content.Context;
 
 

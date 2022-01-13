@@ -1,8 +1,7 @@
 package space.game.tictactoe;
 
-import static space.game.tictactoe.Block.CROSS;
-import static space.game.tictactoe.Block.NOUGHT;
-import static space.game.tictactoe.R.id.icontransport;
+import static space.game.tictactoe.models.Block.CROSS;
+import static space.game.tictactoe.models.Block.NOUGHT;
 import static space.game.tictactoe.R.id.icontransportsingle;
 
 import android.app.AlertDialog;
@@ -32,6 +31,7 @@ import java.util.Random;
 import space.game.tictactoe.dialogs.DrawDialog;
 import space.game.tictactoe.dialogs.LoseDialog;
 import space.game.tictactoe.dialogs.WinDialog;
+import space.game.tictactoe.models.Block;
 import space.game.tictactoe.models.Player;
 import space.game.tictactoe.models.Sound;
 

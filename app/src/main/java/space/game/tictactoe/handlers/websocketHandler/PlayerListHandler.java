@@ -1,15 +1,12 @@
-package space.game.tictactoe.websocket;
+package space.game.tictactoe.handlers.websocketHandler;
 
 import android.app.Activity;
 import android.content.Context;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
-import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-
-import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
