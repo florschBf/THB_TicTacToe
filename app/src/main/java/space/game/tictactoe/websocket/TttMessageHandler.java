@@ -82,8 +82,7 @@ public class TttMessageHandler {
         }
         catch (Exception e){
             e.printStackTrace();
-            oppoIconId = null;
-            return oppoIconId;
         }
+        return null;
     }
 }
