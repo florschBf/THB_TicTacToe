@@ -36,11 +36,8 @@ import space.game.tictactoe.models.Player;
 import space.game.tictactoe.models.Sound;
 import space.game.tictactoe.websocket.TttWebsocketClient;
 /* Liste der zu lösenden Schwierigkeiten im Online Spiel:
-2. Wenn der Playbutton gedrückt wurde, startet das Spiel.
 5. Wenn ein Spiel gestartet wurde, dürfen keine Optionen mehr anclickbar sein,
 und auch keine Playerliste etc. → Möglichkeit Imageviews auszublenden oder auszugrauen? (Android prüfen)
-6. Wenn zu lange kein Zug vorgenommen wurde kann ein diconnect vorliegen,
- oder einer der Player hat sein Handy weggelegt….was dann? → Timeout einbauen? → Spieler wieder ins Matching schicken? → Fehlernachricht? Toast?
 7. Ist ein Spiel beendet, durch win, lose, draw, dann kann man die Buttons alle wieder nutzen.
 Wir müssen verhindern, dass zu jedem Zeitpunkt, dauernd die Spielerliste neu geclickt werden kann,
  oder Icons während des Spiels getauscht werden, oder im Spiel zurück ins Menü gesprungen wird etc. */
