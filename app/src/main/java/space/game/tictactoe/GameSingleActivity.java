@@ -39,7 +39,7 @@ import space.game.tictactoe.models.Sound;
 public class GameSingleActivity extends AppCompatActivity {
 
 
-    /**für die Iconauswahl
+    /**für die Iconauswahl - for icon choosing
      *
      */
     private static final String TAG = "OnlineSpiel";
@@ -184,14 +184,15 @@ public class GameSingleActivity extends AppCompatActivity {
 
 
         /** Radiobutton Gruppe erzeugt 3 Radiobuttons für 3 Schwierigkeitsgrade: easy, medium, hard
-         *
+         * radiobutton group creates three radio buttons for three difficulty levels - easy, medium, hard
          */
         RadioGroup difficultyLevel = (RadioGroup) this.findViewById(R.id.difficultyLevel);
         RadioButton radioButtonEasy = (RadioButton) this.findViewById(R.id.easy);
         radioButtonEasy.setChecked(true); // Defaultwert für Schwierigkeitsgrad - easy
 
         /**
-         * // Ermöglicht auf Änderungen (Schwierigkeitsstufe ändern) zu reagieren
+         * Ermöglicht auf Änderungen (Schwierigkeitsstufe ändern) zu reagieren
+         * allows to react at changed difficulty level
          */
         difficultyLevel.setOnCheckedChangeListener((group, checkedId) -> doOnDifficultyLevelChanged(group, checkedId));
 
