@@ -32,6 +32,7 @@ import space.game.tictactoe.dialogs.WaitingForOpponentDialogFragment;
 import space.game.tictactoe.dialogs.WinDialog;
 import space.game.tictactoe.handlers.GameBoardHandler;
 import space.game.tictactoe.models.Player;
+import space.game.tictactoe.websocket.PlayerListHandler;
 import space.game.tictactoe.websocket.TttWebsocketClient;
 /* Liste der zu lösenden Schwierigkeiten im Online Spiel (neben den Spielzügen):
 
@@ -318,7 +319,7 @@ public class OnlinespielActivity extends AppCompatActivity {
 
     private void updatePlayerIcon(){
         try {
-            this.icon = player.getIcon();
+            this.icon = Player.player.getIcon();
         }
         catch (Exception e){
             e.printStackTrace();
