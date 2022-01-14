@@ -8,6 +8,9 @@ import android.view.View;
 
 import space.game.tictactoe.R;
 
+/** about activity that shows a little text about us, as we are a study group and this is a study project - pure informational view
+ *
+ */
 public class AboutActivity extends AppCompatActivity {
 
     @Override
@@ -22,9 +25,9 @@ public class AboutActivity extends AppCompatActivity {
         finish();
     }
 
-    /** System-Button Back überschreiben
-     * overwrite system-back-button
-     */
+    // System-Button Back überschreiben
+     // overwrite system-back-button
+
     @Override
     public void onBackPressed() {
         try {

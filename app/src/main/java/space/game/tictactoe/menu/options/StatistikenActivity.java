@@ -11,7 +11,9 @@ import space.game.tictactoe.R;
 import space.game.tictactoe.handlers.StatisticsHandler;
 import space.game.tictactoe.models.Player;
 
-
+/** statistics activity to show a status list for wins, losses or draws
+ *
+ */
 public class StatistikenActivity extends AppCompatActivity {
 
     Player player = Player.getPlayer();

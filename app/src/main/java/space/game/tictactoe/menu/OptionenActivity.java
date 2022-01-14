@@ -11,6 +11,11 @@ import space.game.tictactoe.menu.options.IconwahlActivity;
 import space.game.tictactoe.R;
 import space.game.tictactoe.menu.options.StatistikenActivity;
 
+/** options activity for options in main menu
+ * There is two submenues: 1. Icon choosing
+ * 2. statistics about your wins, losses or draws
+  */
+
 public class OptionenActivity extends AppCompatActivity {
 
 //    Switch ton;
