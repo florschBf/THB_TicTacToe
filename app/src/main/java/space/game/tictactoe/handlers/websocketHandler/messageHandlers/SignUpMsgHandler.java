@@ -38,7 +38,7 @@ public class SignUpMsgHandler implements MsgHandler {
                     String playerUID = null;
                     try {
                         playerUID = payload.get("yourUID").getAsString();
-                        Player.getPlayer().setUid(playerUID);
+                        Player.getPlayer().setServerId(playerUID);
                         System.out.println("Player UID is now set to: " + Player.getPlayer().getServerId());
                         return "Set playerUID already";
                     }
