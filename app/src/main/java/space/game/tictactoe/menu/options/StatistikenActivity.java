@@ -3,12 +3,17 @@ package space.game.tictactoe.menu.options;
 import androidx.appcompat.app.AppCompatActivity;
 
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import space.game.tictactoe.R;
 import space.game.tictactoe.handlers.StatisticsHandler;
+import space.game.tictactoe.menu.AboutActivity;
+import space.game.tictactoe.menu.MenuActivity;
+import space.game.tictactoe.menu.OptionenActivity;
 import space.game.tictactoe.models.Player;
 
 /** statistics activity to show a status list for wins, losses or draws
@@ -47,4 +52,12 @@ public class StatistikenActivity extends AppCompatActivity {
         textViewDraws.setText(Long.toString(player.getDraws()));
 
     }
+
+    public void backToOpionenActivity(View view) {
+        Intent intent = new Intent(StatistikenActivity.this, OptionenActivity.class);
+        startActivity(intent);
+        finish();
+    }
+
+
 }

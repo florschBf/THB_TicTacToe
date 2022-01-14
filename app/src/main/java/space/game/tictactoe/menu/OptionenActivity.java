@@ -56,4 +56,16 @@ public class OptionenActivity extends AppCompatActivity {
 
     }
 
+    // System-Button Back überschreiben
+    @Override
+    public void onBackPressed() {
+        try {
+            Intent intent = new Intent(OptionenActivity.this, MenuActivity.class);
+            startActivity(intent);
+            finish();
+        }catch (Exception e) {
+
+        }
+    }
+
 }
