@@ -9,6 +9,10 @@ import android.widget.Button;
 
 import space.game.tictactoe.R;
 
+/** activity to give the player the information about how the games rules work
+ *
+ */
+
 public class RulesActivity extends AppCompatActivity {
 
     @Override

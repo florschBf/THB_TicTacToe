@@ -402,7 +402,7 @@ public class GameSingleActivity extends AppCompatActivity {
         }
 
         /**
-         * Methode stellt "Lose" Dialogfenster dar
+         * Methode stellt "Loose" Dialogfenster dar
          */
         private void showLoseDialog() {
             player.increaseLosses();
@@ -430,6 +430,10 @@ public class GameSingleActivity extends AppCompatActivity {
 
     }
 
+    /** function to color the winning row
+     *
+     * @param winningRow
+     */
     private void colorWinningRow(int[] winningRow) {
         int[] blockIDs = {
                 R.id.block0, R.id.block1, R.id.block2, R.id.block3, R.id.block4,
@@ -443,6 +447,9 @@ public class GameSingleActivity extends AppCompatActivity {
         }
     }
 
+    /** define the possible rows in the class
+     *
+     */
     public static class GameSingleActivityLogic {
         private static final int[][] ROWS = {
                 { 0, 1, 2 }, { 3, 4, 5 }, { 6, 7, 8 }, { 0, 3, 6 }, { 1, 4, 7 }, { 2, 5, 8 },
@@ -450,15 +457,15 @@ public class GameSingleActivity extends AppCompatActivity {
         };
 
         /**Namenskonstanten zur Darstellung der verschiedenen Spielzustände - name constants to show different game conditions
-         *
+         * obsolete as this is handled in Enums now
          */
         public static final int PLAYING = 0; // Spiel läuft
         public static final int CROSS_WON = 1; // Kreuz (Spieler) hat gewonnen
         public static  final int NOUGHT_WON = 2; // Zero (Android) hat gewonnen
         public static final int DRAW = 3; // Unentschieden
 
-        /**Das Spielbrett und der Spielstatus
-         *
+        /**Das Spielbrett
+         * board
          */
         private static final int BOARDSIZE = 9; // Anzahl der Blocks
         private Block[] board = new Block[BOARDSIZE]; // Spielbrett in Array-Anordnung
@@ -567,7 +574,7 @@ public class GameSingleActivity extends AppCompatActivity {
         }
 
 
-        /** Minimiere Gewinnmöglichkeiten für den Gegner - minimize winn possibilities
+        /** Minimiere Gewinnmöglichkeiten für den Gegner - minimize win possibilities
          *
          * @param depth
          * @param player
@@ -631,6 +638,11 @@ public class GameSingleActivity extends AppCompatActivity {
             return score;
         }
 
+        /** function to evaluate the gamestatus - we estimate its a draw and set the winning row to null, as a draw has no winning row
+         * then we check if we have a winner or a looser and give back the winning result and a winning row if there is
+         * one - it can be also the winnig row of the opponent, as we want to color the winners rows later
+         */
+
         public GameStatus checkGameStatus() {
             GameStatus.GameResult result = GameStatus.GameResult.DRAW;
             int[] winningRow = null;
@@ -640,7 +652,7 @@ public class GameSingleActivity extends AppCompatActivity {
                     result = GameStatus.GameResult.NOUGHT_WON;
                     winningRow = row;
                     break;
-                } else if (eval == -100) {
+                } else if (eval == -100) { //cross has won
                     result = GameStatus.GameResult.CROSS_WON;
                     winningRow = row;
                     break;
@@ -650,6 +662,10 @@ public class GameSingleActivity extends AppCompatActivity {
             return new GameStatus(!isBoardFull() && result == GameStatus.GameResult.DRAW, result, winningRow);
         }
 
+        /** function to check if board is full
+         *
+         * @return
+         */
         private boolean isBoardFull() {
             for (Block block: board) {
                 if (block == EMPTY) {
