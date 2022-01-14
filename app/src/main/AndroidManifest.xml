@@ -36,11 +36,6 @@
         <activity
             android:name=".menu.options.StatistikenActivity"
             android:exported="true" /> <!-- <activity -->
-        <!-- android:name=".GameSingleActivity" -->
-        <!-- android:exported="true" /> -->
-        <!-- <activity -->
-        <!-- android:name=".MenuActivity" -->
-        <!-- android:exported="true" /> &lt;!&ndash; android:theme="@style/Theme.QuizApp"> &ndash;&gt; -->
         <activity
             android:name=".MainActivity"
             android:configChanges="orientation|keyboardHidden"

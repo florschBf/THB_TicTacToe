@@ -2,10 +2,6 @@ package space.game.tictactoe.menu;
 
 import static space.game.tictactoe.R.id.icontransport;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.DialogFragment;
-import androidx.fragment.app.FragmentManager;
-
 import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.Bundle;
@@ -19,6 +15,10 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.DialogFragment;
+import androidx.fragment.app.FragmentManager;
+
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.HashMap;
@@ -31,31 +31,30 @@ import space.game.tictactoe.dialogs.LoseDialog;
 import space.game.tictactoe.dialogs.WaitingForOpponentDialogFragment;
 import space.game.tictactoe.dialogs.WinDialog;
 import space.game.tictactoe.handlers.GameBoardHandler;
+import space.game.tictactoe.handlers.websocketHandler.TttWebsocketClient;
 import space.game.tictactoe.menu.options.IconwahlActivity;
 import space.game.tictactoe.models.Player;
 import space.game.tictactoe.models.Sound;
-import space.game.tictactoe.handlers.websocketHandler.TttWebsocketClient;
-/* Liste der zu lösenden Schwierigkeiten im Online Spiel:
-5. Wenn ein Spiel gestartet wurde, dürfen keine Optionen mehr anclickbar sein,
-und auch keine Playerliste etc. → Möglichkeit Imageviews auszublenden oder auszugrauen? (Android prüfen)
-7. Ist ein Spiel beendet, durch win, lose, draw, dann kann man die Buttons alle wieder nutzen.
-Wir müssen verhindern, dass zu jedem Zeitpunkt, dauernd die Spielerliste neu geclickt werden kann,
- oder Icons während des Spiels getauscht werden, oder im Spiel zurück ins Menü gesprungen wird etc. */
+
+/** activity for online player mode
+ *
+ */
 public class OnlinespielActivity extends AppCompatActivity {
 
 
     private static final String TAG = "OnlineSpiel";
     private int icon;
 
-    // private static int iconDefault = R.drawable.stern_90;
     private Map<String, String> headers = new HashMap<>();
-    private TttWebsocketClient client = new TttWebsocketClient(new URI("ws://192.168.178.52:8080"), headers, this);
+    private TttWebsocketClient client = new TttWebsocketClient(new URI("wss://ttt-server-gizejztnta-ew.a.run.app"), headers, this);
     private ImageView mBoardImageView[];
     private GameBoardHandler gameBoard;
     public FragmentManager fragMan = getSupportFragmentManager();
 
     private final Player player = Player.getPlayer();
-    // Sound
+    /** sounds for win, lose, draw
+     *
+     */
     private MediaPlayer sound1, sound2, soundWin, soundLose, soundDraw;
     Button ton;
     int i = 1; // 1 = ton on, 0 = ton off
@@ -70,7 +69,9 @@ public class OnlinespielActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_onlinespiel);
 
-        // Sound-Icon für Ton wiedergabe referenzieren
+        //Sound-Icon für Ton wiedergabe referenzieren
+         //sound icon to reference sound reproduction
+
         ton = (Button)findViewById(R.id.ton);
         if(player.getIsTonOn()) {
             ton.setBackgroundResource(R.drawable.ic_baseline_music_note_24); // Icon-Darstellung: Ton eingeschaltet
@@ -78,9 +79,10 @@ public class OnlinespielActivity extends AppCompatActivity {
             ton.setBackgroundResource(R.drawable.ic_baseline_music_off_24); // Icon-Darstellung: Ton ausgeschaltet
         }
 
-        /**
-         * TouchListener-Methode, um Sound ein- und -ausschalten
-         */
+
+         // TouchListener-Methode, um Sound ein- und -ausschalten
+         // touch listender method to switch sound on and off
+
         ton.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
@@ -105,10 +107,12 @@ public class OnlinespielActivity extends AppCompatActivity {
 
         //Activate websocket connection
 
+
         this.startConnection();
         View playerListOverlay = findViewById(R.id.overlay);
 
         //Click listener to open Playerlist-View
+
         TextView playerListToggle = (TextView) findViewById(R.id.listStatus);
         playerListToggle.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -122,6 +126,7 @@ public class OnlinespielActivity extends AppCompatActivity {
         });
 
         //Click listener to close Playerlist-View
+
         Button closeList = (Button) findViewById(R.id.closeList);
         closeList.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -135,6 +140,7 @@ public class OnlinespielActivity extends AppCompatActivity {
         });
 
         //clicklistener for the playerList view
+
         ListView playerList = findViewById(R.id.playerList);
         playerList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -148,6 +154,8 @@ public class OnlinespielActivity extends AppCompatActivity {
                     String opponentName = playerList.getItemAtPosition(position).toString();
 
                     //sende Spielanfrage, schließe Spielerliste
+                     // send game request, close player list
+
                     client.send(client.startGame(firebaseId));
                     playerListOverlay.setVisibility(View.GONE);
 
@@ -165,7 +173,9 @@ public class OnlinespielActivity extends AppCompatActivity {
         });
 
 
-        // Zufallsspiel Button
+        //Zufallsspiel Button
+         // button for random game
+
         Button restartGame = (Button)findViewById(R.id.restartGame);
         restartGame.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -173,12 +183,18 @@ public class OnlinespielActivity extends AppCompatActivity {
                 if(!client.isInRandomQueue() && !client.isInGame() && !client.isInChallengeOrChallenging()){
                     try {
                         //Erstelle einen Dialog zum Warten auf den Gegner und den dazugehörigen Fragmentmanager
+                        //dialog to wait for the opponent and the associated fragment manager
+
                         DialogFragment waitForOpponent = new WaitingForOpponentDialogFragment(client); //Dialog benötigt Client-Zugriff für Abbruch
                         waitForOpponent.setCancelable(false);
                         waitForOpponent.show(fragMan, "waitOpponent");
 
                         //Sage dem Server, dass ich einen zufälligen Gegner möchte. Jetzt.
+                         // tell the server, that a random opponent is needed, now.
+
                         // Queue wird verlassen beim Schließen des Dialogs -> siehe WaitingForOpponentDialogFragment
+                         // queue will be left when dialog is closed -> reference WaitingForOpponentDialogFragment
+
                         if(!client.isInRandomQueue() && !client.isInGame() && !client.isInChallengeOrChallenging()) {
                             client.randomGameQueue("start");
                         }
@@ -198,18 +214,7 @@ public class OnlinespielActivity extends AppCompatActivity {
 
             }
         });
-        // Imageview Zahnrad als Button anclickbar-> Optionen im Menü -> Weiterleitung zu Optionen->Icons->Statistiken
-        /*ImageView zahnrad = findViewById(R.id.zahnrad_matchmaker);
-        zahnrad.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                try {
-                    Intent intent = new Intent(OnlinespielActivity.this, OptionenActivity.class);
-                    startActivity(intent);
-                } catch (Exception e) {
-                }
-            }
-        });*/
+
         ImageView imagechange = findViewById(R.id.icontransport);
         imagechange.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -225,6 +230,8 @@ public class OnlinespielActivity extends AppCompatActivity {
             }
         });
         // Imageview "Menu" in Online Activity-> anclickbar-> Weiterleitung ins Hauptmenü
+         // imageview menu, in online activity -> can be clicked -> forwarding to main menu
+
         ImageView online_backtomenu = findViewById(R.id.online_backtomenu);
         online_backtomenu.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -237,19 +244,26 @@ public class OnlinespielActivity extends AppCompatActivity {
                 }
             }
         });
-        //Datatransfair from IconwahlActivity -> chosen Icon kommt in die OnlinespielActivity aus der Iconactivity woher auch immer diese aufgerufen wird
+        //Datatransfair from IconwahlActivity ->
+         // chosen Icon gets transported into OnlinespielActivity from  Iconactivity
+
+
         final Intent intent = getIntent();
         //Test ob auch wirklich ein playericon geschickt wurde, just in case...sonst wird eines default gesetzt
+         // test if really a playericon was set, if not, a default icon is being set
+
         if(intent.hasExtra("playerIcon")){
             int playerIcon = intent.getIntExtra("playerIcon", R.drawable.chosenicon_dummy_90);
             Log.d(TAG, "player icon" + playerIcon);
             icon = playerIcon;
         }
         //overwrite default Icon in the ImageView of the onlinespielactivity with the chosen one from the IconWahlActivity, that was transfered above
+
         ImageView image = (ImageView) findViewById(icontransport);
         image.setImageResource(icon);
 
         //TAKEN AND MODIFIED FROM GAMEACTIVITY TO CONTROL THE BOARD
+
         mBoardImageView = new ImageView[9];
         for (int i = 0; i < mBoardImageView.length; i++) {
             System.out.println("populating ImageView Array " + i);
@@ -261,22 +275,20 @@ public class OnlinespielActivity extends AppCompatActivity {
         this.gameBoard.blockAllFields();
         client.setGameBoard(this.gameBoard);
 
-        //@TODO get selected Player
-        // Intent intent = getIntent();
 
-        //@TODO use selected Player
-        // use some values from selected Player
     }
-    // crossfade Methode --------------------------------------------------------------------------------------------------------CROSSFADE--------------------
 
-
-    //start connection
+    /**start connection
+     *
+     */
     private void startConnection() {
         System.out.println("getting called");
         this.client.connect();
     }
 
-    //disconnect on back button leaving the activity
+    /**disconnect on back button leaving the activity
+     *
+     */
     @Override
     public void onBackPressed() {
         //code
@@ -284,7 +296,9 @@ public class OnlinespielActivity extends AppCompatActivity {
         this.client.close();
     }
 
-    //Use onResume to always check for connection when we come back
+    /**Use onResume to always check for connection when we come back
+     *
+     */
     @Override
     protected void onResume() {
         super.onResume();
@@ -295,8 +309,10 @@ public class OnlinespielActivity extends AppCompatActivity {
         updatePlayerIcon();
     }
 
-    //Overriding all System methods that disable the activity to also disconnect the websocket
-/*    @Override
+    /**Overriding all System methods that disable the activity to also disconnect the websocket
+     *
+     */
+    /*   @Override
     protected void onPause() {
         super.onPause();
         this.client.close();
@@ -314,7 +330,9 @@ public class OnlinespielActivity extends AppCompatActivity {
         this.client.close();
     }
 
-    // Dialogfenster für Spielergebniss
+    /** Dialogfenster für Spielergebnis
+     * dialog window for game results
+     */
     public void showLoseDialog() {
         LoseDialog loseDialog = new LoseDialog(this, OnlinespielActivity.this);
         Sound.soundPlay(soundLose);

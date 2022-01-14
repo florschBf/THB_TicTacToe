@@ -1,7 +1,5 @@
 package space.game.tictactoe.dialogs;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.app.Activity;
@@ -10,10 +8,15 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
-import space.game.tictactoe.menu.OnlinespielActivity;
-import space.game.tictactoe.R;
+import androidx.appcompat.app.AppCompatActivity;
 
-//IM MOMENT IST DAS ALLES noch kein DIALOG!! Ist nur zum Testen und klar werden was und wie
+import space.game.tictactoe.R;
+import space.game.tictactoe.menu.OnlinespielActivity;
+
+/** premade dialog for OnlineGameInvitation, depending how the project develops and how much time is left
+ *  - might not be used
+ *
+ */
 
 public class InvitationOnlineGameDialog extends AppCompatActivity {
 
@@ -32,7 +35,9 @@ public class InvitationOnlineGameDialog extends AppCompatActivity {
 
         this.contentView = (View)findViewById(R.id.content);
         this.loadingView = (View)findViewById(R.id.loading_spinner);
-        // Retrieve and cache the system's default "short" animation time.
+        /** Retrieve and cache the system's default "short" animation time.
+         *
+         */
         shortAnimationDuration = getResources().getInteger(
                 android.R.integer.config_shortAnimTime);
 
