@@ -35,19 +35,16 @@ import space.game.tictactoe.menu.options.IconwahlActivity;
 import space.game.tictactoe.models.Player;
 import space.game.tictactoe.models.Sound;
 import space.game.tictactoe.handlers.websocketHandler.TttWebsocketClient;
-/* Liste der zu lösenden Schwierigkeiten im Online Spiel:
-5. Wenn ein Spiel gestartet wurde, dürfen keine Optionen mehr anclickbar sein,
-und auch keine Playerliste etc. → Möglichkeit Imageviews auszublenden oder auszugrauen? (Android prüfen)
-7. Ist ein Spiel beendet, durch win, lose, draw, dann kann man die Buttons alle wieder nutzen.
-Wir müssen verhindern, dass zu jedem Zeitpunkt, dauernd die Spielerliste neu geclickt werden kann,
- oder Icons während des Spiels getauscht werden, oder im Spiel zurück ins Menü gesprungen wird etc. */
+
+/** activity for online player mode
+ *
+ */
 public class OnlinespielActivity extends AppCompatActivity {
 
 
     private static final String TAG = "OnlineSpiel";
     private int icon;
 
-    // private static int iconDefault = R.drawable.stern_90;
     private Map<String, String> headers = new HashMap<>();
     private TttWebsocketClient client = new TttWebsocketClient(new URI("ws://192.168.178.52:8080"), headers, this);
     private ImageView mBoardImageView[];
@@ -198,18 +195,7 @@ public class OnlinespielActivity extends AppCompatActivity {
 
             }
         });
-        // Imageview Zahnrad als Button anclickbar-> Optionen im Menü -> Weiterleitung zu Optionen->Icons->Statistiken
-        /*ImageView zahnrad = findViewById(R.id.zahnrad_matchmaker);
-        zahnrad.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                try {
-                    Intent intent = new Intent(OnlinespielActivity.this, OptionenActivity.class);
-                    startActivity(intent);
-                } catch (Exception e) {
-                }
-            }
-        });*/
+
         ImageView imagechange = findViewById(R.id.icontransport);
         imagechange.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -314,7 +300,7 @@ public class OnlinespielActivity extends AppCompatActivity {
         this.client.close();
     }
 
-    // Dialogfenster für Spielergebniss
+    // Dialogfenster für Spielergebnis
     public void showLoseDialog() {
         LoseDialog loseDialog = new LoseDialog(this, OnlinespielActivity.this);
         Sound.soundPlay(soundLose);

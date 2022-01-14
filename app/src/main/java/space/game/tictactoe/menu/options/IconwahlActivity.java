@@ -14,11 +14,11 @@ import space.game.tictactoe.menu.OnlinespielActivity;
 import space.game.tictactoe.R;
 import space.game.tictactoe.models.Player;
 
-//@author Peggy Kleinert
-
+/** activity for choosing different icons for the local player
+ * it is available for single player mode and online player mode
+ */
 public class IconwahlActivity extends AppCompatActivity {
     private int icon;
-    /*private int icon = R.drawable.stern_90;*/
 
     public Player player;
 
@@ -30,9 +30,13 @@ public class IconwahlActivity extends AppCompatActivity {
         setContentView(R.layout.activity_iconwahl);
         /*this.icon = Player.getPlayer().getIcon();*/
 
-        // Button1 button_icons_pcspiel -> Weiterleitung zum Spiel per PC
+        /** Button1- button_icons_pcspiel -> forwarding to Activity GameSingleActivity -> single Player mode
+         *
+         */
         Button button_icons_pcspiel = (Button) findViewById(R.id.button_icons_pcspiel);
-        //listener auf dem Button
+        /**listener on the button
+         *
+         */
         button_icons_pcspiel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -40,6 +44,8 @@ public class IconwahlActivity extends AppCompatActivity {
 
                     Intent intent = new Intent(IconwahlActivity.this, GameSingleActivity.class);
                     //Übergabe des Icon an die nächste Activity -> GameSingleActivity = Gegen PC spielen
+                     //handing over the icon to the next activity -> GameSingleActivity
+
                     intent.putExtra("playerIcon", icon);
                     startActivity(intent);
                 } catch (Exception e) {
@@ -47,16 +53,20 @@ public class IconwahlActivity extends AppCompatActivity {
                 }
             }
         });
-        // Button2 button_icon_onlinespiel -> Weiterleitung zum Onlinespiel
+        /** Button2 button_icon_onlinespiel -> Weiterleitung zum Onlinespiel
+         * button 2 forwarding to "Onlinespiel" Activity
+         */
         Button button_icon_onlinespiel = (Button) findViewById(R.id.button_icon_onlinespiel);
 
         button_icon_onlinespiel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 try {
-                    //int icontrans = checkedIcon;
+
                     Intent intent = new Intent(IconwahlActivity.this, OnlinespielActivity.class);
-                    //Übergabe des Icon an die nächste Activity -> OnlinespielActivity
+                    /**Übergabe des Icon an die nächste Activity -> OnlinespielActivity
+                     * forwarding the icon to the next activity
+                     */
                     intent.putExtra("playerIcon", icon);
                     startActivity(intent);
                 } catch (Exception e) {
@@ -64,17 +74,17 @@ public class IconwahlActivity extends AppCompatActivity {
                 }
             }
         });
-        // Button3 btn_on_backTomenu -> Weiterleitung zum Menü von der Iconauswahl
+        /** Button3 btn_on_backTomenu -> Weiterleitung zum Menü von der Iconauswahl
+         * button3 - forwarding to menu from icon choosing activity
+         */
         Button  btn_on_backTomenu= (Button) findViewById(R.id.btn_on_backTomenu);
 
         btn_on_backTomenu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 try {
-                    //int icontrans = checkedIcon;
+
                     Intent intent = new Intent(IconwahlActivity.this, MenuActivity.class);
-                    /*//Übergabe des Icon an die nächste Activity
-                    intent.putExtra("playerIcon", icon);*/
                     startActivity(intent);
                 } catch (Exception e) {
                     System.out.println("Something went wrong");
@@ -82,7 +92,11 @@ public class IconwahlActivity extends AppCompatActivity {
             }
         });
     }
-    //verbesserter Code ;)
+
+    /** function for selecting an icon from the radio button list and giving the chosen icon, setting it as image ressource to class Player and the Player
+     *
+     * @param view
+     */
     public void onClickedIcon1(View view) {
         selectIcon(R.drawable.blume_eckig_3d_60, view);
     }
