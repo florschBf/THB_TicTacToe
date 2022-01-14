@@ -38,10 +38,7 @@ public class PlayerListHandler {
      */
     public void renderList(String message) {
         this.player = Player.getPlayer();
-
-        //TODO render the list in message into context
         System.out.println("rendering list somewhere...");
-
         //parsing playerlist
         JsonObject payload = parseMessage(message);
 
@@ -56,13 +53,15 @@ public class PlayerListHandler {
         ((Activity)context).runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                //empty playerlist to refill from data later
+                //empty playerlist and opponents to refill from new server data later
                 playerListItems.clear();
                 opponents.clear();
 
+                //adapter handles list changes
                 adapter = new ArrayAdapter<String>(context, android.R.layout.simple_list_item_1, playerListItems);
                 playerList = ((Activity) context).findViewById(R.id.playerList);
                 playerList.setAdapter(adapter);
+
                 int i = 0;
                 //using key list to get all player objects with their names and uids - putting them into playerList ListView with adapter
                 for (String key : keys) {
