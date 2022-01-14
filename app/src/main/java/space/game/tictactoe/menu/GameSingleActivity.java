@@ -83,9 +83,8 @@ public class GameSingleActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
 
-        /** Sound-Icon für Ton wiedergabe referenzieren - sound icon to reference sound
-         *
-         */
+        // Sound-Icon für Ton wiedergabe referenzieren - sound icon to reference sound
+
         ton = (Button)findViewById(R.id.ton);
         if(player.getIsTonOn()) {
             ton.setBackgroundResource(R.drawable.ic_baseline_music_note_24); // Icon-Darstellung: Ton eingeschaltet
@@ -93,9 +92,9 @@ public class GameSingleActivity extends AppCompatActivity {
             ton.setBackgroundResource(R.drawable.ic_baseline_music_off_24); // Icon-Darstellung: Ton ausgeschaltet
         }
 
-        /**
-         * TouchListener-Methode, um Sound ein- und -ausschalten - touch listener method to switch on and of sound
-         */
+
+         // TouchListener-Methode, um Sound ein- und -ausschalten - touch listener method to switch on and of sound
+
         ton.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
@@ -134,31 +133,29 @@ public class GameSingleActivity extends AppCompatActivity {
             }
         });
 
-        /**Datatransfair from IconwahlActivity -> chosen Icon kommt in die OnlinespielActivity
-         * aus der Iconactivity woher auch immer diese aufgerufen wird
-         * datatransfair from IconwahlActivity -> chosen Icon goes to OnlinespielActivity
-         * from Iconactivity, not minding, from where this is being called up
-         */
+        //Datatransfair from IconwahlActivity -> chosen Icon kommt in die OnlinespielActivity
+        //aus der Iconactivity woher auch immer diese aufgerufen wird
+        //datatransfair from IconwahlActivity -> chosen Icon goes to OnlinespielActivity
+        //from Iconactivity, not minding, from where this is being called up
+
 
         final Intent intent = getIntent();
-        /**Test ob auch wirklich ein playericon geschickt wurde, just in case...sonst wird eines default gesetzt
-         * test ir player icon was really set
-         *
-         */
+        //Test ob auch wirklich ein playericon geschickt wurde, just in case...sonst wird eines default gesetzt
+         // test if player icon was really set
+
         if(intent.hasExtra("playerIcon")){
             int playerIcon = intent.getIntExtra("playerIcon", R.drawable.chosenicon_dummy_90);
             Log.d(TAG, "player icon" + playerIcon);
             icon = playerIcon;
         }
-        /**overwrite default Icon in the ImageView of the onlinespielactivity
-         * with the chosen one from the IconWahlActivity, that was transfered above
-         */
+        //overwrite default Icon in the ImageView of the onlinespielactivity
+        //with the chosen one from the IconWahlActivity, that was transfered above
+
         ImageView image = (ImageView) findViewById(icontransportsingle);
         image.setImageResource(icon);
 
-        /** Dialogfenster für Spielstatus: gewonnen, verloren, unentschieden - dialog window for game statusses won, lost, draw
-         *
-         */
+        //Dialogfenster für Spielstatus: gewonnen, verloren, unentschieden - dialog window for game statusses won, lost, draw
+
         dialog = new Dialog(this);
 
         mBoardImageView = new ImageView [9];
@@ -166,9 +163,8 @@ public class GameSingleActivity extends AppCompatActivity {
             mBoardImageView[i] = (ImageView) findViewById(getResources().getIdentifier("block" + i, "id", this.getPackageName()));
         }
 
-        /** AlertDialog zur Abfrage, wer soll das Spiel als erster beginnen - alert dialog, to estimate who starts with the first move
-         *
-         */
+        //AlertDialog zur Abfrage, wer soll das Spiel als erster beginnen - alert dialog, to estimate who starts with the first move
+
         final AlertDialog.Builder alertDialog = new AlertDialog.Builder(this, AlertDialog.THEME_HOLO_DARK);
         alertDialog.setCancelable(false); // false -> Dialog kann nicht mit der BACK-Taste abgebrochen werden
         alertDialog.setTitle("Wer geht zuerst?");
@@ -189,17 +185,17 @@ public class GameSingleActivity extends AppCompatActivity {
         alertDialog.show();
 
 
-        /** Radiobutton Gruppe erzeugt 3 Radiobuttons für 3 Schwierigkeitsgrade: easy, medium, hard
-         * radiobutton group creates three radio buttons for three difficulty levels - easy, medium, hard
-         */
+        //Radiobutton Gruppe erzeugt 3 Radiobuttons für 3 Schwierigkeitsgrade: easy, medium, hard
+        // radiobutton group creates three radio buttons for three difficulty levels - easy, medium, hard
+
         RadioGroup difficultyLevel = (RadioGroup) this.findViewById(R.id.difficultyLevel);
         RadioButton radioButtonEasy = (RadioButton) this.findViewById(R.id.easy);
         radioButtonEasy.setChecked(true); // Defaultwert für Schwierigkeitsgrad - easy
 
-        /**
-         * Ermöglicht auf Änderungen (Schwierigkeitsstufe ändern) zu reagieren
-         * allows to react at changed difficulty level
-         */
+
+         // Ermöglicht auf Änderungen (Schwierigkeitsstufe ändern) zu reagieren
+         // allows to react at changed difficulty level
+
         difficultyLevel.setOnCheckedChangeListener((group, checkedId) -> doOnDifficultyLevelChanged(group, checkedId));
 
     }
@@ -432,7 +428,7 @@ public class GameSingleActivity extends AppCompatActivity {
 
     /** function to color the winning row
      *
-     * @param winningRow
+     * @param winningRow is needed to color the winning fields
      */
     private void colorWinningRow(int[] winningRow) {
         int[] blockIDs = {
@@ -478,7 +474,7 @@ public class GameSingleActivity extends AppCompatActivity {
 
         /** Gibt den nächsten besten Zug für den Computer zurück. - gives back next best move for computer
          *
-         * @return
+         * @return an integer array
          */
         public int[] hardMove() {
             int[] result = minimax(2, NOUGHT); // depth - depth - gewuenschteTiefe, gibt Max (für 0) zurück
@@ -487,7 +483,7 @@ public class GameSingleActivity extends AppCompatActivity {
 
         /** Gibt den nächsten freien Zug für den Computer zurück. - gives back next free move for the computer
          *
-         * @return
+         * @return an integer array
          */
         public int[] easyMove() {
             int[] result = findEasyMove(2, NOUGHT); // depth - gewuenschteTiefe, gibt Max (für 0) zurück
@@ -507,17 +503,15 @@ public class GameSingleActivity extends AppCompatActivity {
         public int[] alternatelyMove(int depth, Block player){
             Log.d("count", String.valueOf(count));
 
-            /** speichert mögliche nächste Züge in der Liste - saves possible next moves in a list
-             *
-             */
+            //speichert mögliche nächste Züge in der Liste - saves possible next moves in a list
+
             List<int[]> nextMoves = generateMoves();
 
             int bestScore = (player == NOUGHT) ? Integer.MIN_VALUE : Integer.MAX_VALUE;
             int currentScore;
             int bestBlock = -1;
-            /** Easy - wählt erste von Ende position
-             *
-             */
+            //Easy - wählt erste von Ende position
+
             if (count % 2 == 0) {
                 for (int[] move : nextMoves){
                     board[move[0]] = player;
@@ -525,9 +519,8 @@ public class GameSingleActivity extends AppCompatActivity {
                     board[move[0]] = EMPTY;
                 }
             }
-            /**Hard - Minimax-Algorithmus
-             *
-             */
+            //Hard - Minimax-Algorithmus
+
             if (count % 2 == 1) {
                 if (depth == 0 || nextMoves.isEmpty()){
                     bestScore = evaluate();
@@ -560,13 +553,10 @@ public class GameSingleActivity extends AppCompatActivity {
 
 
         public int[] findEasyMove(int depth, Block player){
-            /**speichert mögliche nächste Züge in der Liste - saves possible next moves in a list
-             *
-             */
+            //speichert mögliche nächste Züge in der Liste - saves possible next moves in a list
+
             List<int[]> nextMoves = generateMoves();
-            /**wählt ein zufälliges Element aus Liste aus - chooses random element from list
-             *
-             */
+            //wählt ein zufälliges Element aus Liste aus - chooses random element from list
             int[] move = nextMoves.get(new Random().nextInt(nextMoves.size()));
             int bestScore = (player == NOUGHT) ? Integer.MIN_VALUE : Integer.MAX_VALUE;
             int bestBlock = move[0];
@@ -574,27 +564,24 @@ public class GameSingleActivity extends AppCompatActivity {
         }
 
 
-        /** Minimiere Gewinnmöglichkeiten für den Gegner - minimize win possibilities
+        //Minimiere Gewinnmöglichkeiten für den Gegner - minimize win possibilities
+
+        //Maximiere eigene Gewinnmöglichkeiten - maximize win possibilities
+
+        /**Generiert mögliche nächste Züge in einer Liste. - generates possible next moves in a list
          *
-         * @param depth
-         * @param player
-         * @return
+         * @param depth integer that represents depths of move
+         * @param player blocks that are available for next move scored/evaluated if they provide a good winning chance or no
+         * @return the best score and the best block are returned in an in array
          */
-        /**Maximiere eigene Gewinnmöglichkeiten - maximize win possibilities
-         *
-         * @param depth
-         * @param player
-         * @return
-         */
+
         public int[] minimax(int depth, Block player){
-            /** Generiert mögliche nächste Züge in einer Liste. - generates possible next turn in a list
-             *
-             */
+            //Generiert mögliche nächste Züge in einer Liste. - generates possible next moves in a list
+
             List<int[]> nextMoves = generateMoves();
 
-            /**Android (0 NOUGHT) ist maximizing; Gegner (X CROSS) ist minimizing
-             *
-             */
+            // Android (0 NOUGHT) ist maximizing; Gegner (X CROSS) ist minimizing
+
             int bestScore = (player == NOUGHT) ? Integer.MIN_VALUE : Integer.MAX_VALUE;
             int currentScore;
             int bestBlock = -1;
@@ -625,13 +612,12 @@ public class GameSingleActivity extends AppCompatActivity {
 
         /** Wertung für jede der 8 Linien auswerten (3 Zeilen, 3 Spalten, 2 Diagonalen) - evaluate all 8 possible winner lines
          *
-         * @return
+         * @return integer score of each of 8 lines
          */
         private int evaluate() {
             int score = 0;
-            /** Evaluate score for each of the 8 lines (3 rows, 3 columns, 2 diagonals)
-             *
-             */
+            //Evaluate score for each of the 8 lines (3 rows, 3 columns, 2 diagonals)
+
             for (int[] row : ROWS) {
                 score += evaluateLine(row);  // zeile 0
             }
@@ -664,7 +650,7 @@ public class GameSingleActivity extends AppCompatActivity {
 
         /** function to check if board is full
          *
-         * @return
+         * @return boolean if board is full or not
          */
         private boolean isBoardFull() {
             for (Block block: board) {
@@ -676,9 +662,9 @@ public class GameSingleActivity extends AppCompatActivity {
         }
 
         /** Heuristische Funktion zur Bewertung der Nützlichkeit des Spielzustands - heuristic function to evaluate the gamestatus
-         @Return +100, +10, +1 für 3-, 2-, 1 -in jeder Linie für Android.
-         @Return -100, -10, -1 for 3-, 2-, 1 -in jeder Linie für Opponent.
-         @Return 0 sonst bzw. wenn Linie X und 0 enthält
+         * scores: +100, +10, +1 für 3-, 2-, 1 -in jeder Linie für Android.
+         * scores: -100, -10, -1 for 3-, 2-, 1 -in jeder Linie für Opponent.
+         * 0 sonst bzw. wenn Linie X und 0 enthält
          */
         private int evaluateLine(int[] row) {
             final int[] scores =  { 0, 1, 10, 100 };
@@ -701,7 +687,7 @@ public class GameSingleActivity extends AppCompatActivity {
 
         /**  gibt mögliche nächste Züge in der Liste - returns next possible moves in the list
          *
-         * @return
+         * @return next moves
          */
         private List<int[]> generateMoves() {
             List<int[]> nextMoves = new ArrayList<int[]>();
