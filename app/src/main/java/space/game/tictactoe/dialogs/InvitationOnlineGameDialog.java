@@ -1,7 +1,5 @@
 package space.game.tictactoe.dialogs;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.app.Activity;
@@ -10,10 +8,13 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
-import space.game.tictactoe.menu.OnlinespielActivity;
-import space.game.tictactoe.R;
+import androidx.appcompat.app.AppCompatActivity;
 
-/** premade dialog for OnlineGameInvitation, depending how the project develops and how much time is left - might not be used
+import space.game.tictactoe.R;
+import space.game.tictactoe.menu.OnlinespielActivity;
+
+/** premade dialog for OnlineGameInvitation, depending how the project develops and how much time is left
+ *  - might not be used
  *
  */
 
