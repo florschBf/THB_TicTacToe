@@ -22,10 +22,10 @@
 
 
         <TextView
-            android:id="@+id/statistiken_title"
+            android:id="@+id/statistiken_title_id"
             android:layout_height="56dp"
             android:layout_gravity="start"
-            android:fontFamily="casual"
+            android:fontFamily="@font/facon"
             android:lineSpacingExtra="16sp"
             android:text="@string/statistiken_title"
             android:textAlignment="viewStart"

@@ -16,6 +16,10 @@ public class StatistikenActivity extends AppCompatActivity {
 
     Player player = Player.getPlayer();
 
+    /**
+     * show gamestatistics in StatistikenActivity with (updated) playerdata
+     * @param savedInstanceState saved state of instance
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -25,8 +29,11 @@ public class StatistikenActivity extends AppCompatActivity {
         /*@TODO show selected playerdata as textview */
         Toast.makeText(this, "Wins: " + player.getWins() + " Losses: " + player.getLosses() + " Draws: " + player.getDraws(), Toast.LENGTH_LONG).show();
 
-        TextView textViewTotalGames = (TextView) findViewById(R.id.statistiken_table_totalgames_value);
+        TextView textViewTotalGames = (TextView) findViewById(R.id.statistiken_title_id);
         textViewTotalGames.setText(Long.toString(player.getTotalGames()));
+
+        TextView texViewTitle = (TextView) findViewById(R.id.statistiken_title_id);
+        texViewTitle.setText("See your statistics, " + player.getName() + "!");
 
         TextView textViewWins = (TextView) findViewById(R.id.statistiken_table_wins_value);
         textViewWins.setText(Long.toString(player.getWins()));
