@@ -15,7 +15,7 @@ import space.game.tictactoe.handlers.websocketHandler.TttWebsocketClient;
 
 public class ChallengeDialogFragment extends DialogFragment {
     /**
-     * Declaration and in itialization of membervariable client
+     * Declaration and initialization of membervariable client
      */
     private TttWebsocketClient client = null;
 

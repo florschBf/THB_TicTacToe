@@ -22,7 +22,9 @@ public class AboutActivity extends AppCompatActivity {
         finish();
     }
 
-    // System-Button Back überschreiben
+    /** System-Button Back überschreiben
+     * overwrite system-back-button
+     */
     @Override
     public void onBackPressed() {
         try {
