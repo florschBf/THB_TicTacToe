@@ -41,19 +41,26 @@ import space.game.tictactoe.models.Block;
 import space.game.tictactoe.models.Player;
 import space.game.tictactoe.models.Sound;
 
+/**
+ * Klasse repräsentiert eine Bildschirm-Seite (Screen) für Online Spiel in der Android-App
+ * Enthält die GUI-Elemente wie z.B. anklickbare Spielfelder, Buttons, Alert, Radio Gruppe
+ * Class represents a screen for game with PC in the Android app
+ * Contains the GUI elements such as clickable playing fields, buttons, alert, radio group
+ *
+ * @author in for help
+ */
 
 public class GameSingleActivity extends AppCompatActivity {
 
-
-    /**für die Iconauswahl - for icon choosing
-     *
+    /**
+     * für die Iconauswahl - for icon choosing
      */
     private static final String TAG = "OnlineSpiel";
     private final Player player = Player.getPlayer();
     private int icon = player.getIcon();
 
-    /** Drei Schwierigkeitsstufen: 0 -easy, 1 -medium, 2-hard - three difficulty levels, easy, medium, hard
-     *
+    /**
+     * zur Darstellung der Schwierigkeitsstufen: 0 -easy, 1 -medium, 2-hard - three difficulty levels, easy, medium, hard     *
      */
     private int diffLevel;
 
@@ -77,14 +84,17 @@ public class GameSingleActivity extends AppCompatActivity {
     int i = 1; // 1 = ton on, 0 = ton off
 
 
-
+    /**
+     * Wird aufgerufen, wenn die Aktivität erstellt wird
+     * Called when the activity is first created
+     * @param savedInstanceState Instanzstatus
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
 
         // Sound-Icon für Ton wiedergabe referenzieren - sound icon to reference sound
-
         ton = (Button)findViewById(R.id.ton);
         if(player.getIsTonOn()) {
             ton.setBackgroundResource(R.drawable.ic_baseline_music_note_24); // Icon-Darstellung: Ton eingeschaltet
@@ -94,7 +104,6 @@ public class GameSingleActivity extends AppCompatActivity {
 
 
          // TouchListener-Methode, um Sound ein- und -ausschalten - touch listener method to switch on and of sound
-
         ton.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
@@ -155,7 +164,6 @@ public class GameSingleActivity extends AppCompatActivity {
         image.setImageResource(icon);
 
         //Dialogfenster für Spielstatus: gewonnen, verloren, unentschieden - dialog window for game statusses won, lost, draw
-
         dialog = new Dialog(this);
 
         mBoardImageView = new ImageView [9];
@@ -163,8 +171,7 @@ public class GameSingleActivity extends AppCompatActivity {
             mBoardImageView[i] = (ImageView) findViewById(getResources().getIdentifier("block" + i, "id", this.getPackageName()));
         }
 
-        //AlertDialog zur Abfrage, wer soll das Spiel als erster beginnen - alert dialog, to estimate who starts with the first move
-
+        //AlertDialog zur Abfrage, wer das Spiel als erster beginnen soll - alert dialog, to estimate who starts with the first move
         final AlertDialog.Builder alertDialog = new AlertDialog.Builder(this, AlertDialog.THEME_HOLO_DARK);
         alertDialog.setCancelable(false); // false -> Dialog kann nicht mit der BACK-Taste abgebrochen werden
         alertDialog.setTitle("Wer geht zuerst?");
@@ -187,7 +194,6 @@ public class GameSingleActivity extends AppCompatActivity {
 
         //Radiobutton Gruppe erzeugt 3 Radiobuttons für 3 Schwierigkeitsgrade: easy, medium, hard
         // radiobutton group creates three radio buttons for three difficulty levels - easy, medium, hard
-
         RadioGroup difficultyLevel = (RadioGroup) this.findViewById(R.id.difficultyLevel);
         RadioButton radioButtonEasy = (RadioButton) this.findViewById(R.id.easy);
         radioButtonEasy.setChecked(true); // Defaultwert für Schwierigkeitsgrad - easy
@@ -279,7 +285,7 @@ public class GameSingleActivity extends AppCompatActivity {
     }
 
     /**
-     * Methode um alle Spielfelder auf leer und klickbar zu setzen - method to set all game blocks to empty and clickable
+     * Methode um alle Spielfelder auf leer und aktiv zu setzen - method to set all game blocks to empty and active
      */
     public void clearAllBlocks() {
         minimax.resetBoard();
@@ -302,6 +308,10 @@ public class GameSingleActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Klasse für die Behandlung von onClick-Ereignissen für Spielfelder
+     * Class for handling onClick events for playfields
+     */
     private class ButtonClickListener implements View.OnClickListener {
         int x;
         public ButtonClickListener(int i) {
@@ -319,6 +329,11 @@ public class GameSingleActivity extends AppCompatActivity {
         }
 
 
+        /**
+         * Interaktion mit dem Benutzer: Schritte auf dem Brett darstellen und auswerten
+         * Interaction with the user: display and evaluate steps on the board
+         * @param v aktueller Ansicht
+         */
         @Override
         public void onClick(View v) {
             // easy level, Spiel aktiv, Felder frei
@@ -354,8 +369,8 @@ public class GameSingleActivity extends AppCompatActivity {
         }
 
         /**
-         * Methode prüft Spielergebnis und ruft etsprechende Methode mit Dialogfenster auf
-         * - method  checks gamestatus and calls method that calls a dialog window
+         * Methode prüft Spielergebnis und ruft Dialogfenster mit Zeitverzug auf
+         * Method  checks gamestatus and calls a dialog window with a time delay
          */
         private void checkWinner() {
             GameStatus status = minimax.checkGameStatus();
@@ -398,7 +413,8 @@ public class GameSingleActivity extends AppCompatActivity {
         }
 
         /**
-         * Methode stellt "Loose" Dialogfenster dar
+         * Methode erstellt Instanz der LoseDialog Klasse und  stellt "Loose" Dialogfenster dar
+         * Method creates instance of LoseDialog class and renders "Loose" dialog box
          */
         private void showLoseDialog() {
             player.increaseLosses();
@@ -407,7 +423,8 @@ public class GameSingleActivity extends AppCompatActivity {
         }
 
         /**
-         * Methode stellt "Draw" Dialogfenster dar - method shows "draw" dialog window
+         * Methode erstellt Instanz der DrawDialog Klasse und  stellt "Unentschieden" Dialogfenster dar
+         * Method creates instance of DrawDialog class and renders "Draw" dialog box
          */
         private void showDrawDialog() {
             player.increaseDraws();
@@ -416,7 +433,8 @@ public class GameSingleActivity extends AppCompatActivity {
         }
 
         /**
-         * Methode stellt "win" Dialogfenster dar - method shows "win" dialog window
+         * Methode erstellt Instanz der WinDialog Klasse und  stellt "Gewonnen" Dialogfenster dar
+         * Method creates instance of WinDialog class and renders "Win" dialog box
          */
         private void showWinDialog() {
             player.increaseWins();
@@ -443,16 +461,24 @@ public class GameSingleActivity extends AppCompatActivity {
         }
     }
 
-    /** define the possible rows in the class
+
+    /**
+     * Klasse implementiert Spiellogik für Offline-Modus unter Anwendung des Minimax-Algorithmus auf das Spiel
+     * Class implements game logic for offline mode applying minimax algorithm to the game
      *
+     * @author in, pk
      */
     public static class GameSingleActivityLogic {
+        /**
+         * define the possible rows in the class         *
+         */
         private static final int[][] ROWS = {
                 { 0, 1, 2 }, { 3, 4, 5 }, { 6, 7, 8 }, { 0, 3, 6 }, { 1, 4, 7 }, { 2, 5, 8 },
                 { 0, 4, 8 }, { 2, 4, 6 }
         };
 
-        /**Namenskonstanten zur Darstellung der verschiedenen Spielzustände - name constants to show different game conditions
+        /**
+         * Namenskonstanten zur Darstellung der verschiedenen Spielzustände - name constants to show different game conditions
          * obsolete as this is handled in Enums now
          */
         public static final int PLAYING = 0; // Spiel läuft
@@ -460,58 +486,75 @@ public class GameSingleActivity extends AppCompatActivity {
         public static  final int NOUGHT_WON = 2; // Zero (Android) hat gewonnen
         public static final int DRAW = 3; // Unentschieden
 
-        /**Das Spielbrett
+        /**
+         * Das Spielbrett
          * board
          */
         private static final int BOARDSIZE = 9; // Anzahl der Blocks
         private Block[] board = new Block[BOARDSIZE]; // Spielbrett in Array-Anordnung
 
+        /**
+         * Methode setzt Spielbrett in Array-Anordnung auf leer
+         * Method sets board to empty
+         */
         public void resetBoard() {
             for (int i = 0; i < BOARDSIZE; ++i) {
                 board[i] = EMPTY;
             }
         }
 
-        /** Gibt den nächsten besten Zug für den Computer zurück. - gives back next best move for computer
+        /**
+         * Gibt unter Anwendung des Minimax-Algorithmus den besten Zug für den Computer zurück
+         * Returns the best move for the computer using the minimax algorithm
          *
-         * @return an integer array
+         * @return Blockposition an integer array
          */
         public int[] hardMove() {
-            int[] result = minimax(2, NOUGHT); // depth - depth - gewuenschteTiefe, gibt Max (für 0) zurück
+            int[] result = minimax(2, NOUGHT); // depth - gewuenschte Tiefe, gibt Max (für 0) zurück
             return new int[] {result[1]};   // Blockposition
         }
 
-        /** Gibt den nächsten freien Zug für den Computer zurück. - gives back next free move for the computer
+        /**
+         * Gibt den nächsten freien Zug im easy Modus für den Computer zurück
+         * Returns the next free move in easy mode for the computer
          *
-         * @return an integer array
+         * @return Blockposition an integer array
          */
         public int[] easyMove() {
             int[] result = findEasyMove(2, NOUGHT); // depth - gewuenschteTiefe, gibt Max (für 0) zurück
             return new int[] {result[1]};   // Blockposition
         }
 
+        /**
+         * Gibt den nächsten Zug im medium Modus für den Computer zurück
+         * Returns the next move in medium mode for the computer
+         *
+         * @return Blockposition an integer array
+         */
         public int[] mediumMove() {
             int[] result = alternatelyMove(2, NOUGHT); // depth - gewuenschteTiefe, gibt Max (für 0) zurück
             return new int[] {result[1]};   // Blockposition
         }
 
 
-        /** Führt abwechselnd easy und medium Schritte aus - in turns easy or medium moves
-         *
-         */
+
         int count = 1;
+        /**
+         * Gibt in Medium Modus abwechselnd easy und hard Schritte zurück
+         * Returns easy and hard steps alternately in medium mode
+         *
+         * @param depth Tiefe
+         * @param player Spieler oder Android Human or Android
+         * @return Punktzahlen, beste Position  bestScore, bestBlock
+         */
         public int[] alternatelyMove(int depth, Block player){
-            Log.d("count", String.valueOf(count));
-
             //speichert mögliche nächste Züge in der Liste - saves possible next moves in a list
-
             List<int[]> nextMoves = generateMoves();
 
-            int bestScore = (player == NOUGHT) ? Integer.MIN_VALUE : Integer.MAX_VALUE;
+            int bestScore = (player == NOUGHT) ? Integer.MIN_VALUE : Integer.MAX_VALUE; // Andoid ist
             int currentScore;
             int bestBlock = -1;
             //Easy - wählt erste von Ende position
-
             if (count % 2 == 0) {
                 for (int[] move : nextMoves){
                     board[move[0]] = player;
@@ -520,7 +563,6 @@ public class GameSingleActivity extends AppCompatActivity {
                 }
             }
             //Hard - Minimax-Algorithmus
-
             if (count % 2 == 1) {
                 if (depth == 0 || nextMoves.isEmpty()){
                     bestScore = evaluate();
@@ -543,18 +585,21 @@ public class GameSingleActivity extends AppCompatActivity {
                         board[move[0]] = EMPTY;
                     }
                 }
-
             }
-
             count++;
             return new int[] {bestScore, bestBlock};
-
         }
 
-
+        /**
+         * Wählt in easy Modus eine zufällige Position aus Liste aus und gibt zurück
+         * In easy mode, selects a random position from a list and returns
+         *
+         * @param depth Tiefe
+         * @param player Spieler oder Android Human or Android
+         * @return Punktzahlen, beste Position  bestScore, bestBlock
+         */
         public int[] findEasyMove(int depth, Block player){
             //speichert mögliche nächste Züge in der Liste - saves possible next moves in a list
-
             List<int[]> nextMoves = generateMoves();
             //wählt ein zufälliges Element aus Liste aus - chooses random element from list
             int[] move = nextMoves.get(new Random().nextInt(nextMoves.size()));
@@ -564,24 +609,21 @@ public class GameSingleActivity extends AppCompatActivity {
         }
 
 
-        //Minimiere Gewinnmöglichkeiten für den Gegner - minimize win possibilities
 
-        //Maximiere eigene Gewinnmöglichkeiten - maximize win possibilities
-
-        /**Generiert mögliche nächste Züge in einer Liste. - generates possible next moves in a list
+        /**
+         * Methode nutzt einen MiniMax-Algorithmus, um beste Züge zu finden
+         * Minimiere Gewinnmöglichkeiten für den Gegner - minimize win possibilities
+         * Maximiere eigene Gewinnmöglichkeiten - maximize win possibilities
          *
-         * @param depth integer that represents depths of move
-         * @param player blocks that are available for next move scored/evaluated if they provide a good winning chance or no
-         * @return the best score and the best block are returned in an in array
+         * @param depth Tiefe
+         * @param player Spieler oder Android Human or Android
+         * @return Punktzahlen, beste Position  bestScore, bestBlock
          */
-
         public int[] minimax(int depth, Block player){
             //Generiert mögliche nächste Züge in einer Liste. - generates possible next moves in a list
-
             List<int[]> nextMoves = generateMoves();
 
             // Android (0 NOUGHT) ist maximizing; Gegner (X CROSS) ist minimizing
-
             int bestScore = (player == NOUGHT) ? Integer.MIN_VALUE : Integer.MAX_VALUE;
             int currentScore;
             int bestBlock = -1;
@@ -610,16 +652,17 @@ public class GameSingleActivity extends AppCompatActivity {
             return new int[] {bestScore, bestBlock};
         }
 
-        /** Wertung für jede der 8 Linien auswerten (3 Zeilen, 3 Spalten, 2 Diagonalen) - evaluate all 8 possible winner lines
+
+        /**
+         * Bewertung der Punktzahl für jede der 8 Gewinnstellungen (3 Zeilen, 3 Spalten, 2 Diagonalen)
+         * Evaluation of the score for each of the 8 winning positions (3 rows, 3 columns, 2 diagonals)
          *
-         * @return integer score of each of 8 lines
+         * @return Punktzahl Score
          */
         private int evaluate() {
             int score = 0;
-            //Evaluate score for each of the 8 lines (3 rows, 3 columns, 2 diagonals)
-
             for (int[] row : ROWS) {
-                score += evaluateLine(row);  // zeile 0
+                score += evaluateLine(row);
             }
             return score;
         }
@@ -661,10 +704,18 @@ public class GameSingleActivity extends AppCompatActivity {
             return true;
         }
 
-        /** Heuristische Funktion zur Bewertung der Nützlichkeit des Spielzustands - heuristic function to evaluate the gamestatus
+        /** Heuristische Funktion zur Bewertung der Nützlichkeit des Spielzustands -
          * scores: +100, +10, +1 für 3-, 2-, 1 -in jeder Linie für Android.
          * scores: -100, -10, -1 for 3-, 2-, 1 -in jeder Linie für Opponent.
          * 0 sonst bzw. wenn Linie X und 0 enthält
+         */
+
+        /**
+         * Funktion zur Bewertung der Nützlichkeit des Spielzustands
+         * Function to evaluate the gamestatus
+         *
+         * @param row
+         * @return
          */
         private int evaluateLine(int[] row) {
             final int[] scores =  { 0, 1, 10, 100 };
@@ -685,26 +736,33 @@ public class GameSingleActivity extends AppCompatActivity {
             }
         }
 
-        /**  gibt mögliche nächste Züge in der Liste - returns next possible moves in the list
+        /**
+         * Generierte nächste mögliche Züge in einer ArrayListe
+         * Sucht nach leeren Blocks und fügt diese der Liste hinzu
+         * Generated possible next moves in an array list
          *
-         * @return next moves
+         * @return Array Liste aus verfügbaren Spielfelder next moves in an array list
          */
         private List<int[]> generateMoves() {
             List<int[]> nextMoves = new ArrayList<int[]>();
-
             if (checkGameStatus().isPlaying()) {
                 // Sucht nach leeren Blocks und fügt diese der Liste hinzu -  checks for empty blocks and adds them to the list
-
                 for (int i = 0; i < BOARDSIZE; ++i) {
                     if (board[i] == EMPTY) {
                         nextMoves.add(new int[]{i});
                     }
                 }
             }
-
             return nextMoves;
         }
 
+        /**
+         * Markiert Spielfeld mit entsprechendem Zeichen
+         * Marks playing field with corresponding sign
+         *
+         * @param x Spielfeld
+         * @param player Spieler (1 = x) oder Android (2 = 0) Human or Android
+         */
         public void placeMove(int x, Block player) {
             board[x] = player;
         }

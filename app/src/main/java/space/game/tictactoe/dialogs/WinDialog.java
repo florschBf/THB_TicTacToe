@@ -17,6 +17,13 @@ import space.game.tictactoe.menu.MenuActivity;
 import space.game.tictactoe.menu.OnlinespielActivity;
 import space.game.tictactoe.R;
 
+/**
+ * Klasse wird genutzt um Gewonnen-Spielstatus in Form einer Dialogfenster erkennbar machen
+ * Class is used to reveal lost game statuses in the form of a dialog window
+ *
+ * @author in, fs for help
+ */
+
 public class WinDialog extends Dialog {
 
     /**

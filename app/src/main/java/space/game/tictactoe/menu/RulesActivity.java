@@ -9,7 +9,11 @@ import android.widget.Button;
 
 import space.game.tictactoe.R;
 
-/** activity to give the player the information about how the games rules work
+/**
+ * Klasse, um dem Spieler Informationen darüber zu geben, wie die Spielregeln funktionieren
+ * activity to give the player the information about how the games rules work
+ *
+ * @author in, pk
  *
  */
 
@@ -45,7 +49,7 @@ public class RulesActivity extends AppCompatActivity {
             startActivity(intent);
             finish();
         }catch (Exception e) {
-
+            e.printStackTrace();
         }
     }
 }

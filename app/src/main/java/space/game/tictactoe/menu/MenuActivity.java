@@ -25,7 +25,11 @@ import space.game.tictactoe.handlers.StatisticsHandler;
 import space.game.tictactoe.models.Player;
 
 /**
+ * Klasse stellt Menüansicht dar und ermöglicht eine Interaktion mit den Menükomponenten
+ * Class represents a menu view and allows interaction with the menu components
  * Hauptmenü Android Activity
+ *
+ * @author all
  */
 public class MenuActivity extends AppCompatActivity {
 

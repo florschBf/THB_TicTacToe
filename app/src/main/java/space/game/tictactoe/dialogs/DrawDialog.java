@@ -17,6 +17,13 @@ import space.game.tictactoe.menu.MenuActivity;
 import space.game.tictactoe.menu.OnlinespielActivity;
 import space.game.tictactoe.R;
 
+/**
+ * Klasse wird genutzt um Unentschieden-Spielstatus in Form einer Dialogfenster erkennbar machen
+ * Class is used to reveal lost game statuses in the form of a dialog window
+ *
+ * @author in, fs for help
+ */
+
 public class DrawDialog extends Dialog {
 
     /**
@@ -26,7 +33,7 @@ public class DrawDialog extends Dialog {
     private OnlinespielActivity onlinespielActivity = null;
 
     /**
-     * constructor to display a draw-alert-dialog for singleplayer-mode
+     * Constructor to display a draw-alert-dialog for singleplayer-mode
      * @param context Show the dialog in the context given
      * @param gameSingleActivity if selected in the dialog go to a new activity for a single-player-game called GameSingleActivity
      */
@@ -65,7 +72,6 @@ public class DrawDialog extends Dialog {
 
         if (gameSingleActivity != null){
             imageViewClose.setOnClickListener(v -> {
-//            gameSingleActivity.startNewGame();
                 dismiss();
             });
 
