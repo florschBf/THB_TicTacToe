@@ -16,6 +16,7 @@ import org.java_websocket.client.WebSocketClient;
 import org.java_websocket.handshake.ServerHandshake;
 import org.json.JSONException;
 
+import space.game.tictactoe.dialogs.GameConfirmedDialogFragment;
 import space.game.tictactoe.menu.OnlinespielActivity;
 import space.game.tictactoe.handlers.GameBoardHandler;
 import space.game.tictactoe.handlers.GameSessionHandler;
@@ -134,6 +135,8 @@ public class TttWebsocketClient extends WebSocketClient{
                 //need to disable dialog from here if there is one, kinda messy..
                 killDialog();
                 //TODO new confirm dialog?
+                showGameConfirmDialog(oppoName, oppoIconId);
+
 
                 //get a GameSessionHandler going, set turn false for now, GameSessionHandler knows what to do with the board
 
@@ -248,7 +251,7 @@ public class TttWebsocketClient extends WebSocketClient{
     }
 
     public boolean sendMoveToServer(Integer feld){
-        //TODO implement server validation
+
         boolean moveValid = true;
         String command = cmdHandler.sendMove(feld.toString());
         send(command);
@@ -277,6 +280,21 @@ public class TttWebsocketClient extends WebSocketClient{
         }
         catch (Exception e){
             System.out.print("no dialog present after all: " + e);
+        }
+    }
+
+    public void showGameConfirmDialog(String oppoName, String oppoIcon){
+        try{
+            System.out.println("rendering game confirmation dialog");
+            AppCompatActivity here = (AppCompatActivity)context;
+            FragmentManager myManager = here.getSupportFragmentManager();
+            DialogFragment gameConfirmed = new GameConfirmedDialogFragment(oppoName, oppoIcon);
+            gameConfirmed.setCancelable(true);
+            gameConfirmed.show(myManager, "Game started");
+        }
+        catch (Exception e){
+            System.out.println("failed to render game confirmation dialog");
+            e.printStackTrace();
         }
     }
 

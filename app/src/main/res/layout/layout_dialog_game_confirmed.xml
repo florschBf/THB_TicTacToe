@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="350dp"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center">
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:cardBackgroundColor="@color/secondary_transparent"
+        app:cardCornerRadius="20dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/dialog_game_confirmed"
+                android:layout_width="match_parent"
+                android:layout_height="64dp"
+                android:layout_marginEnd="8dp"
+                android:text="@string/dialog_game_confirmed"
+                android:textAlignment="center"
+                android:textColor="@color/white"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                android:padding="2.5dp"
+                app:layout_constraintBottom_toTopOf="@+id/image_dialog_oppoIcon"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/content"
+                app:layout_constraintVertical_bias="1.0" />
+
+            <TextView
+                android:id="@+id/sein_zeichen"
+                android:layout_width="match_parent"
+                android:layout_height="64dp"
+                android:layout_marginEnd="8dp"
+                android:text="Sein Zeichen:"
+                android:textAlignment="center"
+                android:textColor="@color/white"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                android:padding="2.5dp"
+                app:layout_constraintBottom_toTopOf="@+id/image_dialog_oppoIcon"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/dialog_game_confirmed" />
+
+            <ImageView
+                android:id="@+id/image_dialog_oppoIcon"
+                android:layout_width="95dp"
+                android:layout_height="99dp"
+                android:contentDescription="Opponent Icon"
+                app:layout_constraintBottom_toTopOf="@id/button_letsgo_game"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/sein_zeichen"
+                app:srcCompat="@drawable/stern" />
+
+
+
+            <Button
+                android:id="@+id/button_letsgo_game"
+                android:layout_width="123dp"
+                android:layout_height="48dp"
+                android:layout_marginBottom="25dp"
+                android:background="@drawable/btn_press_white"
+                android:fontFamily="@font/facon"
+                android:paddingLeft="10dp"
+                android:paddingTop="10dp"
+                android:paddingRight="10dp"
+                android:paddingBottom="10dp"
+                android:text="Spielen!"
+                android:textAllCaps="true"
+                android:textColor="@color/teal_200"
+                android:textSize="@dimen/textSize_menu_btn"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/image_dialog_oppoIcon"
+                app:layout_constraintVertical_bias="0.878" />
+
+
+
+            <ScrollView
+                android:id="@+id/content"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+
+            </ScrollView>
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
+</androidx.constraintlayout.widget.ConstraintLayout>

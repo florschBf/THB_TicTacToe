@@ -64,8 +64,8 @@ dependencies {
     // Vorerst keine weiteren Dependencies -> upcoming Cloudrun/Firestore etc.
 
     // for HttpRequests: https://square.github.io/retrofit/
-    implementation 'com.squareup.retrofit2:retrofit:2.9.0'
-    implementation 'com.squareup.retrofit2:converter-gson:2.3.0'
+/*    implementation 'com.squareup.retrofit2:retrofit:2.9.0'
+    implementation 'com.squareup.retrofit2:converter-gson:2.3.0'*/
 
     //websocket framework Java Websockets
     implementation 'org.java-websocket:Java-WebSocket:1.5.2'
