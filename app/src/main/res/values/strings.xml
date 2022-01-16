@@ -44,6 +44,7 @@
     <string name="dialog_challenge_sent">Du sendest nun eine Spielaufforderung an den folgenden Spieler:</string>
     <string name="dialog_challenge_online">möchte gern eine Runde Tic Tac Toe gegen Dich spielen. Bitte nimm die Anfrage an.</string>
     <string name="dialog_game_confirmed">Dein Gegenspieler ist </string>
+    <string name="oppo_icon_intro">Gegenspieler-Zeichen:</string>
 
 
     <string name="project_description">
