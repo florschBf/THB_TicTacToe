@@ -1,5 +1,6 @@
 package space.game.tictactoe.handlers.websocketHandler;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 
 
@@ -16,6 +17,7 @@ import org.java_websocket.client.WebSocketClient;
 import org.java_websocket.handshake.ServerHandshake;
 import org.json.JSONException;
 
+import space.game.tictactoe.R;
 import space.game.tictactoe.dialogs.GameConfirmedDialogFragment;
 import space.game.tictactoe.menu.OnlinespielActivity;
 import space.game.tictactoe.handlers.GameBoardHandler;
@@ -41,31 +43,32 @@ public class TttWebsocketClient extends WebSocketClient{
     private boolean inGame = false;
     private boolean inChallengeOrChallenging = false;
 
+    // Setters & Getters collection
     public boolean isInRandomQueue() {
         return inRandomQueue;
     }
-
     public void setInRandomQueue(boolean inRandomQueue) {
         this.inRandomQueue = inRandomQueue;
     }
-
     public boolean isInGame() {
         return inGame;
     }
-
     public void setInGame(boolean inGame) {
         this.inGame = inGame;
     }
-
     public boolean isInChallengeOrChallenging() {
         return inChallengeOrChallenging;
     }
-
     public void setInChallengeOrChallenging(boolean inChallengeOrChallenging) {
         this.inChallengeOrChallenging = inChallengeOrChallenging;
     }
 
-
+    /**
+     * Constructor for websocket client
+     * @param serverURI The server URL, either in format "wss://google-cloud-run-url" or as "ws://yourlocal_IP:8080"
+     * @param headers Possible headers to pass along to server, currently not used
+     * @param context The calling activity context to have it on hand. Client does a lot of things where it's needed.
+     */
     public TttWebsocketClient(URI serverURI, Map<String, String> headers, Context context) {
         super(serverURI, headers);
         this.context = context;
@@ -73,6 +76,10 @@ public class TttWebsocketClient extends WebSocketClient{
 
     }
 
+    /**
+     * Methode wird bei Öffnung der Websocket-Verbindung ausgeführt, meldet sich mit TTT-Protokoll beim Server an
+     * @param handshakedata
+     */
     @Override
     public void onOpen(ServerHandshake handshakedata) {
         this.player = Player.getPlayer();
@@ -80,16 +87,21 @@ public class TttWebsocketClient extends WebSocketClient{
         System.out.println("new connection opened");
     }
 
+    /**
+     * Methode wird beim Schließen der Websocket-Verbindung ausgeführt
+     * @param code
+     * @param reason
+     * @param remote
+     */
     @Override
     public void onClose(int code, String reason, boolean remote) {
         System.out.println("closed with exit code " + code + " additional info: " + reason);
+        this.cleanSlate();
+        this.gameBoard.clearOppoName();
+        this.gameBoard.clearAllBlocks();
+        this.gameBoard.blockAllFields();
     }
 
-
-    /*  HIER BEI ON MESSAGE FINDET DER DATENAUSTAUSCH MIT DEM SERVER STATT
-    *   KOMMT EINE MESSAGE VOM SERVER AN, WIRD SIE ANHAND DES PROTOKOLLS GEPRÜFT UND AUSGEWERTET
-    *   EIGENE KLASSE FÜR DIE PRÜFUNG: TttMessageHandler
-     */
 
     /**
      * Hier bei der onMessage findet der Datenaustausch mit dem Server statt
@@ -132,14 +144,17 @@ public class TttWebsocketClient extends WebSocketClient{
                 String oppoName = msgHandler.getOpponentNameFromMessage(message);
                 String oppoIconId = msgHandler.getOpponentIconIdFromMessage(message);
 
+                if (Integer.parseInt(oppoIconId) == player.getIcon() || oppoIconId == "0") {
+                    //sth wrong with oppo icon ID, getting the default heart
+                    oppoIconId = Integer.toString(R.drawable.zero); //Integer.toString(context.getResources().getInteger(R.drawable.));
+                }
+
                 //need to disable dialog from here if there is one, kinda messy..
                 killDialog();
-                //TODO new confirm dialog?
                 showGameConfirmDialog(oppoName, oppoIconId);
 
 
                 //get a GameSessionHandler going, set turn false for now, GameSessionHandler knows what to do with the board
-
                 this.gameBoard.setOpponentIcon(oppoIconId);
                 this.gameBoard.setOpponentName(oppoName);
                 this.session = new GameSessionHandler(gameBoard);
@@ -266,6 +281,7 @@ public class TttWebsocketClient extends WebSocketClient{
         setInRandomQueue(false);
         setInGame(false);
         setInChallengeOrChallenging(false);
+        killDialog();
     }
 
     /**
@@ -275,8 +291,8 @@ public class TttWebsocketClient extends WebSocketClient{
         try{
             AppCompatActivity here = (AppCompatActivity)context;
             FragmentManager myManager = here.getSupportFragmentManager();
-            DialogFragment queueDialog = (DialogFragment) myManager.getFragments().get(0);
-            queueDialog.dismiss();
+            DialogFragment dialog = (DialogFragment) myManager.getFragments().get(0);
+            dialog.dismiss();
         }
         catch (Exception e){
             System.out.print("no dialog present after all: " + e);

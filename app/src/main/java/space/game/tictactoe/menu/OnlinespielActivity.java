@@ -1,5 +1,6 @@
 package space.game.tictactoe.menu;
 
+import static space.game.tictactoe.R.id.content;
 import static space.game.tictactoe.R.id.icontransport;
 
 import android.content.Intent;
@@ -301,22 +302,23 @@ public class OnlinespielActivity extends AppCompatActivity {
      */
     @Override
     protected void onResume() {
+        System.out.println("reconnecting...");
         super.onResume();
-        if (this.client.isClosed()) {
-            System.out.println("reconnecting...");
+        if (this.client.isClosed()){
+            theHardestResetGo();
             this.client.reconnect();
         }
-        updatePlayerIcon();
+
     }
 
     /**Overriding all System methods that disable the activity to also disconnect the websocket
      *
      */
-    /*   @Override
+       @Override
     protected void onPause() {
         super.onPause();
-        this.client.close();
-    }*/
+        System.out.println("triggering onPause...");
+    }
 
     @Override
     protected void onDestroy() {
@@ -326,8 +328,9 @@ public class OnlinespielActivity extends AppCompatActivity {
 
     @Override
     protected void onStop() {
+        System.out.println("stopping...");
         super.onStop();
-        this.client.close();
+        theHardestResetGo();
     }
 
     /** Dialogfenster für Spielergebnis
@@ -365,6 +368,14 @@ public class OnlinespielActivity extends AppCompatActivity {
             e.printStackTrace();
             this.icon = R.drawable.stern_90;
         }
+    }
+
+    private void theHardestResetGo(){
+        System.out.println("reset activity state called");
+        this.client.close();
+        this.client.cleanSlate();
+        //this.client.setGameBoard(new GameBoardHandler(mBoardImageView, icon, client, this));
+/*        fragMan.getFragments().clear();*/
     }
 
 }

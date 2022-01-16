@@ -42,7 +42,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="64dp"
                 android:layout_marginEnd="8dp"
-                android:text="Sein Zeichen:"
+                android:text="@string/oppo_icon_intro"
                 android:textAlignment="center"
                 android:textColor="@color/white"
                 android:textSize="24sp"
