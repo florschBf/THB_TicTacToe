@@ -18,9 +18,10 @@ import space.game.tictactoe.models.Player;
  * it is available for single player mode and online player mode
  */
 public class IconwahlActivity extends AppCompatActivity {
-    private int icon;
+    public Player player = Player.getPlayer();;
+    private int icon = player.getIcon();
 
-    public Player player;
+
 
 
 
@@ -135,10 +136,7 @@ public class IconwahlActivity extends AppCompatActivity {
 
     private void selectIcon(int icon, View view) {
         this.icon = icon;
-
-        this.player = Player.getPlayer();
-
-        player.setIcon(icon);
+        this.player.setIcon(icon);
         ImageView image = (ImageView) findViewById(R.id.icontransport);
         image.setImageResource(player.getIcon());
     }

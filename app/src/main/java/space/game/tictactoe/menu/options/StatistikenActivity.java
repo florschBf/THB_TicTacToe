@@ -53,6 +53,12 @@ public class StatistikenActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * Method to guaranty or define where to go when device-back-button is clicked
+     * otherwise it could happen, that you have to click back 2 times from statistics, when you returned
+     * to options by "zurück"-button.
+     * @param view A Android view - could be the Statistics View or Optionen-View
+     */
     public void backToOpionenActivity(View view) {
         Intent intent = new Intent(StatistikenActivity.this, OptionenActivity.class);
         startActivity(intent);

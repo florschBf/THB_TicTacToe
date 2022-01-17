@@ -7,9 +7,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import space.game.tictactoe.R;
 
 /** activity for log in
- *
  */
-
 public class LoginActivity extends AppCompatActivity {
 
     @Override

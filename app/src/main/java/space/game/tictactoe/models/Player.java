@@ -17,7 +17,7 @@ public class Player {
     private String email = "unknown";
     private String firebaseId = "unknown";
     private String serverId = "unknown"; // Wird vom Server aus der Connection gehashed
-    private int icon = R.drawable.stern_90; // set icon as default from fireBase
+    private int icon = R.drawable.stern_90; // 2131165427; //set icon as default from fireBase
 
     /**
      * Declaration and in itialization of membervariable sound
@@ -63,7 +63,7 @@ public class Player {
      */
     @Override
     public String toString() {
-        return "Player{" +
+        return "Player{'icon=' " + icon + '\'' +
                 "name='" + name + '\'' +
                 ", firebaseId='" + firebaseId + '\'' +
                 ", serverId=" + serverId +
