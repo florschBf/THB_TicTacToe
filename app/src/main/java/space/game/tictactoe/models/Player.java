@@ -329,4 +329,29 @@ public class Player {
     public void updateTotalGames(long totalGamesFromFireStore) {
         this.totalGames += totalGamesFromFireStore;
     }
+
+    /*
+     * setter for wins, losses, draws - e. g. when logged out
+     *
+     */
+
+    public void setWins(long wins) {
+        this.wins = wins;
+    }
+
+    public void setLosses(long losses) {
+        this.losses = losses;
+    }
+
+    public void setDraws(long draws) {
+        this.draws = draws;
+    }
+
+    public void setInterrupted(long interrupted) {
+        this.interrupted = interrupted;
+    }
+
+    public void setTotalGames(long totalGames) {
+        this.totalGames = totalGames;
+    }
 }

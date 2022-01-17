@@ -33,10 +33,9 @@ public class StatistikenActivity extends AppCompatActivity {
         setContentView(R.layout.activity_statistiken);
         System.out.println("Statistics onCreate called");
 
-        /*@TODO show selected playerdata as textview */
-        Toast.makeText(this, "Wins: " + player.getWins() + " Losses: " + player.getLosses() + " Draws: " + player.getDraws(), Toast.LENGTH_LONG).show();
+        //Toast.makeText(this, "Wins: " + player.getWins() + " Losses: " + player.getLosses() + " Draws: " + player.getDraws(), Toast.LENGTH_LONG).show();
 
-        TextView textViewTotalGames = (TextView) findViewById(R.id.statistiken_title_id);
+        TextView textViewTotalGames = (TextView) findViewById(R.id.statistiken_table_totalgames_value);
         textViewTotalGames.setText(Long.toString(player.getTotalGames()));
 
         TextView texViewTitle = (TextView) findViewById(R.id.statistiken_title_id);
