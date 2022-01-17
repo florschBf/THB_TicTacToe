@@ -703,25 +703,19 @@ public class GameSingleActivity extends AppCompatActivity {
             }
             return true;
         }
-
-        /** Heuristische Funktion zur Bewertung der Nützlichkeit des Spielzustands -
-         * scores: +100, +10, +1 für 3-, 2-, 1 -in jeder Linie für Android.
-         * scores: -100, -10, -1 for 3-, 2-, 1 -in jeder Linie für Opponent.
-         * 0 sonst bzw. wenn Linie X und 0 enthält
-         */
-
-        /**
-         * Funktion zur Bewertung der Nützlichkeit des Spielzustands
-         * Function to evaluate the gamestatus
-         *
-         * @param row
-         * @return
+        /** function to evaluate the row about how many nought and crosses it contains,
+         *  and to give a score to evaluate if there is already a stone per player, or if there is free fields that give a winning chance
+         * scores: 0, 1, 10, 10 für nought
+         * scores: 0, -1, -10, -100 für crosses
+         * score 0: if row contains 1 or more cross and 1 nought or vice versa (if condition)
          */
         private int evaluateLine(int[] row) {
+            // values for zero, one, two, or three crosses or noughts (does not matter)
             final int[] scores =  { 0, 1, 10, 100 };
-
+            //initially every kind starts with zero
             int crosses = 0;
             int noughts = 0;
+            //loop goes through every field of the row
             for (int field: row) {
                 if (board[field] == CROSS) {
                     crosses++;
@@ -729,19 +723,23 @@ public class GameSingleActivity extends AppCompatActivity {
                     noughts++;
                 }
             }
+            //if the row is mixed, crosses and nought, then it's not worth anything so it's 0 in the row score
             if (crosses > 0 && noughts > 0) {
                 return 0;
             } else {
+                //noughts are evaluated as positive score, crosses as negative score
                 return scores[noughts] - scores[crosses];
             }
         }
 
+
+
         /**
-         * Generierte nächste mögliche Züge in einer ArrayListe
+         * Generiert nächste mögliche Züge in einer ArrayListe
          * Sucht nach leeren Blocks und fügt diese der Liste hinzu
-         * Generated possible next moves in an array list
+         * Generates possible next moves in an array list, and adds them to the list
          *
-         * @return Array Liste aus verfügbaren Spielfelder next moves in an array list
+         * @return Array Liste aus verfügbaren Spielfelder - next moves in an array list
          */
         private List<int[]> generateMoves() {
             List<int[]> nextMoves = new ArrayList<int[]>();
