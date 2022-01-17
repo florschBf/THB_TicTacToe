@@ -1,6 +1,5 @@
 package space.game.tictactoe.menu;
 
-import static space.game.tictactoe.R.id.content;
 import static space.game.tictactoe.R.id.icontransport;
 
 import android.content.Intent;
@@ -47,7 +46,7 @@ public class OnlinespielActivity extends AppCompatActivity {
     private int icon;
 
     private Map<String, String> headers = new HashMap<>();
-    private TttWebsocketClient client = new TttWebsocketClient(new URI("ws://192.168.178.52:8080"), headers, this);
+    private TttWebsocketClient client = new TttWebsocketClient(new URI("wss://ttt-server-gizejztnta-ew.a.run.app"), headers, this);
     private ImageView mBoardImageView[];
     private GameBoardHandler gameBoard;
     public FragmentManager fragMan = getSupportFragmentManager();
@@ -221,10 +220,11 @@ public class OnlinespielActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 try {
-                    client.endGameNow();
-                    client.cleanSlate();
                     Intent intent = new Intent(OnlinespielActivity.this, IconwahlActivity.class);
                     startActivity(intent);
+                    client.endGameNow();
+                    client.cleanSlate();
+
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
