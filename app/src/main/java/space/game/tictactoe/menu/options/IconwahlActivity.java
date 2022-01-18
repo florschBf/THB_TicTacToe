@@ -1,24 +1,24 @@
 package space.game.tictactoe.menu.options;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 
+import androidx.appcompat.app.AppCompatActivity;
+
+import space.game.tictactoe.R;
 import space.game.tictactoe.menu.GameSingleActivity;
 import space.game.tictactoe.menu.MenuActivity;
 import space.game.tictactoe.menu.OnlinespielActivity;
-import space.game.tictactoe.R;
 import space.game.tictactoe.models.Player;
 
 /** activity for choosing different icons for the local player
  * it is available for single player mode and online player mode
  */
 public class IconwahlActivity extends AppCompatActivity {
-    private int icon;
+    private int icon = Player.getPlayer().icon;
 
     public Player player;
 
