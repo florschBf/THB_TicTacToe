@@ -33,10 +33,9 @@ public class StatistikenActivity extends AppCompatActivity {
         setContentView(R.layout.activity_statistiken);
         System.out.println("Statistics onCreate called");
 
-        /*@TODO show selected playerdata as textview */
-        Toast.makeText(this, "Wins: " + player.getWins() + " Losses: " + player.getLosses() + " Draws: " + player.getDraws(), Toast.LENGTH_LONG).show();
+        //Toast.makeText(this, "Wins: " + player.getWins() + " Losses: " + player.getLosses() + " Draws: " + player.getDraws(), Toast.LENGTH_LONG).show();
 
-        TextView textViewTotalGames = (TextView) findViewById(R.id.statistiken_title_id);
+        TextView textViewTotalGames = (TextView) findViewById(R.id.statistiken_table_totalgames_value);
         textViewTotalGames.setText(Long.toString(player.getTotalGames()));
 
         TextView texViewTitle = (TextView) findViewById(R.id.statistiken_title_id);
@@ -53,6 +52,12 @@ public class StatistikenActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * Method to guaranty or define where to go when device-back-button is clicked
+     * otherwise it could happen, that you have to click back 2 times from statistics, when you returned
+     * to options by "zurück"-button.
+     * @param view A Android view - could be the Statistics View or Optionen-View
+     */
     public void backToOpionenActivity(View view) {
         Intent intent = new Intent(StatistikenActivity.this, OptionenActivity.class);
         startActivity(intent);

@@ -111,7 +111,7 @@ public class StatisticsHandler {
      * interrupted
      * totalGames
      * isPlayerAlreadyUpdatedByFirestoreData
-     * @throws Exception
+     * @throws Exception is thrown when firbase-id is "unknown", mainly because of a user not logged in but tryin to access firestordata
      */
     public void updateLocalPlayerDataWithFbData() throws Exception {
         String firebaseUser = player.getFirebaseId();

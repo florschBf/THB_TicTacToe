@@ -16,7 +16,9 @@ public class Player {
     private String email = "unknown";
     private String firebaseId = "unknown";
     private String serverId = "unknown"; // Wird vom Server aus der Connection gehashed
+
     public int icon = R.drawable.stern_90; // set icon as default from fireBase
+
 
     /**
      * Declaration and in itialization of membervariable sound
@@ -62,7 +64,7 @@ public class Player {
      */
     @Override
     public String toString() {
-        return "Player{" +
+        return "Player{'icon=' " + icon + '\'' +
                 "name='" + name + '\'' +
                 ", firebaseId='" + firebaseId + '\'' +
                 ", serverId=" + serverId +
@@ -327,5 +329,30 @@ public class Player {
      */
     public void updateTotalGames(long totalGamesFromFireStore) {
         this.totalGames += totalGamesFromFireStore;
+    }
+
+    /*
+     * setter for wins, losses, draws - e. g. when logged out
+     *
+     */
+
+    public void setWins(long wins) {
+        this.wins = wins;
+    }
+
+    public void setLosses(long losses) {
+        this.losses = losses;
+    }
+
+    public void setDraws(long draws) {
+        this.draws = draws;
+    }
+
+    public void setInterrupted(long interrupted) {
+        this.interrupted = interrupted;
+    }
+
+    public void setTotalGames(long totalGames) {
+        this.totalGames = totalGames;
     }
 }

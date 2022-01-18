@@ -671,7 +671,6 @@ public class GameSingleActivity extends AppCompatActivity {
          * then we check if we have a winner or a looser and give back the winning result and a winning row if there is
          * one - it can be also the winnig row of the opponent, as we want to color the winners rows later
          */
-
         public GameStatus checkGameStatus() {
             GameStatus.GameResult result = GameStatus.GameResult.DRAW;
             int[] winningRow = null;
@@ -703,11 +702,14 @@ public class GameSingleActivity extends AppCompatActivity {
             }
             return true;
         }
+
         /** function to evaluate the row about how many nought and crosses it contains,
          *  and to give a score to evaluate if there is already a stone per player, or if there is free fields that give a winning chance
          * scores: 0, 1, 10, 10 für nought
          * scores: 0, -1, -10, -100 für crosses
          * score 0: if row contains 1 or more cross and 1 nought or vice versa (if condition)
+         * @param row row in a ticTocToe field
+         * @return amount of nougts or crosses in a row
          */
         private int evaluateLine(int[] row) {
             // values for zero, one, two, or three crosses or noughts (does not matter)

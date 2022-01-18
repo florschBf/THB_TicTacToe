@@ -18,17 +18,17 @@ import space.game.tictactoe.models.Player;
  * it is available for single player mode and online player mode
  */
 public class IconwahlActivity extends AppCompatActivity {
+
     private int icon = Player.getPlayer().icon;
 
     public Player player;
-
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_iconwahl);
-        /*this.icon = Player.getPlayer().getIcon();*/
+        
 
         /** Button1- button_icons_pcspiel -> forwarding to Activity GameSingleActivity -> single Player mode
          *
@@ -135,9 +135,7 @@ public class IconwahlActivity extends AppCompatActivity {
 
     private void selectIcon(int icon, View view) {
         this.icon = icon;
-
         this.player = Player.getPlayer();
-
         player.setIcon(icon);
         ImageView image = (ImageView) findViewById(R.id.icontransport);
         image.setImageResource(player.getIcon());

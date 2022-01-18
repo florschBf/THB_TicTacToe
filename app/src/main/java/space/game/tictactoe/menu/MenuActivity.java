@@ -87,7 +87,17 @@ public class MenuActivity extends AppCompatActivity {
                         //Logged in as Anon
                         System.out.println("finally anon");
                         //There's an anon user authenticated via Firebase
+                        //if (!player.getPlayerAlreadyUpdatedByFirestoreData()) player.setName(player.randomName());
+                        /*
+                         * initializing main-values
+                         */
                         player.setName(player.randomName());
+                        player.setWins(0);
+                        player.setLosses(0);
+                        player.setDraws(0);
+                        player.setTotalGames(0);
+                        player.setPlayerAlreadyUpdatedByFirestoreData(false);
+
                         fbLogin.changeTextAnonUser(login_status, login_button);
                         currentUser = mAuth.getCurrentUser();
                         fbLogin.setmAuth(mAuth);
