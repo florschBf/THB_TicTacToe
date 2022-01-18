@@ -1,6 +1,5 @@
 package space.game.tictactoe.models;
 
-import java.util.ArrayList;
 import java.util.Random;
 
 import space.game.tictactoe.R;
@@ -17,7 +16,9 @@ public class Player {
     private String email = "unknown";
     private String firebaseId = "unknown";
     private String serverId = "unknown"; // Wird vom Server aus der Connection gehashed
-    private int icon = R.drawable.stern_90; // 2131165427; //set icon as default from fireBase
+
+    public int icon = R.drawable.stern_90; // set icon as default from fireBase
+
 
     /**
      * Declaration and in itialization of membervariable sound
