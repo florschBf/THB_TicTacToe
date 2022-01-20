@@ -73,7 +73,7 @@
     <TextView
         android:id="@+id/Board_text_beschreibung"
         android:layout_width="165dp"
-        android:layout_height="182dp"
+        android:layout_height="wrap_content"
         android:text="@string/Board_text_beschreibung"
         android:textSize="20dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -154,8 +154,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.744"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.431"
+        app:layout_constraintTop_toBottomOf="@+id/Board_text_beschreibung"
+        app:layout_constraintVertical_bias="0.1"
         app:srcCompat="@drawable/play_board" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
