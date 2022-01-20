@@ -46,7 +46,7 @@ public class OnlinespielActivity extends AppCompatActivity {
     private int icon;
 
     private Map<String, String> headers = new HashMap<>();
-    private TttWebsocketClient client = new TttWebsocketClient(new URI("ws://192.168.178.52:8080"), headers, this);
+    private TttWebsocketClient client = new TttWebsocketClient(new URI("wss://ttt-server-gizejztnta-ew.a.run.app/"), headers, this);
     private ImageView mBoardImageView[];
     private GameBoardHandler gameBoard;
     public FragmentManager fragMan = getSupportFragmentManager();
