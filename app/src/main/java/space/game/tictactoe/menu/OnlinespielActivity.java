@@ -46,7 +46,7 @@ public class OnlinespielActivity extends AppCompatActivity {
     private int icon;
 
     private Map<String, String> headers = new HashMap<>();
-    private TttWebsocketClient client = new TttWebsocketClient(new URI("wss://ttt-server-gizejztnta-ew.a.run.app"), headers, this);
+    private TttWebsocketClient client = new TttWebsocketClient(new URI("wss://ttt-server-gizejztnta-ew.a.run.app/"), headers, this);
     private ImageView mBoardImageView[];
     private GameBoardHandler gameBoard;
     public FragmentManager fragMan = getSupportFragmentManager();
@@ -62,12 +62,22 @@ public class OnlinespielActivity extends AppCompatActivity {
     public OnlinespielActivity() throws URISyntaxException {
     }
 
+
+    public TttWebsocketClient getClient() {
+        return client;
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         updatePlayerIcon();
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_onlinespiel);
+        //check for custom play_board selection
+        int board = player.getBoard();
+        if (board != 0){
+            this.findViewById(R.id.tableLayout).setBackgroundResource(board);
+        }
 
         //Sound-Icon für Ton wiedergabe referenzieren
          //sound icon to reference sound reproduction

@@ -18,6 +18,7 @@ public class Player {
     private String serverId = "unknown"; // Wird vom Server aus der Connection gehashed
 
     public int icon = R.drawable.stern_90; // set icon as default from fireBase
+    public int board = R.drawable.play_board; // default play board selected at start
 
 
     /**
@@ -192,6 +193,14 @@ public class Player {
         return icon;
     }
 
+
+    public int getBoard() {
+        return board;
+    }
+
+    public void setBoard(int board) {
+        this.board = board;
+    }
 
     // statistics
 

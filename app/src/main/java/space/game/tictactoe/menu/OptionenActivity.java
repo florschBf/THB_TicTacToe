@@ -9,6 +9,7 @@ import android.widget.Button;
 
 import space.game.tictactoe.menu.options.IconwahlActivity;
 import space.game.tictactoe.R;
+import space.game.tictactoe.menu.options.SpielbrettwahlActivity;
 import space.game.tictactoe.menu.options.StatistikenActivity;
 
 /** options activity for options in main menu
@@ -40,7 +41,21 @@ public class OptionenActivity extends AppCompatActivity {
             }
         });
 
-        //Button 2 -> Weiterleitung zu den Statistiken
+        //Button 2 -> Weiterleitung zur Spielbrett Auswahl
+        Button button_spielbrett_waehlen = (Button)findViewById(R.id.button_spielbrett_waehlen);
+        button_spielbrett_waehlen.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                try {
+                    Intent intent = new Intent(OptionenActivity.this, SpielbrettwahlActivity.class);
+                    startActivity(intent);
+                } catch(Exception e) {
+
+                }
+            }
+        });
+
+        //Button 3 -> Weiterleitung zu den Statistiken
         Button button_statistiken = (Button)findViewById(R.id.button_statistiken);
         button_statistiken.setOnClickListener(new View.OnClickListener() {
             @Override

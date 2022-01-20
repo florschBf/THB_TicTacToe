@@ -13,6 +13,8 @@ android {
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        minSdkVersion 26
+        targetSdkVersion 31
     }
 
     buildTypes {
@@ -28,6 +30,12 @@ android {
     buildFeatures {
         viewBinding true
     }
+    dependenciesInfo {
+        includeInBundle true
+        includeInApk true
+    }
+    compileSdkVersion 31
+    buildToolsVersion '31.0.0'
 }
 // *** FIREBASE INTEGRATION ***
 apply plugin: 'com.android.application'

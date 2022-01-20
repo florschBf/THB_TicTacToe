@@ -94,6 +94,12 @@ public class GameSingleActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
 
+        //check for custom play_board selection
+        int board = player.getBoard();
+        if (board != 0){
+            this.findViewById(R.id.tableLayout).setBackgroundResource(board);
+        }
+
         // Sound-Icon für Ton wiedergabe referenzieren - sound icon to reference sound
         ton = (Button)findViewById(R.id.ton);
         if(player.getIsTonOn()) {

@@ -92,14 +92,15 @@ public class LoseDialog extends Dialog {
             // properly close and handle dialogs and dialog buttons
             this.setCancelable(false); // weggeklickte Dialoge werden in OnlinespielActivity nicht ordentlich verarbeitet, deshalb disabled
             imageViewClose.setOnClickListener(v -> {
-                // gameSingleActivity.startNewGame();
+                this.onlinespielActivity.getClient().getSession().hardReset();
                 dismiss();
             });
             btnPlay.setOnClickListener(v -> {
-                // gameSingleActivity.startNewGame();
+                this.onlinespielActivity.getClient().getSession().hardReset();
                 dismiss();
             });
             btnMenu.setOnClickListener(v -> {
+                this.onlinespielActivity.getClient().getSession().hardReset();
                 Intent intent = new Intent(this.onlinespielActivity, MenuActivity.class);
                 onlinespielActivity.startActivity(intent);
                 dismiss();
