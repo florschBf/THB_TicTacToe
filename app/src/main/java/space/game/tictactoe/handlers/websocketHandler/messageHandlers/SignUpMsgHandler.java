@@ -46,6 +46,8 @@ public class SignUpMsgHandler implements MsgHandler {
                         e.printStackTrace();
                         return "Error with register command";
                     }
+                case ("updateState"):
+                    return "opponentState";
                 default:
                     return "Error, not a proper signUp command";
             }

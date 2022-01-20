@@ -42,7 +42,7 @@ public class Player {
     private Boolean isPlayerAlreadyUpdatedByFirestoreData = false;
 
     /**
-     * Declaration of Obejectvariable
+     * Declaration of Objectvariable
      */
     public static Player player;
 

@@ -7,8 +7,9 @@ public class Opponent {
      */
     private String name;
     private String firebaseId;
+    private String serverId;
     private int listPosition;
-    private boolean isBusy;
+    private boolean isBusy = false;
 
     /**
      * constructor of class Opponent
@@ -16,9 +17,10 @@ public class Opponent {
      * @param name Name of the opponent - could be a name given on login or a random-name
      * @param firebaseId Id at firebase to identify the firebase-data-object of the opponent
      */
-    public Opponent(String name, String firebaseId){
+    public Opponent(String name, String firebaseId, String serverId){
         this.name = name;
         this.firebaseId = firebaseId;
+        this.serverId = serverId;
     }
 
     /**
@@ -34,6 +36,14 @@ public class Opponent {
      */
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getServerId() {
+        return serverId;
+    }
+
+    public void setServerId(String serverId) {
+        this.serverId = serverId;
     }
 
     /**

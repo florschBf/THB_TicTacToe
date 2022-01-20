@@ -85,4 +85,23 @@ public class TttMessageHandler {
         }
         return null;
     }
+
+    public String getOpponentIdFromMessage(String message) {
+        System.out.println("retrieving opponent id from status message");
+        JsonObject payload = (JsonObject) JsonParser.parseString(message);
+        String oppoId;
+        try {
+            if (payload.get("free") != null){
+                oppoId = payload.get("free").getAsString();
+            }
+            else {
+                oppoId = payload.get("busy").getAsString();
+            }
+            return oppoId;
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
+        return null;
+    }
 }

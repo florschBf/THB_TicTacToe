@@ -72,9 +72,10 @@ public class PlayerListHandler {
                             JsonObject listPlayer = (JsonObject) payload.get(key);
                             String playerName = listPlayer.get("name").getAsString();
                             String playerUID = listPlayer.get("playerUID").getAsString();
-                            Opponent listEntry = new Opponent(playerName, playerUID);
-
-
+                            Opponent listEntry = new Opponent(playerName, playerUID, playerUID);
+                            if (listPlayer.get("busyState").getAsString().equals("busy")){
+                                listEntry.setBusy(true);
+                            }
                             //filtering for own serverID here
                             if (!playerUID.equals(player.getServerId())){
                                 adapter.add(playerName);
@@ -107,4 +108,31 @@ public class PlayerListHandler {
         return payload;
     }
 
+    public Opponent getOppoFromId(String opponentIdFromMessage) {
+        Opponent oppo = null;
+        System.out.println("Setting opponent state");
+        System.out.println("looking in list");
+        for (Opponent opp : opponents){
+            System.out.println("Some opponente... :" + opp.getName());
+            if (opp.getServerId().equals(opponentIdFromMessage)){
+                System.out.println("found the opponent");
+                oppo = opp;
+            }
+        }
+        if (oppo == null){
+            System.out.println("lookup of opponent didnt work");
+        }
+        return oppo;
+    }
+
+    public void toggleOppoBusyState (Opponent oppo){
+        if (oppo.isBusy()){
+            System.out.println("Oppo is busy, setting him to free");
+            oppo.setBusy(false);
+        }
+        else {
+            oppo.setBusy(true);
+            System.out.println("Oppo is free, setting him to busy");
+        }
+    }
 }

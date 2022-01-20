@@ -169,26 +169,23 @@ public class TttWebsocketClient extends WebSocketClient{
                 killDialog();
                 gameBoard.showNotification("oppoQuit");
                 break;
+            case ("opponentState"):
+                listHandler.toggleOppoBusyState(listHandler.getOppoFromId(msgHandler.getOpponentIdFromMessage(message)));
+                break;
             case ("youwin"):
                 this.player.increaseWins();
-                //TODO handle winning the game!
-                //sth sth session
                 System.out.println("I won, I won");
                 session.setGameOver("youWin");
                 cleanSlate();
                 break;
             case ("youlose"):
                 this.player.increaseLosses();
-                //TODO handle losing, Loser.
-                //sth sth session
                 System.out.println("I lost, oh no");
                 session.setGameOver("youLose");
                 cleanSlate();
                 break;
             case ("draw"):
                 this.player.increaseDraws();
-                //TODO handle a draw
-                //sth sth session
                 System.out.println("It's a draw, how exciting");
                 session.setGameOver("draw");
                 cleanSlate();
@@ -363,5 +360,12 @@ public class TttWebsocketClient extends WebSocketClient{
 
     public void endGameNow(){
         send(this.cmdHandler.endGame());
+    }
+
+    public boolean getOppoBusyState(String oppoId){
+        if (listHandler.getOppoFromId(oppoId).isBusy()){
+            return true;
+        }
+        else { return false;}
     }
 }

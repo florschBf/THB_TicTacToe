@@ -46,7 +46,7 @@ public class OnlinespielActivity extends AppCompatActivity {
     private int icon;
 
     private Map<String, String> headers = new HashMap<>();
-    private TttWebsocketClient client = new TttWebsocketClient(new URI("wss://ttt-server-gizejztnta-ew.a.run.app/"), headers, this);
+    private TttWebsocketClient client = new TttWebsocketClient(new URI("ws://192.168.178.52:8080"), headers, this);
     private ImageView mBoardImageView[];
     private GameBoardHandler gameBoard;
     public FragmentManager fragMan = getSupportFragmentManager();
@@ -157,6 +157,7 @@ public class OnlinespielActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 //intent
                 if(!client.isInRandomQueue() && !client.isInGame() && !client.isInChallengeOrChallenging()) {
+                    //This is actually not the firebaseID but the serverID only we're working with.
                     System.out.println("clicked item" + parent + view + id);
                     System.out.println("Position is: " + position + ", getting that opponent");
                     String firebaseId = client.getPlayerFromList(position);
@@ -164,16 +165,25 @@ public class OnlinespielActivity extends AppCompatActivity {
                     String opponentName = playerList.getItemAtPosition(position).toString();
 
                     //sende Spielanfrage, schließe Spielerliste
-                     // send game request, close player list
+                     // send game request, close player list - only if chosen oppo NOT busy already on server
 
-                    client.send(client.startGame(firebaseId));
-                    playerListOverlay.setVisibility(View.GONE);
+                    if (!client.getOppoBusyState(client.getPlayerFromList(position))){
+                        System.out.println("opponent is free, lets challenge");
+                        client.send(client.startGame(firebaseId));
+                        playerListOverlay.setVisibility(View.GONE);
+                        //Erstelle einen Dialog zum Warten auf den Gegner und den dazugehörigen Fragmentmanager
+                        DialogFragment waitForOpponent = new WaitingForOpponentDialogFragment(client); //Dialog benötigt Client-Zugriff für Abbruch
+                        FragmentManager fragMan = getSupportFragmentManager();
+                        waitForOpponent.setCancelable(false);
+                        waitForOpponent.show(fragMan, "waitOpponent");
+                    }
+                    else {
+                        System.out.println("opponent is busy, lets wait...");
+                        Toast oppoBusy = Toast.makeText(getApplicationContext(), opponentName + " ist gerade beschäftigt, sorry. Versuch es gleich nochmal.", Toast.LENGTH_SHORT);
+                        oppoBusy.show();
+                    }
 
-                    //Erstelle einen Dialog zum Warten auf den Gegner und den dazugehörigen Fragmentmanager
-                    DialogFragment waitForOpponent = new WaitingForOpponentDialogFragment(client); //Dialog benötigt Client-Zugriff für Abbruch
-                    FragmentManager fragMan = getSupportFragmentManager();
-                    waitForOpponent.setCancelable(false);
-                    waitForOpponent.show(fragMan, "waitOpponent");
+
                 }
                 else {
                     Toast cantChallenge = Toast.makeText(getApplicationContext(), "Du kannst gerade keine Challenge schicken. Es läuft bereits etwas mit Dir", Toast.LENGTH_SHORT);
