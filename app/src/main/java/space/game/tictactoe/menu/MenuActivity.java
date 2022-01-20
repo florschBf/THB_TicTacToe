@@ -123,19 +123,19 @@ public class MenuActivity extends AppCompatActivity {
         if (currentUser == null){
             signInAnon(findViewById(R.id.login_status), findViewById(R.id.button_login));
         }
-        try {
+/*        try {
             updatePlayerFirebaseStatus();
         }
         catch (Exception e){
             e.printStackTrace();
-        }
-        if (currentUser.getDisplayName() == null){
+        }*/
+/*        if (currentUser.getDisplayName() == null){
             try {
                 fbLogin.logout(this, (MenuActivity) this);
             } catch (Exception e) {
                 e.printStackTrace();
             }
-        }
+        }*/
 
 
         // Spiel im Vollbild ausführen
@@ -298,13 +298,20 @@ public class MenuActivity extends AppCompatActivity {
             System.out.println("absolutely no one here, sign in anon");
             signInAnon(findViewById(R.id.login_status), findViewById(R.id.button_login));
         }
-        if (currentUser.getDisplayName() == null){
-            try {
-                fbLogin.logout(this, (MenuActivity) this);
-            } catch (Exception e) {
-                e.printStackTrace();
+        try {
+            if (currentUser.getDisplayName() == null){
+                try {
+                    fbLogin.logout(this, (MenuActivity) this);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
         }
+        catch (NullPointerException e){
+            System.out.println("think firebase isnt ready for this.." + e);
+            e.printStackTrace();
+        }
+
     }
 
     public void updatePlayerFirebaseStatus(){
