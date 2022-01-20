@@ -2,6 +2,7 @@ package space.game.tictactoe.handlers;
 
 import android.app.Activity;
 import android.content.Context;
+import android.os.Handler;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -101,7 +102,6 @@ public class GameBoardHandler {
             mBoardImageView[x].setImageResource(icon);
         } else {
             System.out.println("Remote move received!");
-            // TODO get opponent icon
             ((Activity)context).runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
@@ -165,17 +165,29 @@ public class GameBoardHandler {
                         oppoQuit.show();
                         break;
                     case ("youWin"):
-                        here.showWinDialog();
+                        new Handler().postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                here.showWinDialog();
+                            }}, 250);
                         Toast youWon = Toast.makeText(context, "Du hast gewonnen! Resette Activity.", Toast.LENGTH_SHORT);
                         youWon.show();
                         break;
                     case ("youLose"):
-                        here.showLoseDialog();
+                        new Handler().postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                here.showLoseDialog();                    }
+                        }, 250);
                         Toast youLose = Toast.makeText(context, "Du hast verloren! Resette Activity.", Toast.LENGTH_SHORT);
                         youLose.show();
                         break;
                     case ("draw"):
-                        here.showDrawDialog();
+                        new Handler().postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                here.showDrawDialog();                    }
+                        }, 250);
                         Toast draw = Toast.makeText(context, "Unentschieden! Resette Activity.", Toast.LENGTH_SHORT);
                         draw.show();
                         break;

@@ -62,6 +62,9 @@ public class TttWebsocketClient extends WebSocketClient{
     public void setInChallengeOrChallenging(boolean inChallengeOrChallenging) {
         this.inChallengeOrChallenging = inChallengeOrChallenging;
     }
+    public GameSessionHandler getSession() {
+        return session;
+    }
 
     /**
      * Constructor for websocket client
@@ -213,8 +216,8 @@ public class TttWebsocketClient extends WebSocketClient{
                 break;
             case ("gameTerminated"):
                 this.player.increaseInterrupted();
-                //TODO wird momentan nicht zurückgegeben, stattdessen Unterscheidung in quit und disconnect. Nötig?
-                //opponent disconnected, ending game session, resetting activity
+                //Wird momentan nicht zurückgegeben, stattdessen Unterscheidung in quit und disconnect. Nötig?
+                //ending game session, resetting activity
                 System.out.println("Game terminated, bummer");
                 session.setGameOver("endForNoReason");
                 cleanSlate();

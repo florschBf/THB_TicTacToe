@@ -50,6 +50,12 @@
             android:screenOrientation="portrait"
             android:theme="@style/FullScreenTheme"/>
         <activity
+            android:name=".menu.options.SpielbrettwahlActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:exported="true"
+            android:screenOrientation="portrait"
+            android:theme="@style/FullScreenTheme"/>
+        <activity
             android:name=".menu.options.StatistikenActivity"
             android:configChanges="orientation|keyboardHidden"
             android:exported="true"

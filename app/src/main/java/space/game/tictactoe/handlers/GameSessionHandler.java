@@ -1,5 +1,7 @@
 package space.game.tictactoe.handlers;
 
+import android.os.Handler;
+
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
@@ -38,26 +40,21 @@ public class GameSessionHandler {
         this.gameOver = true;
         switch (reason){
             case("disconnect"):
-                //TODO show an alert dialog to explain things
                 gameBoard.showNotification("disconnect");
                 hardReset();
                 break;
             case ("oppoQuit"):
-                //TODO show an alert dialog to explain things
                 gameBoard.showNotification("oppoQuit");
                 hardReset();
                 break;
             case ("youWin"):
                 gameBoard.showNotification("youWin");
-                hardReset();
                 break;
             case ("youLose"):
                 gameBoard.showNotification("youLose");
-                hardReset();
                 break;
             case ("draw"):
                 gameBoard.showNotification("draw");
-                hardReset();
                 break;
             case ("endForNoReason"):
                 //TODO remove completely or combine disco and quit
@@ -129,7 +126,7 @@ public class GameSessionHandler {
     /**
      * Methode zum Zurücksetzen des Spielfelds nach Spielende
      */
-    private void hardReset(){
+    public void hardReset(){
         System.out.println("hard resetting boardstate");
         setMyTurn(false);
         gameBoard.clearAllBlocks();
