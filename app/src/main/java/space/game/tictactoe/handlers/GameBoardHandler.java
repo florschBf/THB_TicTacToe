@@ -2,6 +2,7 @@ package space.game.tictactoe.handlers;
 
 import android.app.Activity;
 import android.content.Context;
+import android.media.MediaPlayer;
 import android.os.Handler;
 import android.view.View;
 import android.widget.ImageView;
@@ -100,6 +101,7 @@ public class GameBoardHandler {
         if (player == 1) {
             System.out.println("Player did this " + player );
             mBoardImageView[x].setImageResource(icon);
+            MediaPlayer.create(((Activity)context), R.raw.one).start();
         } else {
             System.out.println("Remote move received!");
             ((Activity)context).runOnUiThread(new Runnable() {
@@ -114,7 +116,7 @@ public class GameBoardHandler {
                         else {
                             mBoardImageView[x].setImageResource(R.drawable.zero);
                         }
-
+                        MediaPlayer.create(((Activity)context), R.raw.two).start();
                     }
                     catch (Exception e){
                         e.printStackTrace();
