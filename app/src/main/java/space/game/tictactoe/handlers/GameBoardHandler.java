@@ -13,6 +13,7 @@ import space.game.tictactoe.menu.OnlinespielActivity;
 import space.game.tictactoe.R;
 import space.game.tictactoe.dialogs.WaitingForOpponentDialogFragment;
 import space.game.tictactoe.handlers.websocketHandler.TttWebsocketClient;
+import space.game.tictactoe.models.Player;
 
 public class GameBoardHandler {
     //TAKEN AND MODIFIED FROM GAME ACTIVITY TO CONTROL PLACING SIGNS
@@ -25,6 +26,7 @@ public class GameBoardHandler {
     private int opponentIcon;
     private TttWebsocketClient client;
     private Context context;
+
 
     /**
      * constructor of class GameBoardHandler
@@ -101,7 +103,9 @@ public class GameBoardHandler {
         if (player == 1) {
             System.out.println("Player did this " + player );
             mBoardImageView[x].setImageResource(icon);
-            MediaPlayer.create(((Activity)context), R.raw.one).start();
+            if(Player.getPlayer().getIsTonOn()) {
+                MediaPlayer.create(((Activity) context), R.raw.tapeone).start();
+            }
         } else {
             System.out.println("Remote move received!");
             ((Activity)context).runOnUiThread(new Runnable() {
@@ -116,7 +120,9 @@ public class GameBoardHandler {
                         else {
                             mBoardImageView[x].setImageResource(R.drawable.zero);
                         }
-                        MediaPlayer.create(((Activity)context), R.raw.two).start();
+                        if(Player.getPlayer().getIsTonOn()) {
+                            MediaPlayer.create(((Activity) context), R.raw.tapetwo).start();
+                        }
                     }
                     catch (Exception e){
                         e.printStackTrace();
