@@ -59,8 +59,8 @@
 
             <Button
                 android:id="@+id/button_abbrechen_randomgame"
-                android:layout_width="123dp"
-                android:layout_height="48dp"
+                android:layout_width="145dp"
+                android:layout_height="57dp"
                 android:layout_marginBottom="25dp"
                 android:background="@drawable/btn_press_white"
                 android:fontFamily="@font/facon"
