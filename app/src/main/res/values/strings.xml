@@ -74,7 +74,7 @@
     <string name="button_icon_onlinespiel">Online spielen</string>
     <string name="icontransport">Your Icon</string>
     <string name="icontransport_matchmaker">muh</string>
-    <string name="Board_text_beschreibung">Du kannst Dir ein Spielbrett zum Spielen aussuchen, und dann online oder mit dem PC spielen. Dein gewähltes Spielbrett: </string>
+    <string name="Board_text_beschreibung">Du kannst Dir ein Spielbrett zum Spielen aussuchen! Dein gewähltes Spielbrett: </string>
     <string name="board_waehlen">Spielbrett</string>
     <string name="spielanleitung1">Tic Tac Toe ist ein einfaches Strategiespiel. Es wird mit einem Partner gespielt.  In unserem Tic Tac Toe hast Du die Wahl zwischen einem Spiel gegen den Computer im "gegen PC spielen" Modus,  oder einen menschlichen Spieler im "online spielen" Modus. Die Buttons findest Du in  der Hauptansicht. Früher hieß das Spiel auch „Drei gewinnt“.
 Abwechselnd werden die Spielicons in ein 9x9 Spielfeld gesetzt.
