@@ -1,5 +1,6 @@
 package space.game.tictactoe.handlers;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.widget.Button;
@@ -37,6 +38,12 @@ public class FirebaseLoginHandler {
         this.mAuth = mAuth;
         this.currentUser = currentUser;
         this.player = Player.getPlayer();
+    }
+
+    public void updatingMyKnowledge(FirebaseAuth mAuth, FirebaseUser currentUser){
+        System.out.println("updating what I should know about firebase");
+        this.mAuth = mAuth;
+        this.currentUser = currentUser;
     }
 
 
@@ -99,10 +106,14 @@ public class FirebaseLoginHandler {
         //Setting new strings from strings.xml
         String loginTxt = menuContext.getString(R.string.login);
         String anonLoginStatus = menuContext.getString(R.string.login_status_anon);
-        status.setText(anonLoginStatus);
-        button.setText(loginTxt);
-        status.invalidate();
-        button.invalidate();
+        ((Activity)menuContext).runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                System.out.println("change running well");
+                status.setText(anonLoginStatus);
+                button.setText(loginTxt);
+            }
+        });
     }
 
     /**
@@ -111,7 +122,7 @@ public class FirebaseLoginHandler {
      * @param button Login Button aus MenuActivity erhalten
      */
     public void changeDefaultText(TextView status, Button button){
-        //Changing login status and button for no user -> should not happen
+        //Changing login status and button for no user -> should not happen. Ever.
         System.out.println("changing text to default...");
         System.out.println("anon login not working for whatevs");
         //Setting new strings from strings.xml
@@ -120,8 +131,6 @@ public class FirebaseLoginHandler {
         status.setText(defaultLoginStatus);
         button.setText(defaultLoginBtn);
     }
-
-    //methods to get user data (eigene Klasse..)
 
     /**
      * Methode um Nutzernamen auszulesen -> anon login = leer

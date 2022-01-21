@@ -19,6 +19,8 @@ import com.firebase.ui.auth.data.model.FirebaseAuthUIAuthenticationResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+import java.util.Objects;
+
 import space.game.tictactoe.R;
 import space.game.tictactoe.handlers.FirebaseLoginHandler;
 import space.game.tictactoe.handlers.StatisticsHandler;
@@ -64,6 +66,7 @@ public class MenuActivity extends AppCompatActivity {
         IdpResponse response = result.getIdpResponse();
         if (result.getResultCode() == RESULT_OK) {
             // Successfully signed in
+            System.out.println("sign in seems fine");
             updateUserAndUI();
             updatePlayerFirebaseStatus();
         } else {
@@ -216,8 +219,8 @@ public class MenuActivity extends AppCompatActivity {
         button_login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                if (mAuth.getCurrentUser() != null && mAuth.getCurrentUser().getDisplayName() != "" && mAuth.getCurrentUser().getDisplayName() != null){ //logged in & not anon -> logging out
+                FirebaseUser thisOneClickedMe = mAuth.getCurrentUser();
+                if (thisOneClickedMe != null && !thisOneClickedMe.isAnonymous()){ //logged in & not anon -> logging out
                     System.out.println("User: " + mAuth.getCurrentUser() + " Name: " + mAuth.getCurrentUser().getDisplayName());
                     try{
                         System.out.println("triggering logout");
@@ -229,7 +232,7 @@ public class MenuActivity extends AppCompatActivity {
                     }
                 }
                 else{
-                    System.out.println("User: " + mAuth.getCurrentUser() + " Name: " + mAuth.getCurrentUser().getDisplayName());
+                    System.out.println("User: " + thisOneClickedMe + " Name: " + thisOneClickedMe.getDisplayName());
                     try {
                         signInLauncher.launch(fbLogin.login());
                         // statisticsHandler.updateLocalPlayerDataWithFbData();
@@ -237,12 +240,8 @@ public class MenuActivity extends AppCompatActivity {
                         System.out.println("Meh, login didn't start?: " + e);
                     }
                 }
-
             }
         });
-
-        //check for login onCreate - happens automatically
-        //updateUserAndUI();
     }
 
     /**
@@ -250,19 +249,19 @@ public class MenuActivity extends AppCompatActivity {
      * @throws Exception
      */
     public void updateUserAndUI() throws Exception {
-
-        if (mAuth.getCurrentUser() == null){
+        FirebaseUser user = mAuth.getCurrentUser();
+        if (user == null){
             System.out.println("Well, no User\n");
             this.signInAnon(findViewById(R.id.login_status), findViewById(R.id.button_login)); //Starte Anonymous user login
         }
         else {
-            if(fbLogin.getUserName() == "" && fbLogin.getUserName() != null){
+            if(user.isAnonymous()){
                 //login is anon, nothing to do
                 fbLogin.changeTextAnonUser(findViewById(R.id.login_status), findViewById(R.id.button_login));
                 System.out.println("leaving things as is");
             }
             else if (fbLogin.getUserName() == null){
-                //trouble, shouldnt be
+                //trouble, shouldnt be, trying to log out
                 System.out.println("sth wrong here");
                 fbLogin.logout(this, (MenuActivity) this);
             }
@@ -270,7 +269,12 @@ public class MenuActivity extends AppCompatActivity {
                 //There's a user authenticated via Firebase
                 String name = fbLogin.getUserName();
                 System.out.println("Seems to be a User: " + name);
-
+                if (name.equals("")){
+                    System.out.println("name missing, where is it?");
+                    name = mAuth.getCurrentUser().getDisplayName();
+                    System.out.println("reset name:" + name);
+                    fbLogin.setmAuth(mAuth);
+                }
                 // Changing login status and button, doing it right here, should use extra method somewhere
                 // other methods like this found in FirebaseLoginHandler
                 final TextView login_status = findViewById(R.id.login_status);
@@ -289,8 +293,20 @@ public class MenuActivity extends AppCompatActivity {
             if(mAuth.getCurrentUser() != null){
                 System.out.println("someone here on resume");
                 System.out.println(mAuth);
-                updateUserAndUI();
-                updatePlayerFirebaseStatus();
+                fbLogin.updatingMyKnowledge(mAuth, mAuth.getCurrentUser());
+                String nameInFbLogin = fbLogin.getUserName();
+                String nameInMauth = mAuth.getCurrentUser().getDisplayName();
+                System.out.println("fb: " + nameInFbLogin + ", mauth: " + nameInMauth);
+                if (mAuth.getCurrentUser().isAnonymous()){
+                    //this is suspicious, there should be a name. we might be anon without knowing it
+                    System.out.println("cant restore user name, we're anon :O");
+                    fbLogin.changeTextAnonUser(this.findViewById(R.id.login_status), this.findViewById(R.id.button_login));
+                }
+                else {
+                    //not anon!
+                    updateUserAndUI();
+                    updatePlayerFirebaseStatus();
+                }
             }
         }
         catch (Exception e){
@@ -298,10 +314,14 @@ public class MenuActivity extends AppCompatActivity {
             System.out.println("absolutely no one here, sign in anon");
             signInAnon(findViewById(R.id.login_status), findViewById(R.id.button_login));
         }
-        try {
+        //shouldnt need that try/catch block anymore
+/*        try {
             if (currentUser.getDisplayName() == null){
                 try {
-                    fbLogin.logout(this, (MenuActivity) this);
+                    if (!currentUser.isAnonymous()){
+                        //logged in as not anon with no name -> cant be, logging you out
+                        fbLogin.logout(this, (MenuActivity) this);
+                    }
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -310,12 +330,13 @@ public class MenuActivity extends AppCompatActivity {
         catch (NullPointerException e){
             System.out.println("think firebase isnt ready for this.." + e);
             e.printStackTrace();
-        }
+        }*/
 
     }
 
     public void updatePlayerFirebaseStatus(){
         if (fbLogin.getUserName() != "") {
+            System.out.println("updating firebase user");
             //not anon login, update stuff
             FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
             player.setName(fbLogin.getUserName());
@@ -329,8 +350,8 @@ public class MenuActivity extends AppCompatActivity {
             }
         }
         else {
-            //anon login, doing nth
-
+            //anon login, not doing much
+            System.out.println("no name present, thinking it's anon");
         }
     }
 
