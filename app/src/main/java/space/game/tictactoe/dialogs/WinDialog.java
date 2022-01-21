@@ -12,26 +12,52 @@ import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 
-import space.game.tictactoe.GameSingleActivity;
-import space.game.tictactoe.MenuActivity;
-import space.game.tictactoe.OnlinespielActivity;
+import space.game.tictactoe.menu.GameSingleActivity;
+import space.game.tictactoe.menu.MenuActivity;
+import space.game.tictactoe.menu.OnlinespielActivity;
 import space.game.tictactoe.R;
+
+/**
+ * Klasse wird genutzt um Gewonnen-Spielstatus in Form einer Dialogfenster erkennbar machen
+ * Class is used to reveal lost game statuses in the form of a dialog window
+ *
+ * @author in, fs for help
+ */
 
 public class WinDialog extends Dialog {
 
+    /**
+     *  Declaration and in itialization of membervariables
+     */
     private GameSingleActivity gameSingleActivity = null;
     private OnlinespielActivity onlinespielActivity = null;
 
+    /**
+     * constructor of class WinDialog for singleplayer-mode
+     * @param context Show the dialog in the context given
+     * @param gameSingleActivity if selected in the dialog go to a new activity for a single-player-game called GameSingleActivity
+     */
     public WinDialog(@NonNull Context context, GameSingleActivity gameSingleActivity) {
         super(context);
         this.gameSingleActivity = gameSingleActivity;
     }
 
+    /**
+     * constructor of class WinDialog for onlinegame-mode
+     * @param context Show the dialog in the context given
+     * @param onlinespielActivity if selected in the dialog go to a new activity for a onlinegame called onlinespielActivity
+     */
     public WinDialog(@NonNull Context context, OnlinespielActivity onlinespielActivity) {
         super(context);
         this.onlinespielActivity = onlinespielActivity;
     }
 
+    /**
+     * create and show the win-dialog with options how to continue
+     * @param savedInstanceState saved state of instance
+     * @see Dialog
+     * @see WinDialog
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,7 +71,7 @@ public class WinDialog extends Dialog {
 
         if (gameSingleActivity != null){
             imageViewClose.setOnClickListener(v -> {
-//          gameSingleActivity.startNewGame();
+                // gameSingleActivity.startNewGame();
                 dismiss();
             });
 
@@ -61,15 +87,13 @@ public class WinDialog extends Dialog {
             });
         }
         else if (onlinespielActivity != null){
-            //TODO properly close and handle dialogs and dialog buttons
+            // properly close and handle dialogs and dialog buttons
             this.setCancelable(false); // weggeklickte Dialoge werden in OnlinespielActivity nicht ordentlich verarbeitet, deshalb disabled
             imageViewClose.setOnClickListener(v -> {
-//          gameSingleActivity.startNewGame();
                 dismiss();
             });
 
             btnPlay.setOnClickListener(v -> {
-                //gameSingleActivity.startNewGame();
                 dismiss();
             });
             btnMenu.setOnClickListener(v -> {
@@ -78,7 +102,7 @@ public class WinDialog extends Dialog {
                 dismiss();
             });
         }
-
-
     }
+
+
 }

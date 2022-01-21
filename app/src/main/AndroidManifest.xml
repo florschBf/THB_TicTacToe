@@ -13,34 +13,54 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.NoActionBar">
         <activity
-            android:name=".OptionenActivity"
-            android:exported="false" />
+            android:name=".menu.OptionenActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:theme="@style/FullScreenTheme"/>
         <activity
             android:name=".dialogs.InvitationOnlineGameDialog"
             android:exported="false" />
         <activity
-            android:name=".LoginActivity"
+            android:name=".menu.LoginActivity"
+            android:configChanges="orientation|keyboardHidden"
             android:exported="false" />
         <activity
-            android:name=".OnlinespielActivity"
-            android:exported="false" />
+            android:name=".menu.OnlinespielActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:theme="@style/FullScreenTheme"/>
         <activity
-            android:name=".RulesActivity"
-            android:exported="true" />
+            android:name=".menu.RulesActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:exported="true"
+            android:screenOrientation="portrait"
+            android:theme="@style/FullScreenTheme"/>
         <activity
-            android:name=".AboutActivity"
-            android:exported="true" />
+            android:name=".menu.AboutActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:exported="true"
+            android:screenOrientation="portrait"
+            android:theme="@style/FullScreenTheme"/>
         <activity
-            android:name=".IconwahlActivity"
-            android:exported="true" />
+            android:name=".menu.options.IconwahlActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:exported="true"
+            android:screenOrientation="portrait"
+            android:theme="@style/FullScreenTheme"/>
         <activity
-            android:name=".StatistikenActivity"
-            android:exported="true" /> <!-- <activity -->
-        <!-- android:name=".GameSingleActivity" -->
-        <!-- android:exported="true" /> -->
-        <!-- <activity -->
-        <!-- android:name=".MenuActivity" -->
-        <!-- android:exported="true" /> &lt;!&ndash; android:theme="@style/Theme.QuizApp"> &ndash;&gt; -->
+            android:name=".menu.options.SpielbrettwahlActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:exported="true"
+            android:screenOrientation="portrait"
+            android:theme="@style/FullScreenTheme"/>
+        <activity
+            android:name=".menu.options.StatistikenActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:exported="true"
+            android:screenOrientation="portrait"
+            android:theme="@style/FullScreenTheme"/> <!-- <activity -->
         <activity
             android:name=".MainActivity"
             android:configChanges="orientation|keyboardHidden"
@@ -54,7 +74,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".MenuActivity"
+            android:name=".menu.MenuActivity"
             android:configChanges="orientation|keyboardHidden"
             android:exported="true"
             android:screenOrientation="portrait"
@@ -64,7 +84,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".GameSingleActivity"
+            android:name=".menu.GameSingleActivity"
             android:configChanges="orientation|keyboardHidden"
             android:exported="true"
             android:screenOrientation="portrait"

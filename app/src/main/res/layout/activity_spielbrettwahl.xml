@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/button_icon_pcspielen"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#041042"
+    tools:context=".menu.options.IconwahlActivity">
+
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.139"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.137">
+
+        <RadioGroup
+            android:id="@+id/icons_radioGroup"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:orientation="vertical">
+
+            <RadioButton
+                android:id="@+id/radiobutton_board1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawableStart="@drawable/play_board_default_preview60"
+                android:onClick="onClickedIcon1" />
+
+            <RadioButton
+                android:id="@+id/radiobutton_board2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="25dp"
+                android:drawableStart="@drawable/play_board_bw_preview60"
+                android:onClick="onClickedIcon2" />
+
+            <RadioButton
+                android:id="@+id/radiobutton_board3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="25dp"
+                android:drawableStart="@drawable/play_board_gradientred_preview60"
+                android:onClick="onClickedIcon3" />
+
+            <RadioButton
+                android:id="@+id/radiobutton_board4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="25dp"
+                android:drawableStart="@drawable/play_board_green3d_preview60"
+                android:onClick="onClickedIcon4" />
+
+            <RadioButton
+                android:id="@+id/radiobutton_board5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="25dp"
+                android:drawableStart="@drawable/play_board_tealish3d_preview60"
+                android:onClick="onClickedIcon5" />
+
+        </RadioGroup>
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/Board_text_beschreibung"
+        android:layout_width="165dp"
+        android:layout_height="wrap_content"
+        android:text="@string/Board_text_beschreibung"
+        android:textSize="20dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.702"
+        app:layout_constraintStart_toEndOf="@+id/linearLayout"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.112" />
+
+    <Button
+        android:id="@+id/button_icons_pcspiel"
+        android:layout_width="150dp"
+        android:layout_height="60dp"
+        android:background="@drawable/btn_press_white"
+        android:fontFamily="@font/facon"
+        android:paddingLeft="10dp"
+        android:paddingTop="10dp"
+        android:paddingRight="10dp"
+        android:paddingBottom="10dp"
+        android:text="@string/single_player"
+        android:textAllCaps="true"
+        android:textColor="@color/teal_200"
+        android:textSize="@dimen/textSize_menu_btn"
+        app:layout_constraintBottom_toTopOf="@+id/button_icon_onlinespiel"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.884"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.976" />
+
+    <Button
+        android:id="@+id/button_icon_onlinespiel"
+        android:layout_width="150dp"
+        android:layout_height="60dp"
+        android:background="@drawable/btn_press_white"
+        android:fontFamily="@font/facon"
+        android:paddingLeft="10dp"
+        android:paddingTop="10dp"
+        android:paddingRight="10dp"
+        android:paddingBottom="10dp"
+        android:text="@string/button_icon_onlinespiel"
+        android:textAllCaps="true"
+        android:textColor="@color/teal_200"
+        android:textSize="@dimen/textSize_menu_btn"
+        app:layout_constraintBottom_toTopOf="@+id/btn_on_backTomenu"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.884"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.972" />
+
+    <Button
+        android:id="@+id/btn_on_backTomenu"
+        android:layout_width="150dp"
+        android:layout_height="60dp"
+        android:background="@drawable/btn_press_white"
+        android:fontFamily="@font/facon"
+        android:paddingLeft="10dp"
+        android:paddingTop="10dp"
+        android:paddingRight="10dp"
+        android:paddingBottom="10dp"
+        android:text="@string/btn_on_backTomenu"
+        android:textAllCaps="true"
+        android:textColor="@color/teal_200"
+        android:textSize="@dimen/textSize_menu_btn"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.884"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.889" />
+
+    <ImageView
+        android:id="@+id/boardtransport"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.744"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/Board_text_beschreibung"
+        app:layout_constraintVertical_bias="0.1"
+        app:srcCompat="@drawable/play_board" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

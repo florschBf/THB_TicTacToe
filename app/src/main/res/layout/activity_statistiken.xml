@@ -5,68 +5,60 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#041042"
-    tools:context=".StatistikenActivity">
+    tools:context=".menu.options.StatistikenActivity">
+
 
     <TableLayout
-        android:layout_width="301dp"
-        android:layout_height="540dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:id="@+id/tableLayout2"
+        android:layout_width="293dp"
+        android:layout_height="372dp"
+        app:layout_constraintBottom_toTopOf="@+id/button_aboutus_zurück"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.496"
+        app:layout_constraintHorizontal_bias="0.577"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.39">
+        app:layout_constraintTop_toTopOf="parent">
 
 
-<!--        tablehead-->
+        <TextView
+            android:id="@+id/statistiken_title_id"
+            android:layout_height="98dp"
+            android:layout_gravity="start"
+            android:fontFamily="@font/facon"
+            android:lineSpacingExtra="16sp"
+            android:text="@string/statistiken_title"
+            android:textAlignment="viewStart"
+            android:textColor="@color/teal_200"
+            android:textSize="20sp"
+            android:typeface="normal" />
+
+        <!--        tablehead-->
         <TableRow
             android:layout_width="match_parent"
-            android:layout_height="64dp">
+            android:layout_height="64dp" />
 
-            <TextView
-                android:id="@+id/statistiken_table_head_col1"
-                android:layout_width="122dp"
-                android:layout_height="match_parent"
-                android:layout_gravity="start"
-                android:lineSpacingExtra="16sp"
-                android:text="@string/statistiken_table_head_col1"
-                android:textAlignment="viewStart"
-                android:textSize="16sp"
-                android:typeface="normal" />
-
-            <TextView
-                android:id="@+id/statistiken_table_head_col2"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:lineSpacingExtra="16sp"
-                android:text="@string/statistiken_table_head_col2"
-                android:textSize="16sp"
-                android:typeface="normal" />
-
-        </TableRow>
-
-<!--        first row: total games-->
+        <!--        first row: total games-->
         <TableRow
             android:layout_width="match_parent"
             android:layout_height="64dp">
 
             <TextView
                 android:id="@+id/statistiken_table_totalgames_key"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
+                android:layout_width="100dp"
+                android:layout_height="36dp"
                 android:layout_gravity="start"
                 android:lineSpacingExtra="16sp"
                 android:text="@string/statistiken_table_totalgames_key"
-                android:textSize="16sp"
+                android:textSize="20sp"
+                android:textStyle="bold"
                 android:typeface="normal" />
 
             <TextView
                 android:id="@+id/statistiken_table_totalgames_value"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="36dp"
                 android:lineSpacingExtra="16sp"
                 android:text="@string/statistiken_table_totalgames_value"
-                android:textSize="16sp"
+                android:textSize="20sp"
                 android:typeface="normal" />
 
         </TableRow>
@@ -79,20 +71,21 @@
             <TextView
                 android:id="@+id/statistiken_table_wins_key"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
+                android:layout_height="36dp"
                 android:layout_gravity="start"
                 android:lineSpacingExtra="16sp"
                 android:text="@string/statistiken_table_wins_key"
-                android:textSize="16sp"
+                android:textSize="20sp"
+                android:textStyle="bold"
                 android:typeface="normal" />
 
             <TextView
                 android:id="@+id/statistiken_table_wins_value"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="36dp"
                 android:lineSpacingExtra="16sp"
                 android:text="@string/statistiken_table_wins_value"
-                android:textSize="16sp"
+                android:textSize="20sp"
                 android:typeface="normal" />
 
         </TableRow>
@@ -105,20 +98,21 @@
             <TextView
                 android:id="@+id/statistiken_table_losses_key"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
+                android:layout_height="36dp"
                 android:layout_gravity="start"
                 android:lineSpacingExtra="16sp"
                 android:text="@string/statistiken_table_losses_key"
-                android:textSize="16sp"
+                android:textSize="20sp"
+                android:textStyle="bold"
                 android:typeface="normal" />
 
             <TextView
                 android:id="@+id/statistiken_table_losses_value"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="36dp"
                 android:lineSpacingExtra="16sp"
                 android:text="@string/statistiken_table_losses_value"
-                android:textSize="16sp"
+                android:textSize="20sp"
                 android:typeface="normal" />
 
         </TableRow>
@@ -131,24 +125,24 @@
             <TextView
                 android:id="@+id/statistiken_table_draws_key"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
+                android:layout_height="36dp"
                 android:layout_gravity="start"
                 android:lineSpacingExtra="16sp"
                 android:text="@string/statistiken_table_draws_key"
-                android:textSize="16sp"
+                android:textSize="20sp"
+                android:textStyle="bold"
                 android:typeface="normal" />
 
             <TextView
                 android:id="@+id/statistiken_table_draws_value"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="36dp"
                 android:lineSpacingExtra="16sp"
                 android:text="@string/statistiken_table_draws_value"
-                android:textSize="16sp"
+                android:textSize="20sp"
                 android:typeface="normal" />
 
         </TableRow>
-
 
 
         <TableRow
@@ -158,6 +152,31 @@
         <TableRow
             android:layout_width="match_parent"
             android:layout_height="72dp" />
+
+
     </TableLayout>
+
+    <Button
+        android:id="@+id/button_aboutus_zurück"
+        android:layout_width="@dimen/width_menu_btn"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginBottom="108dp"
+        android:background="@drawable/btn_press_white"
+        android:fontFamily="@font/facon"
+        android:onClick="backToOpionenActivity"
+        android:paddingLeft="10dp"
+        android:paddingTop="20dp"
+        android:paddingRight="10dp"
+        android:paddingBottom="10dp"
+        android:text="@string/button_aboutus_zurück"
+        android:textAllCaps="true"
+        android:textColor="@color/teal_200"
+        android:textSize="@dimen/textSize_menu_btn"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

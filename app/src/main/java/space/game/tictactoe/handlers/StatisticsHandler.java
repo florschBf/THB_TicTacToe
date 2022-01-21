@@ -14,93 +14,70 @@ import java.util.Map;
 
 import space.game.tictactoe.models.Player;
 
-//public class StatisticsHandler extends AppCompatActivity {
+/**
+ *  This Class handles following cases:
+ *  0) not played but logged in
+ *     ==> show stored data (and added/updated by local data/settings)
+ *  1) played w/o login --> called statistics
+ *     ==> show actual local playerdata and settings
+ *  2) played w login --> called statistics
+ *     ==> show stored gameresults and local settings
+ *  3) played w/o login --> login --> play --> statistics
+ *     ==> add local data to stored data and add local data again
+ *  4) played w login --> called statistics --> play --> call statistic
+ *     ==> get stored data and show, add stored data to local, show updated data
+ *  How is this handled?
+ *     when statistic called show/get local playerdata, which was updated with firestore-playerdata on login
+ *     only when when login then get stored data and add to local data
+ *     When to store playerdata (write in firestore)?: on logout when logged in before
+ */
 public class StatisticsHandler {
 
 
-    Player player = Player.getPlayer();
-
+    /**
+     * Declaration and in intialization of membervariables
+     *
+     * declare db and initialize db with an instance of FirebaseFirestore-object
+     */
     private final FirebaseFirestore db = FirebaseFirestore.getInstance();
     // private final DocumentReference playerDataReference = db.collection("users").document(player.getFirebaseId());
 
+    /**
+     * declare and initialize a player with the only instance of the player-object
+     */
+    Player player = Player.getPlayer();
+
     public static StatisticsHandler statisticsHandler;
 
-    // private int db_wins;
     private static Long db_wins;
     private static Long db_losses;
     private static Long db_draws;
     private static int db_icon;
     private static int totalGames;
-    private Map<String, Object> playerFirestoreData = null;
 
-
+    /**
+     * Constructor of Class StatisticsHandler
+     * writes state of all attributes in a static member-variable called statisticsHandler
+     */
     public StatisticsHandler() {
         statisticsHandler = this;
     }
 
 
+    /**
+     * @return Object of instanciated Class StatisicsHandler
+     */
     public static StatisticsHandler getStatisticsHandler(){
         return statisticsHandler;
     }
 
-    /* @TODO cases
-     * 0) not played but logged in
-     * ==> show stored data (and added/updated by local data/settings)
-     * 1) played w/o login --> called statistics
-     * ==> show actual local playerdata and settings
-     * 2) played w login --> called statistics
-     * ==> show stored gameresults and local settings
-     * 3) played w/o login --> login --> play --> statistics
-     * ==> add local data to stored data and add local data again
-     * 4) played w login --> called statistics --> play --> call statistic
-     * ==> get stored data and show, add stored data to local, show updated data
-     * How to do this all?:
-     * when statistic called show/get local playerdata, which was updated with firestore-playerdata on login
-     * only when when login then get stored data and add to local data
-     * When to store playerdata (write in firestore)?: on logout when logged in before
-     * */
 
 
-    // this method adds a new document to firesstore each time called
-    // actually it stores the selected actual Player-properties when called
-    // not usefull to store the statistics refering to a certain player
-//    public void addStatistics(){
-//        System.out.println("updateStatistics called " + player);
-//        CollectionReference dbStatistics = db.collection("UserStatistics");
-//
-//        Map<String, Object> userStatistics = new HashMap<>();
-//        userStatistics.put("name", player.getName());
-//        // firebaseId already given and used to connect with these data?
-//        // userStatistics.put("firebaseId", player.getName());
-//        userStatistics.put("icon", player.getIcon());
-//        userStatistics.put("wins", player.getWins());
-//        userStatistics.put("losses", player.getLosses());
-//        userStatistics.put("draws", player.getDraws());
-//        userStatistics.put("interrupted", player.getInterrupted());
-//
-//        CollectionReference dbUserStatistics = db.collection("userStatistics");
-//
-//        System.out.println("userStatistics: " + userStatistics);
-//
-//        dbUserStatistics.add(userStatistics).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-//            @Override
-//            public void onSuccess(DocumentReference documentReference) {
-//                System.out.println("userStatistics stored: " + userStatistics);
-////                 Toast.makeText(getApplicationContext(), "Statistics updated", Toast.LENGTH_LONG).show();
-//            }
-//        }).addOnFailureListener(new OnFailureListener() {
-//            @Override
-//            public void onFailure(@NonNull Exception e) {
-//                System.out.println("userStatistics NOT stored! Error: " + e.getMessage());
-//
-////                 Toast.makeText(getApplicationContext(), "Statistics NOT updated. Error: " + e.getMessage(), Toast.LENGTH_LONG).show();
-//            }
-//        });
-//    }
-
-
-    // Only when when login then get stored data and add to local data -> that´s why check if a firebaseId is given
-    // When to store playerdata (write in firestore)?: on logout when logged in before
+    /**
+     * Store local playerdata in firebase database if the player is logged in.
+     * If the Player is logged a firebase-Id is given by firebase and overrides the default-value "unknown"
+     * @throws Exception "Player seems not to be logged in: FirebaseId is \"unknwon\". playerdata could not be stored at firebase."
+     */
     public void setPlayerData() throws Exception {
         // FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         // assert firebaseUser != null;
@@ -123,6 +100,19 @@ public class StatisticsHandler {
         }
     }
 
+    /**
+     * Update der Attribute der Player-Klasse mit den entsprechenden in Firebase gespeicherten Daten
+     * Only on login get stored playerdata and add them to local playerdata -> that´s why check if a firebaseId is given
+     * When to store playerdata (write in firestore)?: on logout when logged in before
+     * Aktualisierte Attribute:
+     * wins
+     * losses
+     * draws
+     * interrupted
+     * totalGames
+     * isPlayerAlreadyUpdatedByFirestoreData
+     * @throws Exception is thrown when firbase-id is "unknown", mainly because of a user not logged in but tryin to access firestordata
+     */
     public void updateLocalPlayerDataWithFbData() throws Exception {
         String firebaseUser = player.getFirebaseId();
         if (!firebaseUser.equals("unknown")) {
@@ -160,112 +150,5 @@ public class StatisticsHandler {
         }
     }
 
-    //    public Map<String, Object> getPlayerData() throws Exception {
-//        // FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-//        // assert firebaseUser != null;
-//        String firebaseUser = player.getFirebaseId();
-//
-//        if (!firebaseUser.equals("unknown")) {
-//            System.out.println("Trying to get stored Playerdata from Firestore");
-//
-//            db.collection("users").document(player.getFirebaseId()).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-//
-//                //private Long db_wins;
-//
-//                @Override
-//                public void onSuccess(DocumentSnapshot documentSnapshot) {
-//                    if (documentSnapshot.exists()){
-//                        db_wins = documentSnapshot.getLong("wins");
-//                        db_losses = documentSnapshot.getLong("losses");
-//                        db_draws = documentSnapshot.getLong("draws");
-//
-//                        System.out.println("Got Userdata: " + "Wins: " + db_wins.toString()  + " Losses: " + db_losses.toString()  + " Draws: " + db_draws.toString()  + " Total Games: " + totalGames);
-//                        playerFirestoreData = documentSnapshot.getData();
-//
-//                        try {
-//                            updatePlayerData(playerFirestoreData);
-//                        } catch (Exception e) {
-//                            e.printStackTrace();
-//                        }
-//                    } else {
-//                        try {
-//                            setPlayerData();
-//                        } catch (Exception e) {
-//                            e.printStackTrace();
-//                        }
-//                    }
-//
-//                }
-//            }).addOnFailureListener(new OnFailureListener() {
-//                @Override
-//                public void onFailure(@NonNull Exception e) {
-//                    System.out.println("Something went wrong by reading data from firestore. Go Failor: " + e.getMessage());
-//                }
-//            });
-//            return playerFirestoreData;
-//        } else {
-//            System.out.println("Could not read Playerdata (UserData) from FireStore because Player has no valid FirebaseId");
-//            throw new Exception("Player has no valid FirebaseId");
-//        }
-//    }
 
-    /*@TODO Update stored firestore-data
-     * how to workarround data-update?
-     * 0) check, if there are Data found with the firebase-id - if not: set new Data (from client)
-     * 1) read stored PlayerData from Firestore
-     * 2) if there are values different then the recent values: substitute - but only settings, NOT gameresults
-     * 3) add recent gameresults (wins, losses, draws) to stored data
-     * */
-//    public void updatePlayerData( Map<String, Object> firestorePlayerData) throws Exception {
-//        String firebaseUser = player.getFirebaseId();
-//        if (!firebaseUser.equals("unknown")) {
-//            System.out.println("Trying to update stored Playerdata from Firestore. Adding recent sessiongameresults to stored data at firestore.");
-//
-////            Map<String, Object> firestorePlayerData = this.getPlayerData();
-//            // Int updatedWins = firestorePlayerData.getLong("wins").toString(). + player.getWins();
-//            if (firestorePlayerData != null && !firestorePlayerData.isEmpty()) {
-//                // Map<String, Object> updatefirestorePlayerData = new HashMap<>();
-////                System.out.println("Replace last values: wins: " + (long) firestorePlayerData.get("wins") + " with: " + ((long) firestorePlayerData.get("wins") + player.getWins()));
-////
-////                firestorePlayerData.replace("wins",  ((long) firestorePlayerData.get("wins") + player.getWins()));
-//
-//                System.out.println("Replace last values: losses: " + (long) firestorePlayerData.get("losses") + " with: " + ((long) firestorePlayerData.get("losses") + player.getLosses()));
-//                firestorePlayerData.replace("losses",  ((long) firestorePlayerData.get("losses") + player.getLosses()));
-//
-//                System.out.println("Replace last values: draws: " + (long) firestorePlayerData.get("draws") + " with: " + ((long) firestorePlayerData.get("draws") + player.getDraws()));
-//                firestorePlayerData.replace("draws",  ((long) firestorePlayerData.get("draws") + player.getDraws()));
-//
-//
-//                firestorePlayerData.replace("icon",  (int) firestorePlayerData.get("icon") + player.getIcon());
-//                firestorePlayerData.replace("totalGames",  ((int) firestorePlayerData.get("totalGames") + player.getTotalGames()));
-//
-////                db.collection("users").document(firebaseUser).update(firestorePlayerData).addOnCompleteListener(new OnCompleteListener<Void>(){
-////                    @Override
-////                    public void onComplete(@NonNull Task<Void> task) {
-////                        System.out.println("Updating firestore completed.");
-////                    }
-////                });
-//
-//                db.collection("users").document(firebaseUser).update("wins", ((long) firestorePlayerData.get("wins") + player.getWins())).addOnCompleteListener(new OnCompleteListener<Void>(){
-//                    @Override
-//                    public void onComplete(@NonNull Task<Void> task) {
-//                        System.out.println("Updating \"wins\" at firestore completed.");
-//                    }
-//                }).addOnSuccessListener(new OnSuccessListener<Void>() {
-//                    @Override
-//                    public void onSuccess(Void unused) {
-//                        System.out.println("Updating \"wins\" at firestore succeded.");
-//                    }
-//                }).addOnFailureListener(new OnFailureListener() {
-//                    @Override
-//                    public void onFailure(@NonNull Exception e) {
-//                        System.out.println("Failure by updating \"wins\" at firestore.");
-//                    }
-//                });
-//            } else {
-//                this.setPlayerData();
-//            }
-//
-//        }
-//    }
 }

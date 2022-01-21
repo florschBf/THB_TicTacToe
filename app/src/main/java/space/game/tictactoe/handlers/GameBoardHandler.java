@@ -2,22 +2,24 @@ package space.game.tictactoe.handlers;
 
 import android.app.Activity;
 import android.content.Context;
-import android.os.Looper;
+import android.media.MediaPlayer;
+import android.os.Handler;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.fragment.app.DialogFragment;
-
-import space.game.tictactoe.OnlinespielActivity;
+import space.game.tictactoe.menu.OnlinespielActivity;
 import space.game.tictactoe.R;
 import space.game.tictactoe.dialogs.WaitingForOpponentDialogFragment;
+import space.game.tictactoe.handlers.websocketHandler.TttWebsocketClient;
 import space.game.tictactoe.models.Player;
-import space.game.tictactoe.websocket.TttWebsocketClient;
 
 public class GameBoardHandler {
     //TAKEN AND MODIFIED FROM GAME ACTIVITY TO CONTROL PLACING SIGNS
+    /**
+     * Declaration and in itialization of membervariables
+     */
     private ImageView[] mBoardImageView;
     private int icon;
     private String opponentName;
@@ -25,6 +27,15 @@ public class GameBoardHandler {
     private TttWebsocketClient client;
     private Context context;
 
+
+    /**
+     * constructor of class GameBoardHandler
+     * initialize membervariables with params
+     * @param mBoardImageView draws the gameboard where the icons are show
+     * @param icon icon to display in the board
+     * @param client websocketconnection of the client to the server
+     * @param context show the board in this context
+     */
     public GameBoardHandler(ImageView[] mBoardImageView, int icon, TttWebsocketClient client, Context context){
         this.mBoardImageView = mBoardImageView;
         this.context = context;
@@ -92,9 +103,11 @@ public class GameBoardHandler {
         if (player == 1) {
             System.out.println("Player did this " + player );
             mBoardImageView[x].setImageResource(icon);
+            if(Player.getPlayer().getIsTonOn()) {
+                MediaPlayer.create(((Activity) context), R.raw.tapeone).start();
+            }
         } else {
             System.out.println("Remote move received!");
-            // TODO get opponent icon
             ((Activity)context).runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
@@ -107,7 +120,9 @@ public class GameBoardHandler {
                         else {
                             mBoardImageView[x].setImageResource(R.drawable.zero);
                         }
-
+                        if(Player.getPlayer().getIsTonOn()) {
+                            MediaPlayer.create(((Activity) context), R.raw.tapetwo).start();
+                        }
                     }
                     catch (Exception e){
                         e.printStackTrace();
@@ -158,17 +173,29 @@ public class GameBoardHandler {
                         oppoQuit.show();
                         break;
                     case ("youWin"):
-                        here.showWinDialog();
+                        new Handler().postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                here.showWinDialog();
+                            }}, 250);
                         Toast youWon = Toast.makeText(context, "Du hast gewonnen! Resette Activity.", Toast.LENGTH_SHORT);
                         youWon.show();
                         break;
                     case ("youLose"):
-                        here.showLoseDialog();
+                        new Handler().postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                here.showLoseDialog();                    }
+                        }, 250);
                         Toast youLose = Toast.makeText(context, "Du hast verloren! Resette Activity.", Toast.LENGTH_SHORT);
                         youLose.show();
                         break;
                     case ("draw"):
-                        here.showDrawDialog();
+                        new Handler().postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                here.showDrawDialog(); }
+                        }, 250);
                         Toast draw = Toast.makeText(context, "Unentschieden! Resette Activity.", Toast.LENGTH_SHORT);
                         draw.show();
                         break;
