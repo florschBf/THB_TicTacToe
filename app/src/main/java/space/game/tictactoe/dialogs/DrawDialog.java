@@ -89,19 +89,16 @@ public class DrawDialog extends Dialog {
         else if (onlinespielActivity != null){
             this.setCancelable(false); // weggeklickte Dialoge werden in OnlinespielActivity nicht ordentlich verarbeitet, deshalb disabled
             imageViewClose.setOnClickListener(v -> {
-                this.onlinespielActivity.getClient().getSession().hardReset();
                 dismiss();
             });
 
             btnPlay.setOnClickListener(v -> {
-                this.onlinespielActivity.getClient().getSession().hardReset();
                 dismiss();
             });
 
             btnMenu.setOnClickListener(v -> {
                 Intent intent = new Intent(this.onlinespielActivity, MenuActivity.class);
                 onlinespielActivity.startActivity(intent);
-                this.onlinespielActivity.getClient().getSession().hardReset();
                 dismiss();
             });
         }

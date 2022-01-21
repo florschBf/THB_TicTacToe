@@ -1,6 +1,7 @@
 package space.game.tictactoe.handlers;
 
 import android.os.Handler;
+import android.os.Looper;
 
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -49,15 +50,17 @@ public class GameSessionHandler {
                 break;
             case ("youWin"):
                 gameBoard.showNotification("youWin");
+                hardReset();
                 break;
             case ("youLose"):
                 gameBoard.showNotification("youLose");
+                hardReset();
                 break;
             case ("draw"):
                 gameBoard.showNotification("draw");
+                hardReset();
                 break;
             case ("endForNoReason"):
-                //TODO remove completely or combine disco and quit
                 gameBoard.showNotification("endForNoReason");
                 hardReset();
                 break;
@@ -129,9 +132,15 @@ public class GameSessionHandler {
     public void hardReset(){
         System.out.println("hard resetting boardstate");
         setMyTurn(false);
-        gameBoard.clearAllBlocks();
-        gameBoard.blockAllFields();
-        gameBoard.clearOppoName();
-
+        final Handler handler = new Handler(Looper.getMainLooper());
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                System.out.println("calling new handler");
+                gameBoard.clearAllBlocks();
+                gameBoard.blockAllFields();
+                gameBoard.clearOppoName();
+            }
+        }, 250);
     }
 }

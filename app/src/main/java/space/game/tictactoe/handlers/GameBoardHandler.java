@@ -194,7 +194,7 @@ public class GameBoardHandler {
                         new Handler().postDelayed(new Runnable() {
                             @Override
                             public void run() {
-                                here.showDrawDialog();                    }
+                                here.showDrawDialog(); }
                         }, 250);
                         Toast draw = Toast.makeText(context, "Unentschieden! Resette Activity.", Toast.LENGTH_SHORT);
                         draw.show();
