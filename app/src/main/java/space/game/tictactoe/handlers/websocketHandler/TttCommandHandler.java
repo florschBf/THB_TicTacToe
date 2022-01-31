@@ -65,4 +65,9 @@ public class TttCommandHandler {
         String command = "{\"topic\":\"gameSession\",\"command\":\"gameState\",\"info\":\"whoseTurn\"}";
         return command;
     }
+
+    public String confirmQuit() {
+        String command = "{\"topic\":\"gameSession\",\"command\":\"stopRandom\"}";
+        return command;
+    }
 }

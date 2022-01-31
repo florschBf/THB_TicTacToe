@@ -41,6 +41,7 @@ public class GameSessionHandler {
         this.gameOver = true;
         switch (reason){
             case("disconnect"):
+                System.out.println("disconnect handling...");
                 gameBoard.showNotification("disconnect");
                 hardReset();
                 break;
