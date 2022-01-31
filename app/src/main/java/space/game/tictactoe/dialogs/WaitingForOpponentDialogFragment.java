@@ -51,6 +51,7 @@ public class WaitingForOpponentDialogFragment extends DialogFragment {
                     DialogFragment whoAmI = (DialogFragment) myManager.getFragments().get(0);
                     whoAmI.dismiss();
                     client.randomGameQueue("stop");
+                    client.endGameNow();
                 } catch (Exception e) {
                     System.out.println(e);
                 }

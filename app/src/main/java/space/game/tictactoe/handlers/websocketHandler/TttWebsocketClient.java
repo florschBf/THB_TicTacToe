@@ -2,6 +2,7 @@ package space.game.tictactoe.handlers.websocketHandler;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.os.health.SystemHealthManager;
 
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -194,8 +195,17 @@ public class TttWebsocketClient extends WebSocketClient{
                 this.player.increaseInterrupted();
                 //opponent disconnected, ending game session, resetting activity
                 System.out.println("My opponent disconnected, bummer");
-                session.setGameOver("disconnect");
+                System.out.println("do we have a gamesession already?");
+                try {
+                    System.out.println("disconnecting gamesession");
+                    session.setGameOver("disconnect");
+                }
+                catch (Exception e){
+                    System.out.println("no session, assuming we are being challenged and oppo bailed");
+                    killDialog();
+                }
                 cleanSlate();
+                confirmQuit(); // need to be freed from server queue
                 break;
             case ("gameTerminatedQuit"):
                 this.player.increaseInterrupted();
@@ -218,6 +228,9 @@ public class TttWebsocketClient extends WebSocketClient{
                 System.out.println("Game terminated, bummer");
                 session.setGameOver("endForNoReason");
                 cleanSlate();
+                session.hardReset();
+                killDialog();
+                confirmQuit();
                 break;
             case ("turnInfo"):
                 //my turn? let's unblock the fields, else wait
@@ -360,6 +373,11 @@ public class TttWebsocketClient extends WebSocketClient{
 
     public void endGameNow(){
         send(this.cmdHandler.endGame());
+    }
+
+    public void confirmQuit() {
+        System.out.println("confirming the quit message");
+        send(this.cmdHandler.confirmQuit());
     }
 
     public boolean getOppoBusyState(String oppoId){
